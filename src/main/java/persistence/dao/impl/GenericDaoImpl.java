@@ -24,7 +24,8 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
     protected String entityName = "";
 
-    protected EntityManager em;
+    protected EntityManager em ;
+//    =  Persistence.createEntityManagerFactory("Rail").createEntityManager();
 
     public GenericDaoImpl(){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("Rail");

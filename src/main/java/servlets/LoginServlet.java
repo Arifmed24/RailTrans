@@ -34,19 +34,20 @@ public class LoginServlet extends HttpServlet {
 
         try {
             User user = userService.login(login,password);
-            String fio = user.getFio();
+
 
             if (user != null) {
-                PrintWriter out = response.getWriter();
-                out.println("<h1>" + fio + "</h1>");
-//                Logging user login
+//               Logging user login
 //                LOG.info("Success login " + fio + " " + new Date());
+                String fio = user.getFio();
                 HttpSession session = request.getSession();
                 session.setAttribute("user", fio);
+                request.setAttribute("fio",fio);
+                request.getRequestDispatcher("result.jsp").forward(request,response);
             }
             response.sendRedirect("/result");
         } catch (Exception e){
-
+             request.setAttribute("info",e);
         }
 
     }

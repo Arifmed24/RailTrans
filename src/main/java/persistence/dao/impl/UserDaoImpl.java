@@ -51,6 +51,7 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
             return (User) query.getSingleResult();
         }
 
+
 }
 
 

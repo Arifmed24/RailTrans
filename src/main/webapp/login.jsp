@@ -11,10 +11,12 @@
     <title>Login</title>
   </head>
   <body>
+  TEST
   <form method="POST" action="/login">
           Login:<input type="text" name="login" /><br/>
           Password:<input type="password" name="password" /><br/>
           <input type="submit" value="Log in" />
    </form>
+   <div>${info}</div>
   </body>
 </html>

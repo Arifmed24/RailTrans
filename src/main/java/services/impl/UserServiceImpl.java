@@ -15,7 +15,7 @@ import services.api.UserService;
 public class UserServiceImpl implements UserService {
 
 //    private static Logger LOG = Logger.getLogger(UserService.class);
-    private UserDao userDao  = new UserDaoImpl();
+    private UserDao userDao;
 
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
