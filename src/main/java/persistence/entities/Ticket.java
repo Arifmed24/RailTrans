@@ -9,10 +9,6 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "Ticket", schema = "mydb")
-//@NamedQueries({
-//        @NamedQuery(name = "Ticket.findAll", query = "SELECT t FROM Ticket t" ),
-//        @NamedQuery(name = "Ticket.deleteAll", query = "DELETE FROM Ticket")
-//})
 public class Ticket {
     @Id
     @Column(name = "idTicket")

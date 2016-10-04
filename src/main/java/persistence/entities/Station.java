@@ -7,17 +7,14 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "Station", schema = "mydb")
-//@NamedQueries({
-//        @NamedQuery(name = "Station.findAll", query = "SELECT s FROM Station s" ),
-//        @NamedQuery(name = "Station.deleteAll", query = "DELETE FROM Station")
-//})
+@NamedQuery(name = "Station.findStationByName", query = "SELECT s FROM Station s WHERE s.stationName = :stationName")
 public class Station {
     @Id
     @Column(name = "idStation")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idStation;
 
-    @Column(name = "stationName")
+    @Column(name = "stationName", nullable = false)
     private String stationName;
 
     public int getIdStation() {

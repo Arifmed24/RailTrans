@@ -10,24 +10,16 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "passenger", schema = "mydb")
-//@NamedQueries({
-//        @NamedQuery(name = "Passenger.getAll",
-//                    query = "SELECT passenger from Passenger"),
-//        @NamedQuery(name = "Passenger.deleteAll",
-//                    query = "DELETE FROM Passenger")
-//})
 public class Passenger {
     @Id
     @Column(name = "idPassenger")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPassenger;
 
-    @Column(name = "firstName")
-    @NotNull
+    @Column(name = "firstName", nullable = false)
     private String firstName;
 
-    @Column(name = "lastName")
-    @NotNull
+    @Column(name = "lastName", nullable = false)
     private String lastName;
 
     @Column(name = "birth")

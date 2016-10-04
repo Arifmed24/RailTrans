@@ -100,10 +100,6 @@ import javax.persistence.Table;
         this.fio = fio;
     }
 
-    public User() {
-//        this.login = login;
-//        this.password = password;
-//        this.role = RoleEnum.USER;
-//        this.fio = fio;
-    }
+    public User() {    }
+
 }

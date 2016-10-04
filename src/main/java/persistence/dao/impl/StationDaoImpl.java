@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 //import org.apache.log4j.Logger;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -14,17 +15,10 @@ import javax.persistence.TypedQuery;
  */
 public class StationDaoImpl extends GenericDaoImpl<Station> implements StationDao {
 
-    /*private static final Logger LOG = Logger.getLogger(StationDaoImpl.class);
-
     @Override
-    public List<Station> findAll() throws SQLException {
-        try {
-            TypedQuery<Station> query =
-                    entityManager.createQuery("SELECT * from station");
-            return query.getResultList();
-        }catch (Exception e){
-            LOG.error("Unexpected DB exception", e);
-            throw  new SQLException(e);
-        }
-    }*/
+    public Station findStationByName(String stationName) {
+        Query query = em.createNamedQuery("Station.findStationByName",Station.class);
+        query.setParameter("stationName",stationName);
+        return (Station) query.getSingleResult();
+    }
 }

@@ -9,7 +9,6 @@
         <class>persistence.entities.Station</class>
         <class>persistence.entities.Timetable</class>
         <class>persistence.entities.Route</class>
-        <class>persistence.entities.Role</class>
         <class>persistence.entities.User</class>
         <class>persistence.entities.Ticket</class>
         <class>persistence.entities.RouteTimetables</class>
@@ -23,7 +22,7 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.show_sql" value = "false"/>
             <property name="hibernate.format_sql" value = "false"/>
-            <property name="current_session_context_class" value = "thread"/>
+            <!--<property name="current_session_context_class" value = "thread"/>-->
 
         </properties>
     </persistence-unit>

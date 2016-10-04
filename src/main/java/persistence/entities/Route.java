@@ -10,20 +10,13 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "Route", schema = "mydb")
-//@NamedQueries({
-//        @NamedQuery(name = "Route.getAll",
-//                   query = "SELECT route from Route"),
-//        @NamedQuery(name = "Route.deleteAll",
-//                    query = "DELETE FROM Route")
-//})
 public class Route {
     @Id
     @Column(name = "idRoute")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idRoute;
 
-    @Column(name = "route_name")
-    @NotNull
+    @Column(name = "route_name", nullable = false)
     private String routeName;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,19 +27,22 @@ public class Route {
     @JoinColumn(name = "finish_station", nullable = false)
     private Station finishStation;
 
-    @OneToOne
-    @JoinColumn(name = "train")
+    @ManyToOne
+    @JoinColumn(name = "train", nullable = false)
     private Train train;
 
     @Column(name = "start_date", columnDefinition = "DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
 
-    @ManyToMany(targetEntity = Timetable.class , cascade = { CascadeType.ALL })
-    @JoinTable(name = "Route_Timetables",
-            joinColumns = { @JoinColumn(name = "route_id") },
-            inverseJoinColumns = { @JoinColumn(name = "timetable_id") })
-    private Set<Timetable> timetables;
+    @Column(name = "free_seats",nullable = false)
+    private int freeSeats;
+
+//    @ManyToMany(targetEntity = Timetable.class , cascade = { CascadeType.ALL })
+//    @JoinTable(name = "Route_Timetables",
+//            joinColumns = { @JoinColumn(name = "route_id") },
+//            inverseJoinColumns = { @JoinColumn(name = "timetable_id") })
+//    private Set<Timetable> timetables;
 
 
     @Override
@@ -58,7 +54,7 @@ public class Route {
 //                ", finishStation=" + finishStation +
                 ", train=" + train +
                 ", startDate=" + startDate +
-                ", timetables=" + timetables +
+//                ", timetables=" + timetables +
                 '}';
     }
 
@@ -86,13 +82,31 @@ public class Route {
         this.startStation = startStation;
     }
 
-//    public Station getFinishStation() {
-//        return finishStation;
+    public Station getFinishStation() {
+        return finishStation;
+    }
+
+    public void setFinishStation(Station finishStation) {
+        this.finishStation = finishStation;
+    }
+
+
+//    public Set<Timetable> getTimetables() {
+//        return timetables;
+//    }
+//
+//    public void setTimetables(Set<Timetable> timetables) {
+//        this.timetables = timetables;
 //    }
 
-//    public void setFinishStation(Station finishStation) {
-//        this.finishStation = finishStation;
-//    }
+
+    public int getFreeSeats() {
+        return freeSeats;
+    }
+
+    public void setFreeSeats(int freeSeats) {
+        this.freeSeats = freeSeats;
+    }
 
     public Train getTrain() {
         return train;

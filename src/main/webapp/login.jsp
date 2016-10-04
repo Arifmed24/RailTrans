@@ -11,12 +11,15 @@
     <title>Login</title>
   </head>
   <body>
-  TEST
+  <center>
+  Hi, you are on the Login Page
   <form method="POST" action="/login">
-          Login:<input type="text" name="login" /><br/>
-          Password:<input type="password" name="password" /><br/>
-          <input type="submit" value="Log in" />
+  <table>
+  <tr><td>Login:</td><td><input type="text" name="login" /></td></tr>
+  <tr><td>Password:</td><td><input type="password" name="password" /></td></tr>
+          <tr><td><input type="submit" value="Log in" /></td></tr>
+ </tabte>
    </form>
-   <div>${info}</div>
-  </body>
+   </center>
+   </body>
 </html>

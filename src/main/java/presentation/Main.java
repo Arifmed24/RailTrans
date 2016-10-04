@@ -1,12 +1,15 @@
 package presentation;
 
-import persistence.dao.impl.PassengerDaoImpl;
-import persistence.dao.impl.UserDaoImpl;
-import persistence.entities.Passenger;
-import persistence.entities.RoleEnum;
-import persistence.entities.User;
+import persistence.DaoException;
+import persistence.dao.api.RouteDao;
+import persistence.dao.api.StationDao;
+import persistence.dao.api.TimetableDao;
+import persistence.dao.impl.*;
+import persistence.entities.*;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.sql.SQLException;
 import java.util.List;
@@ -44,5 +47,52 @@ public class Main {
 //        UserDaoImpl userDao = new UserDaoImpl();
 //        User user11 = userDao.create(user1);
 //        System.out.println(userDao.findByLogin("admin"));
+        TimetableDao timetableDao = new TimetableDaoImpl();
+        Station station = new Station();
+        station.setStationName("Мга");
+        station.setIdStation(2);
+        List<Timetable> timetables;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String dateInString = "15/10/2016";
+        Date date = null;
+        try {
+            date = formatter.parse(dateInString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        timetables = timetableDao.getStationTimetable(station,date);
+        for (Timetable t: timetables) {
+            System.out.println(t.toString());
+        }
+
+        System.out.println();
+        System.out.println("---------------------------------------------");
+        System.out.println();
+
+        StationDao stationDao = new StationDaoImpl();
+        Station station1 = stationDao.findStationByName("Пупышево");
+        System.out.println(station1);
+
+
+        System.out.println();
+        System.out.println("---------------------------------------------");
+        System.out.println();
+
+
+        RouteDao routeDao = new RouteDaoImpl();
+//        List<Timetable> timetables2 = routeDao.findTimetablesOfRoute(1);
+//        for (Timetable timetable2: timetables2) {
+//            System.out.println(timetable2);
+//        }
+        Route route = null;
+        try {
+            route = routeDao.read(1);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        for (Timetable t2: route.getTimetables())
+        {
+            System.out.println(t2);
+        }
     }
 }

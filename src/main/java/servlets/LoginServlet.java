@@ -30,6 +30,9 @@ public class LoginServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
+        if (login.equals("") || password.equals(""))
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+
         UserService userService = new UserServiceImpl(new UserDaoImpl());
 
         try {
@@ -41,13 +44,13 @@ public class LoginServlet extends HttpServlet {
 //                LOG.info("Success login " + fio + " " + new Date());
                 String fio = user.getFio();
                 HttpSession session = request.getSession();
-                session.setAttribute("user", fio);
                 request.setAttribute("fio",fio);
                 request.getRequestDispatcher("result.jsp").forward(request,response);
             }
-            response.sendRedirect("/result");
+
         } catch (Exception e){
              request.setAttribute("info",e);
+//            request.getRequestDispatcher("result.jsp").forward(request,response);
         }
 
     }

@@ -7,10 +7,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "train", schema = "mydb")
-//@NamedQueries({
-//        @NamedQuery(name = "Train.findAll", query = "SELECT t FROM Train t`" ),
-//        @NamedQuery(name = "Train.deleteAll", query = "DELETE FROM Train")
-//})
 public class Train {
     @Id
     @Column(name = "idTrain")
