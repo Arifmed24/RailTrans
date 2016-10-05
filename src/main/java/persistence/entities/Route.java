@@ -3,6 +3,7 @@ package persistence.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -38,12 +39,40 @@ public class Route {
     @Column(name = "free_seats",nullable = false)
     private int freeSeats;
 
-//    @ManyToMany(targetEntity = Timetable.class , cascade = { CascadeType.ALL })
-//    @JoinTable(name = "Route_Timetables",
-//            joinColumns = { @JoinColumn(name = "route_id") },
-//            inverseJoinColumns = { @JoinColumn(name = "timetable_id") })
-//    private Set<Timetable> timetables;
+    @OneToMany
+    @JoinColumn(name = "route_id")
+    private Set<Timetable> timetables = new HashSet<>(0);
 
+    /*
+    private Date finishDate;
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate()
+    {
+        int maxNumber = 0;
+        Timetable lastTimetable = null;
+        for (Timetable timetable: timetables){
+            if (timetable.getNumberInRoute()>maxNumber) {
+                maxNumber = timetable.getNumberInRoute();
+                lastTimetable = timetable;
+            }
+        }
+        Date date = lastTimetable.getDateArrival();
+        this.finishDate = date;
+    }
+*/
+
+    public Set<Timetable> getTimetables() {
+        return this.timetables;
+    }
+
+
+    public void setTimetables(Set<Timetable> timetables) {
+        this.timetables = timetables;
+    }
 
     @Override
     public String toString() {
@@ -89,16 +118,6 @@ public class Route {
     public void setFinishStation(Station finishStation) {
         this.finishStation = finishStation;
     }
-
-
-//    public Set<Timetable> getTimetables() {
-//        return timetables;
-//    }
-//
-//    public void setTimetables(Set<Timetable> timetables) {
-//        this.timetables = timetables;
-//    }
-
 
     public int getFreeSeats() {
         return freeSeats;

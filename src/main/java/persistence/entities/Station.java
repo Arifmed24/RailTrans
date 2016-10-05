@@ -7,7 +7,12 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "Station", schema = "mydb")
-@NamedQuery(name = "Station.findStationByName", query = "SELECT s FROM Station s WHERE s.stationName = :stationName")
+@NamedQueries(
+        {
+                @NamedQuery(name = "Station.findStationByName", query = "SELECT s FROM Station s WHERE s.stationName = :stationName"),
+                @NamedQuery(name = "Station.getAll", query = "SELECT s FROM Station s")
+        }
+)
 public class Station {
     @Id
     @Column(name = "idStation")

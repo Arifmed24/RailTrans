@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface StationDao extends GenericDao<Station>{
     Station findStationByName(String stationName);
+    List<Station> getAll();
 }

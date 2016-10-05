@@ -4,6 +4,7 @@ import persistence.DaoException;
 import persistence.dao.api.RouteDao;
 import persistence.dao.api.StationDao;
 import persistence.dao.api.TimetableDao;
+import persistence.dao.api.TrainDao;
 import persistence.dao.impl.*;
 import persistence.entities.*;
 
@@ -13,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by abalaev on 30.09.2016.
@@ -60,7 +62,26 @@ public class Main {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        timetables = timetableDao.getStationTimetable(station,date);
+
+        TrainDao trainDao = new TrainDaoImpl();
+        //ПРИБЫТИЕ
+        timetables = timetableDao.getStationTimetableDep(station,date);
+        System.out.println("Нахождение расписания поездов по станции. Пример: станция Мга, номер 2");
+        for (Timetable t: timetables) {
+            System.out.println(" Маршрут: "+t.getRouteId().getRouteName()+
+                    " Выезд: " +t.getDateDeparture()+
+                    " Поезд: "+trainDao.findTrainByTimetable(t.getIdLine()).getIdTrain()+
+                    " Конечная: "+ t.getRouteId().getFinishStation().getStationName());
+
+        }
+
+        System.out.println();
+        System.out.println("---------------------------------------------");
+        System.out.println();
+
+        /*
+        //ОТБЫТИЕ
+        timetables = timetableDao.getStationTimetableArr(station,date);
         for (Timetable t: timetables) {
             System.out.println(t.toString());
         }
@@ -68,6 +89,8 @@ public class Main {
         System.out.println();
         System.out.println("---------------------------------------------");
         System.out.println();
+        */
+
 
         StationDao stationDao = new StationDaoImpl();
         Station station1 = stationDao.findStationByName("Пупышево");
@@ -78,21 +101,32 @@ public class Main {
         System.out.println("---------------------------------------------");
         System.out.println();
 
+        System.out.println("Вывод всех станций: ");
+        List<Station> stations = stationDao.getAll();
+        for (Station s : stations) {
+            System.out.println(s.getStationName());
+        }
 
+        System.out.println();
+        System.out.println("---------------------------------------------");
+        System.out.println();
+        System.out.println("Вывод станций маршрута: ");
         RouteDao routeDao = new RouteDaoImpl();
-//        List<Timetable> timetables2 = routeDao.findTimetablesOfRoute(1);
-//        for (Timetable timetable2: timetables2) {
-//            System.out.println(timetable2);
-//        }
         Route route = null;
         try {
-            route = routeDao.read(1);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
-        for (Timetable t2: route.getTimetables())
+          route  = routeDao.read(2);
+        }catch (DaoException e)
         {
-            System.out.println(t2);
+
         }
+        Set<Timetable> timetableSet = route.getTimetables();
+        for (Timetable t3: timetableSet) {
+            System.out.println(t3);
+        }
+
+
+
+        route.setFinishDate();
+        System.out.println(route.getFinishDate());
     }
 }

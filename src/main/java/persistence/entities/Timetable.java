@@ -8,8 +8,14 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "Timetable", schema = "mydb")
-@NamedQuery(name = "Timetable.getStationTimetable",
-                        query = "SELECT t FROM Timetable t WHERE t.stationDeparture = :station AND t.dateDeparture BETWEEN :datetime AND :datetime2")
+@NamedQueries(
+        {
+                @NamedQuery(name = "Timetable.getStationTimetableDep",
+                        query = "SELECT t FROM Timetable t WHERE t.stationDeparture = :station AND t.dateDeparture BETWEEN :datetime AND :datetime2"),
+                @NamedQuery(name = "Timetable.getStationTimetableArr",
+                        query = "SELECT t FROM Timetable t WHERE t.stationArrival = :station AND t.dateArrival BETWEEN :datetime AND :datetime2")
+        }
+)
 public class Timetable {
     @Id
     @Column(name = "idLine")
@@ -37,7 +43,7 @@ public class Timetable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "route_id", nullable = false)
-    private int routeId;
+    private Route routeId;
 
     @Column(name = "number_in_route")
     private int numberInRoute;
@@ -92,11 +98,11 @@ public class Timetable {
         this.distance = distance;
     }
 
-    public int getRouteId() {
+    public Route getRouteId() {
         return routeId;
     }
 
-    public void setRouteId(int routeId) {
+    public void setRouteId(Route routeId) {
         this.routeId = routeId;
     }
 
@@ -117,6 +123,8 @@ public class Timetable {
                 ", dateDeparture=" + dateDeparture +
                 ", dateArrival=" + dateArrival +
                 ", distance=" + distance +
+                ", routeId=" + routeId +
+                ", numberInRoute=" + numberInRoute +
                 '}';
     }
 }

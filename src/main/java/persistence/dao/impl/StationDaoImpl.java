@@ -21,4 +21,11 @@ public class StationDaoImpl extends GenericDaoImpl<Station> implements StationDa
         query.setParameter("stationName",stationName);
         return (Station) query.getSingleResult();
     }
+
+    @Override
+    public List<Station> getAll() {
+        TypedQuery<Station> query = null;
+        query = em.createNamedQuery("Station.getAll",Station.class);
+        return query.getResultList();
+    }
 }
