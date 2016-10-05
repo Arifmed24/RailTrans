@@ -1,6 +1,7 @@
 package persistence.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by abalaev onb 28.09.2016.
@@ -15,12 +16,35 @@ import javax.persistence.*;
 )
 public class Station {
     @Id
-    @Column(name = "idStation")
+    @Column(name = "idStation", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idStation;
 
     @Column(name = "stationName", nullable = false)
     private String stationName;
+
+    @OneToMany(mappedBy = "stationDeparture",fetch = FetchType.LAZY)
+    private List<Timetable> timetablesDep;
+
+    @OneToMany(mappedBy = "stationArrival",fetch = FetchType.LAZY)
+    private List<Timetable> timetablesArr;
+
+
+    public List<Timetable> getTimetablesDep() {
+        return timetablesDep;
+    }
+
+    public void setTimetablesDep(List<Timetable> timetablesDep) {
+        this.timetablesDep = timetablesDep;
+    }
+
+    public List<Timetable> getTimetablesArr() {
+        return timetablesArr;
+    }
+
+    public void setTimetablesArr(List<Timetable> timetablesArr) {
+        this.timetablesArr = timetablesArr;
+    }
 
     public int getIdStation() {
         return idStation;

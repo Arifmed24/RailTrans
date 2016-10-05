@@ -2,23 +2,24 @@ package persistence.entities;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by abalaev on 28.09.2016.
  */
 @Entity
 @Table(name = "Timetable", schema = "mydb")
-@NamedQueries(
-        {
-                @NamedQuery(name = "Timetable.getStationTimetableDep",
-                        query = "SELECT t FROM Timetable t WHERE t.stationDeparture = :station AND t.dateDeparture BETWEEN :datetime AND :datetime2"),
-                @NamedQuery(name = "Timetable.getStationTimetableArr",
-                        query = "SELECT t FROM Timetable t WHERE t.stationArrival = :station AND t.dateArrival BETWEEN :datetime AND :datetime2")
-        }
-)
+//@NamedQueries(
+//        {
+//                @NamedQuery(name = "Timetable.getStationTimetableDep",
+//                        query = "SELECT t FROM Timetable t WHERE t.stationDeparture = :station AND t.dateDeparture BETWEEN :datetime AND :datetime2"),
+//                @NamedQuery(name = "Timetable.getStationTimetableArr",
+//                        query = "SELECT t FROM Timetable t WHERE t.stationArrival = :station AND t.dateArrival BETWEEN :datetime AND :datetime2")
+//        }
+//)
 public class Timetable {
     @Id
-    @Column(name = "idLine")
+    @Column(name = "idLine", nullable = false)
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int idLine;
 
@@ -30,25 +31,19 @@ public class Timetable {
     @JoinColumn(name = "station_arrival", nullable = false)
     private Station stationArrival;
 
-    @Column(name = "date_departure", columnDefinition="DATETIME")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateDeparture;
-
-    @Column(name = "date_arrival", columnDefinition="DATETIME")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateArrival;
-
-    @Column(name = "distance")
+    @Column(name = "distance", nullable = false)
     private double distance;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "route_id", nullable = false)
-    private Route routeId;
+    @OneToMany(mappedBy = "line",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<RouteTimetables> routeTimetables;
 
-    @Column(name = "number_in_route")
-    private int numberInRoute;
+    public List<RouteTimetables> getRouteTimetables() {
+        return routeTimetables;
+    }
 
-   public Timetable(){}
+    public void setRouteTimetables(List<RouteTimetables> routeTimetables) {
+        this.routeTimetables = routeTimetables;
+    }
 
     public int getIdLine() {
         return idLine;
@@ -74,22 +69,6 @@ public class Timetable {
         this.stationArrival = stationArrival;
     }
 
-    public Date getDateDeparture() {
-        return dateDeparture;
-    }
-
-    public void setDateDeparture(Date dateDeparture) {
-        this.dateDeparture = dateDeparture;
-    }
-
-    public Date getDateArrival() {
-        return dateArrival;
-    }
-
-    public void setDateArrival(Date dateArrival) {
-        this.dateArrival = dateArrival;
-    }
-
     public double getDistance() {
         return distance;
     }
@@ -98,33 +77,13 @@ public class Timetable {
         this.distance = distance;
     }
 
-    public Route getRouteId() {
-        return routeId;
-    }
-
-    public void setRouteId(Route routeId) {
-        this.routeId = routeId;
-    }
-
-    public int getNumberInRoute() {
-        return numberInRoute;
-    }
-
-    public void setNumberInRoute(int numberInRoute) {
-        this.numberInRoute = numberInRoute;
-    }
-
     @Override
     public String toString() {
         return "Timetable{" +
                 "idLine=" + idLine +
                 ", stationDeparture=" + stationDeparture +
                 ", stationArrival=" + stationArrival +
-                ", dateDeparture=" + dateDeparture +
-                ", dateArrival=" + dateArrival +
                 ", distance=" + distance +
-                ", routeId=" + routeId +
-                ", numberInRoute=" + numberInRoute +
                 '}';
     }
 }

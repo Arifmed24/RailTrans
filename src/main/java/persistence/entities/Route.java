@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Set;
 @Table(name = "Route", schema = "mydb")
 public class Route {
     @Id
-    @Column(name = "idRoute")
+    @Column(name = "idRoute",nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idRoute;
 
@@ -32,16 +33,9 @@ public class Route {
     @JoinColumn(name = "train", nullable = false)
     private Train train;
 
-    @Column(name = "start_date", columnDefinition = "DATETIME")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate;
+    @OneToMany(mappedBy = "routeId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<RouteTimetables> routeTimetablesList;
 
-    @Column(name = "free_seats",nullable = false)
-    private int freeSeats;
-
-    @OneToMany
-    @JoinColumn(name = "route_id")
-    private Set<Timetable> timetables = new HashSet<>(0);
 
     /*
     private Date finishDate;
@@ -65,26 +59,24 @@ public class Route {
     }
 */
 
-    public Set<Timetable> getTimetables() {
-        return this.timetables;
-    }
-
-
-    public void setTimetables(Set<Timetable> timetables) {
-        this.timetables = timetables;
-    }
-
     @Override
     public String toString() {
         return "Route{" +
                 "idRoute=" + idRoute +
                 ", routeName='" + routeName + '\'' +
                 ", startStation=" + startStation +
-//                ", finishStation=" + finishStation +
+                ", finishStation=" + finishStation +
                 ", train=" + train +
-                ", startDate=" + startDate +
-//                ", timetables=" + timetables +
+                ", routeTimetablesList=" + routeTimetablesList +
                 '}';
+    }
+
+    public List<RouteTimetables> getRouteTimetablesList() {
+        return routeTimetablesList;
+    }
+
+    public void setRouteTimetablesList(List<RouteTimetables> routeTimetablesList) {
+        this.routeTimetablesList = routeTimetablesList;
     }
 
     public int getIdRoute() {
@@ -119,14 +111,6 @@ public class Route {
         this.finishStation = finishStation;
     }
 
-    public int getFreeSeats() {
-        return freeSeats;
-    }
-
-    public void setFreeSeats(int freeSeats) {
-        this.freeSeats = freeSeats;
-    }
-
     public Train getTrain() {
         return train;
     }
@@ -135,11 +119,4 @@ public class Route {
         this.train = train;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
 }

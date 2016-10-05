@@ -11,7 +11,7 @@ import java.util.Date;
 @Table(name = "Ticket", schema = "mydb")
 public class Ticket {
     @Id
-    @Column(name = "idTicket")
+    @Column(name = "idTicket",nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idTicket;
 

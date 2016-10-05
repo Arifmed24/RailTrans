@@ -50,7 +50,7 @@ CREATE TABLE `passenger` (
   `firstName` varchar(255) NOT NULL,
   `lastName` varchar(255) NOT NULL,
   PRIMARY KEY (`idPassenger`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,16 +76,12 @@ CREATE TABLE `route` (
   `start_station` int(11) NOT NULL,
   `finish_station` int(11) NOT NULL,
   `train` int(11) NOT NULL,
-  `start_date` datetime NOT NULL,
   PRIMARY KEY (`idRoute`),
+  KEY `train_idx` (`train`),
   KEY `start_station_idx` (`start_station`),
   KEY `finish_station_idx` (`finish_station`),
-  KEY `train_idx` (`train`),
-  CONSTRAINT `FK6gtb12rdd17ogf8f62mnwmqk2` FOREIGN KEY (`train`) REFERENCES `train` (`idTrain`),
-  CONSTRAINT `FKdhr1ole97v6omfdvd497dq5mt` FOREIGN KEY (`finish_station`) REFERENCES `station` (`idStation`),
-  CONSTRAINT `FKeih3mrryi1jdgck9ldlphxgb7` FOREIGN KEY (`start_station`) REFERENCES `station` (`idStation`),
-  CONSTRAINT `finish_station` FOREIGN KEY (`finish_station`) REFERENCES `station` (`idStation`) ON UPDATE CASCADE,
-  CONSTRAINT `start_station` FOREIGN KEY (`start_station`) REFERENCES `station` (`idStation`) ON UPDATE CASCADE,
+  CONSTRAINT `finish_station` FOREIGN KEY (`finish_station`) REFERENCES `station` (`idStation`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `start_station` FOREIGN KEY (`start_station`) REFERENCES `station` (`idStation`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `train` FOREIGN KEY (`train`) REFERENCES `train` (`idTrain`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -96,7 +92,7 @@ CREATE TABLE `route` (
 
 LOCK TABLES `route` WRITE;
 /*!40000 ALTER TABLE `route` DISABLE KEYS */;
-INSERT INTO `route` VALUES (1,'411',2,4,1,'2016-10-15 10:41:55'),(2,'412',4,2,2,'2016-10-16 08:42:34'),(3,'413',2,5,3,'2016-10-17 06:48:13'),(4,'414',1,2,4,'2016-10-20 14:52:34');
+INSERT INTO `route` VALUES (1,'411',2,4,1),(2,'412',4,2,2),(3,'413',2,5,3),(4,'414',1,2,4);
 /*!40000 ALTER TABLE `route` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,14 +104,19 @@ DROP TABLE IF EXISTS `route_timetables`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `route_timetables` (
+  `id_event` int(11) NOT NULL AUTO_INCREMENT,
+  `line` int(11) NOT NULL,
   `route_id` int(11) NOT NULL,
-  `timetable_id` int(11) NOT NULL,
-  `numer_line` int(11) NOT NULL,
-  PRIMARY KEY (`route_id`,`timetable_id`),
-  KEY `FKex8uec06253wj0niqfjmelnx2` (`timetable_id`),
-  CONSTRAINT `FKex8uec06253wj0niqfjmelnx2` FOREIGN KEY (`timetable_id`) REFERENCES `timetable` (`idLine`),
-  CONSTRAINT `FKmr8cth1fhbex8v2ikuijqn9ns` FOREIGN KEY (`route_id`) REFERENCES `route` (`idRoute`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `number_in_route` int(11) NOT NULL,
+  `date_departure` datetime NOT NULL,
+  `date_arrival` datetime NOT NULL,
+  `free_seats` int(11) NOT NULL,
+  PRIMARY KEY (`id_event`),
+  KEY `line_idx` (`line`),
+  KEY `route_id_idx` (`route_id`),
+  CONSTRAINT `line` FOREIGN KEY (`line`) REFERENCES `timetable` (`idLine`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `route_id` FOREIGN KEY (`route_id`) REFERENCES `route` (`idRoute`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +125,7 @@ CREATE TABLE `route_timetables` (
 
 LOCK TABLES `route_timetables` WRITE;
 /*!40000 ALTER TABLE `route_timetables` DISABLE KEYS */;
-INSERT INTO `route_timetables` VALUES (1,1,1),(1,2,2),(1,3,3),(2,4,1),(2,5,2),(2,6,3),(2,7,4),(3,3,2),(3,8,1),(3,9,3),(4,10,1),(4,11,2),(4,12,3);
+INSERT INTO `route_timetables` VALUES (1,1,1,1,'2016-10-15 10:41:55','2016-10-15 11:45:55',0),(2,2,1,2,'2016-10-15 12:00:15','2016-10-15 14:10:20',0),(3,3,1,3,'2016-10-15 14:20:15','2016-10-15 15:22:15',0),(4,4,2,1,'2016-10-16 08:42:34','2016-10-16 09:45:42',0),(5,5,2,2,'2016-10-16 09:45:42','2016-10-16 12:50:03',0),(6,6,2,3,'2016-10-16 13:05:03','2016-10-16 14:20:03',0),(7,7,2,4,'2016-10-16 14:30:03','2016-10-16 15:20:03',0),(8,8,3,1,'2016-10-17 06:48:13','2016-10-17 07:50:46',0),(9,3,3,2,'2016-10-17 08:03:32','2016-10-17 09:10:08',0),(10,9,3,3,'2016-10-17 09:20:08','2016-10-17 10:15:08',0),(11,10,4,1,'2016-10-20 14:52:34','2016-10-20 16:00:00',0),(12,11,4,2,'2016-10-20 16:05:10','2016-10-20 17:12:10',0),(13,12,4,3,'2016-10-20 17:24:10','2016-10-20 19:37:10',0);
 /*!40000 ALTER TABLE `route_timetables` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,7 +164,7 @@ CREATE TABLE `ticket` (
   `idTicket` int(11) NOT NULL AUTO_INCREMENT,
   `arrival_date` datetime DEFAULT NULL,
   `departure_date` datetime DEFAULT NULL,
-  `Price` decimal(19,4) DEFAULT NULL,
+  `price` decimal(19,4) DEFAULT NULL,
   `arrival_station` int(11) DEFAULT NULL,
   `departure_station` int(11) DEFAULT NULL,
   `ticket_passenger` int(11) DEFAULT NULL,
@@ -173,10 +174,10 @@ CREATE TABLE `ticket` (
   KEY `FK6hed7rkyvoem6qtlinwovdgwb` (`departure_station`),
   KEY `FKfkfxmpn23cs5ye1cby2mxjrvi` (`ticket_passenger`),
   KEY `FKijch8p916w7y2l81dvg6lm3rr` (`ticket_train`),
-  CONSTRAINT `FK6fbmg3daq1ul23a6r98gf8t40` FOREIGN KEY (`arrival_station`) REFERENCES `station` (`idStation`),
-  CONSTRAINT `FK6hed7rkyvoem6qtlinwovdgwb` FOREIGN KEY (`departure_station`) REFERENCES `station` (`idStation`),
-  CONSTRAINT `FKfkfxmpn23cs5ye1cby2mxjrvi` FOREIGN KEY (`ticket_passenger`) REFERENCES `passenger` (`idPassenger`),
-  CONSTRAINT `FKijch8p916w7y2l81dvg6lm3rr` FOREIGN KEY (`ticket_train`) REFERENCES `train` (`idTrain`)
+  CONSTRAINT `FK6fbmg3daq1ul23a6r98gf8t40` FOREIGN KEY (`arrival_station`) REFERENCES `station` (`idStation`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `FK6hed7rkyvoem6qtlinwovdgwb` FOREIGN KEY (`departure_station`) REFERENCES `station` (`idStation`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `FKfkfxmpn23cs5ye1cby2mxjrvi` FOREIGN KEY (`ticket_passenger`) REFERENCES `passenger` (`idPassenger`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FKijch8p916w7y2l81dvg6lm3rr` FOREIGN KEY (`ticket_train`) REFERENCES `train` (`idTrain`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -198,12 +199,15 @@ DROP TABLE IF EXISTS `timetable`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `timetable` (
   `idLine` int(11) NOT NULL AUTO_INCREMENT,
-  `distance` double DEFAULT NULL,
-  `station_arrival` int(11) DEFAULT NULL,
-  `station_departure` int(11) DEFAULT NULL,
-  `travelTime` time DEFAULT NULL,
-  PRIMARY KEY (`idLine`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+  `station_departure` int(11) NOT NULL,
+  `station_arrival` int(11) NOT NULL,
+  `distance` double NOT NULL,
+  PRIMARY KEY (`idLine`),
+  KEY `station_departure_idx` (`station_departure`),
+  KEY `station_arrival_idx` (`station_arrival`),
+  CONSTRAINT `station_arrival` FOREIGN KEY (`station_arrival`) REFERENCES `station` (`idStation`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `station_departure` FOREIGN KEY (`station_departure`) REFERENCES `station` (`idStation`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,7 +216,7 @@ CREATE TABLE `timetable` (
 
 LOCK TABLES `timetable` WRITE;
 /*!40000 ALTER TABLE `timetable` DISABLE KEYS */;
-INSERT INTO `timetable` VALUES (1,60,1,2,'01:00:00'),(2,120,3,1,'02:00:00'),(3,60,4,3,'01:00:00'),(4,60,3,4,'01:00:00'),(5,180,5,3,'03:00:00'),(6,60,1,5,'01:00:00'),(7,60,2,1,'01:00:00'),(8,60,3,2,'01:00:00'),(9,60,5,4,'01:00:00'),(10,60,5,1,'01:00:00'),(11,60,4,5,'01:00:00'),(12,120,2,4,'02:00:00');
+INSERT INTO `timetable` VALUES (1,2,1,60),(2,1,3,120),(3,3,4,60),(4,4,3,60),(5,3,5,180),(6,5,1,60),(7,1,2,60),(8,2,3,60),(9,4,5,60),(10,1,5,60),(11,5,4,60),(12,4,2,120);
 /*!40000 ALTER TABLE `timetable` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -254,7 +258,7 @@ CREATE TABLE `user` (
   `role` varchar(255) NOT NULL,
   `fio` varchar(45) NOT NULL,
   PRIMARY KEY (`idUser`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -263,7 +267,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','qwe','ADMIN','Arif Balaev');
+INSERT INTO `user` VALUES (1,'admin','qwe','ADMIN','Arif Balaev'),(2,'user','qwe','USER','Nikita Zaitcev');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -276,4 +280,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-03  0:02:32
+-- Dump completed on 2016-10-05 22:11:03

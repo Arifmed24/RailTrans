@@ -49,7 +49,7 @@ public class Main {
 //        UserDaoImpl userDao = new UserDaoImpl();
 //        User user11 = userDao.create(user1);
 //        System.out.println(userDao.findByLogin("admin"));
-        TimetableDao timetableDao = new TimetableDaoImpl();
+      /*  TimetableDao timetableDao = new TimetableDaoImpl();
         Station station = new Station();
         station.setStationName("Мга");
         station.setIdStation(2);
@@ -73,11 +73,11 @@ public class Main {
                     " Поезд: "+trainDao.findTrainByTimetable(t.getIdLine()).getIdTrain()+
                     " Конечная: "+ t.getRouteId().getFinishStation().getStationName());
 
-        }
+        }*/
 
-        System.out.println();
+    /*    System.out.println();
         System.out.println("---------------------------------------------");
-        System.out.println();
+        System.out.println();*/
 
         /*
         //ОТБЫТИЕ
@@ -92,7 +92,7 @@ public class Main {
         */
 
 
-        StationDao stationDao = new StationDaoImpl();
+    /*    StationDao stationDao = new StationDaoImpl();
         Station station1 = stationDao.findStationByName("Пупышево");
         System.out.println(station1);
 
@@ -122,11 +122,78 @@ public class Main {
         Set<Timetable> timetableSet = route.getTimetables();
         for (Timetable t3: timetableSet) {
             System.out.println(t3);
+        }*/
+
+
+
+//        route.setFinishDate();
+//        System.out.println(route.getFinishDate());
+
+        StationDao stationDao = new StationDaoImpl();
+        Station station = null;
+        try {
+            station = stationDao.read(1);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        List<Timetable> timetablesD = station.getTimetablesDep();
+        List<Timetable> timetablesA = station.getTimetablesArr();
+        System.out.println("Timetable of station №1");
+        System.out.println("Departure");
+        for (Timetable t: timetablesD) {
+            System.out.println("В: "+ t.getStationArrival().getStationName());
+        }
+        System.out.println("Arrival");
+        for (Timetable t: timetablesA) {
+            System.out.println("Из: "+ t.getStationDeparture().getStationName());
         }
 
+        System.out.println();
+        System.out.println("---------------------------------------------");
+        System.out.println();
 
+        TimetableDao timetableDao = new TimetableDaoImpl();
+        Timetable timetable  = null;
+        try {
+            timetable = timetableDao.read(1);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        List<RouteTimetables> routeTimetables = timetable.getRouteTimetables();
+        for (RouteTimetables r: routeTimetables) {
+            System.out.println("Выезд: " + r.getDateDeparture()+ " Приезд: "+ r.getDateArrival()+ " Маршрут: " +r.getRouteId().getRouteName());
+        }
 
-        route.setFinishDate();
-        System.out.println(route.getFinishDate());
+        System.out.println();
+        System.out.println("---------------------------------------------");
+        System.out.println();
+
+        RouteDao routeDao = new RouteDaoImpl();
+        Route route = null;
+        try {
+            route = routeDao.read(1);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        List<RouteTimetables> routeTimetables1 = route.getRouteTimetablesList();
+        for (RouteTimetables r: routeTimetables1) {
+            System.out.println("Выезд: " + r.getDateDeparture()+ " Приезд: "+ r.getDateArrival()+ " Маршрут: " +r.getRouteId().getRouteName());
+        }
+
+        System.out.println();
+        System.out.println("---------------------------------------------");
+        System.out.println();
+
+        TrainDao trainDao = new TrainDaoImpl();
+        Train train = null;
+        try {
+            train = trainDao.read(1);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        List<Route> routes = train.getRoutes();
+        for (Route ro: routes) {
+            System.out.println(ro.getRouteName());
+        }
     }
 }

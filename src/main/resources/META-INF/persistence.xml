@@ -11,6 +11,8 @@
         <class>persistence.entities.Route</class>
         <class>persistence.entities.User</class>
         <class>persistence.entities.Ticket</class>
+        <class>persistence.entities.RouteTimetables</class>
+
 
 
 

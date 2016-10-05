@@ -10,6 +10,4 @@ public interface GenericService<T> {
     T readEntity(int id);
     T updateEntity(T entity);
     void deleteEntity(T entity);
-    List<T> getAllEntities();
-    void deleteAllEntities();
 }
