@@ -1,6 +1,7 @@
 package persistence.entities;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -8,6 +9,8 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "Route_Timetables", schema = "mydb")
+@NamedQuery(name = "RouteTimetables.getAll",
+                        query = "SELECT r FROM RouteTimetables r")
 public class RouteTimetables {
 
     @Id
@@ -30,7 +33,7 @@ public class RouteTimetables {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateDeparture;
 
-    @Column(name = "date_arrival", columnDefinition="DATETIME", nullable = false)
+    @Column(name = "date_arrival", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateArrival;
 

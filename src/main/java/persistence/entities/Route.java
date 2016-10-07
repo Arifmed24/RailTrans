@@ -33,8 +33,8 @@ public class Route {
     @JoinColumn(name = "train", nullable = false)
     private Train train;
 
-    @OneToMany(mappedBy = "routeId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<RouteTimetables> routeTimetablesList;
+//    @OneToMany(mappedBy = "routeId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<RouteTimetables> routeTimetablesList;
 
 
     /*
@@ -67,17 +67,17 @@ public class Route {
                 ", startStation=" + startStation +
                 ", finishStation=" + finishStation +
                 ", train=" + train +
-                ", routeTimetablesList=" + routeTimetablesList +
+//                ", routeTimetablesList=" + routeTimetablesList +
                 '}';
     }
 
-    public List<RouteTimetables> getRouteTimetablesList() {
-        return routeTimetablesList;
-    }
-
-    public void setRouteTimetablesList(List<RouteTimetables> routeTimetablesList) {
-        this.routeTimetablesList = routeTimetablesList;
-    }
+//    public List<RouteTimetables> getRouteTimetablesList() {
+//        return routeTimetablesList;
+//    }
+//
+//    public void setRouteTimetablesList(List<RouteTimetables> routeTimetablesList) {
+//        this.routeTimetablesList = routeTimetablesList;
+//    }
 
     public int getIdRoute() {
         return idRoute;

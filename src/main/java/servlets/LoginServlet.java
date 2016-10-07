@@ -2,9 +2,11 @@ package servlets;
 
 //import org.apache.log4j.LogManager;
 //import org.apache.log4j.Logger;
+import persistence.dao.impl.FactoryDao;
 import persistence.dao.impl.UserDaoImpl;
 import persistence.entities.User;
 import services.api.UserService;
+import services.impl.FactoryService;
 import services.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
@@ -33,7 +35,7 @@ public class LoginServlet extends HttpServlet {
         if (login.equals("") || password.equals(""))
             request.getRequestDispatcher("login.jsp").forward(request, response);
 
-        UserService userService = new UserServiceImpl(new UserDaoImpl());
+        UserService userService = FactoryService.getUserService();
 
         try {
             User user = userService.login(login,password);
@@ -44,6 +46,7 @@ public class LoginServlet extends HttpServlet {
 //                LOG.info("Success login " + fio + " " + new Date());
                 String fio = user.getFio();
                 HttpSession session = request.getSession();
+                session.setAttribute("user", user);
                 request.setAttribute("fio",fio);
                 request.getRequestDispatcher("result.jsp").forward(request,response);
             }

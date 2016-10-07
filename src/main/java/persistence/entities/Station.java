@@ -23,29 +23,6 @@ public class Station {
     @Column(name = "stationName", nullable = false)
     private String stationName;
 
-    @OneToMany(mappedBy = "stationDeparture",fetch = FetchType.LAZY)
-    private List<Timetable> timetablesDep;
-
-    @OneToMany(mappedBy = "stationArrival",fetch = FetchType.LAZY)
-    private List<Timetable> timetablesArr;
-
-
-    public List<Timetable> getTimetablesDep() {
-        return timetablesDep;
-    }
-
-    public void setTimetablesDep(List<Timetable> timetablesDep) {
-        this.timetablesDep = timetablesDep;
-    }
-
-    public List<Timetable> getTimetablesArr() {
-        return timetablesArr;
-    }
-
-    public void setTimetablesArr(List<Timetable> timetablesArr) {
-        this.timetablesArr = timetablesArr;
-    }
-
     public int getIdStation() {
         return idStation;
     }

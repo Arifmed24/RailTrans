@@ -34,16 +34,16 @@ public class Timetable {
     @Column(name = "distance", nullable = false)
     private double distance;
 
-    @OneToMany(mappedBy = "line",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<RouteTimetables> routeTimetables;
+//    @OneToMany(mappedBy = "line",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<RouteTimetables> routeTimetables;
 
-    public List<RouteTimetables> getRouteTimetables() {
-        return routeTimetables;
-    }
-
-    public void setRouteTimetables(List<RouteTimetables> routeTimetables) {
-        this.routeTimetables = routeTimetables;
-    }
+//    public List<RouteTimetables> getRouteTimetables() {
+//        return routeTimetables;
+//    }
+//
+//    public void setRouteTimetables(List<RouteTimetables> routeTimetables) {
+//        this.routeTimetables = routeTimetables;
+//    }
 
     public int getIdLine() {
         return idLine;

@@ -8,8 +8,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Train", schema = "mydb")
-//@NamedQuery(name = "Train.findTrainByTimetable",
-//  query = "select t from Train t, Route r, Timetable tm where t.idTrain = r.train and r.idRoute = tm.routeId and tm.idLine =:idTmtbl")
+@NamedQuery(name = "Train.getAllTrains",
+query = "SELECT t FROM Train t")
 public class Train {
     @Id
     @Column(name = "idTrain", nullable = false)
@@ -19,16 +19,16 @@ public class Train {
     @Column(name = "seats",  nullable = false)
     private int seats;
 
-    @OneToMany(mappedBy = "train",fetch = FetchType.LAZY)
-    private List<Route> routes;
+//    @OneToMany(mappedBy = "train",fetch = FetchType.LAZY)
+//    private List<Route> routes;
 
-    public List<Route> getRoutes() {
-        return routes;
-    }
-
-    public void setRoutes(List<Route> routes) {
-        this.routes = routes;
-    }
+//    public List<Route> getRoutes() {
+//        return routes;
+//    }
+//
+//    public void setRoutes(List<Route> routes) {
+//        this.routes = routes;
+//    }
 
     public int getIdTrain() {
         return idTrain;
@@ -51,7 +51,7 @@ public class Train {
         return "Train{" +
                 "idTrain=" + idTrain +
                 ", seats=" + seats +
-                ", routes=" + routes +
+//                ", routes=" + routes +
                 '}';
     }
 }

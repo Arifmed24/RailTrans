@@ -2,6 +2,7 @@ package persistence.dao.impl;
 
 import persistence.dao.api.StationDao;
 import persistence.entities.Station;
+import persistence.entities.Train;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -24,8 +25,16 @@ public class StationDaoImpl extends GenericDaoImpl<Station> implements StationDa
 
     @Override
     public List<Station> getAll() {
-        TypedQuery<Station> query = null;
-        query = em.createNamedQuery("Station.getAll",Station.class);
-        return query.getResultList();
+        List<Station> result = null;
+        try {
+            em.getTransaction().begin();
+            TypedQuery<Station> query = null;
+            query = em.createNamedQuery("Station.getAll",Station.class);
+            result = query.getResultList();
+            em.getTransaction().commit();
+        }catch (Exception e){
+            em.getTransaction().rollback();
+        }
+        return result;
     }
 }

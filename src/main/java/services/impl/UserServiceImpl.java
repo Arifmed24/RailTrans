@@ -3,6 +3,7 @@ package services.impl;
 //import org.apache.log4j.Logger;
 import persistence.DaoException;
 import persistence.dao.api.UserDao;
+import persistence.dao.impl.FactoryDao;
 import persistence.dao.impl.UserDaoImpl;
 import persistence.entities.User;
 import services.ServiceException;
@@ -14,12 +15,7 @@ import services.api.UserService;
 
 public class UserServiceImpl implements UserService {
 
-//    private static Logger LOG = Logger.getLogger(UserService.class);
-    private UserDao userDao;
-
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
-    }
+    private UserDao userDao = FactoryDao.getUserDao();
 
     @Override
     public User findUserByLogin(String login) throws ServiceException {
@@ -30,7 +26,6 @@ public class UserServiceImpl implements UserService {
             }
             return user;
         } catch (DaoException e) {
-//            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e);
         }
     }
@@ -41,7 +36,6 @@ public class UserServiceImpl implements UserService {
         try {
             result = userDao.userLogin(login,password);
         } catch (Exception e) {
-//            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e);
         }
         return result;

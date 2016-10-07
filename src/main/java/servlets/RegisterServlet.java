@@ -1,8 +1,10 @@
 package servlets;
 
+import persistence.dao.impl.FactoryDao;
 import persistence.dao.impl.UserDaoImpl;
 import persistence.entities.User;
 import services.api.UserService;
+import services.impl.FactoryService;
 import services.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
@@ -27,7 +29,7 @@ public class RegisterServlet extends HttpServlet {
         User user = new User(login,password,fio);
 
         try {
-            UserServiceImpl registerService = new UserServiceImpl(new UserDaoImpl());
+            UserService registerService = FactoryService.getUserService();
             boolean result = registerService.register(user);
             out.println("<html>");
             out.println("<head>");

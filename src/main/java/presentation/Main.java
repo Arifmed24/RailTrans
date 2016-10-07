@@ -1,10 +1,7 @@
 package presentation;
 
 import persistence.DaoException;
-import persistence.dao.api.RouteDao;
-import persistence.dao.api.StationDao;
-import persistence.dao.api.TimetableDao;
-import persistence.dao.api.TrainDao;
+import persistence.dao.api.*;
 import persistence.dao.impl.*;
 import persistence.entities.*;
 
@@ -129,71 +126,88 @@ public class Main {
 //        route.setFinishDate();
 //        System.out.println(route.getFinishDate());
 
-        StationDao stationDao = new StationDaoImpl();
-        Station station = null;
-        try {
-            station = stationDao.read(1);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
-        List<Timetable> timetablesD = station.getTimetablesDep();
-        List<Timetable> timetablesA = station.getTimetablesArr();
-        System.out.println("Timetable of station №1");
-        System.out.println("Departure");
-        for (Timetable t: timetablesD) {
-            System.out.println("В: "+ t.getStationArrival().getStationName());
-        }
-        System.out.println("Arrival");
-        for (Timetable t: timetablesA) {
-            System.out.println("Из: "+ t.getStationDeparture().getStationName());
-        }
+//        StationDao stationDao = new StationDaoImpl();
+//        Station station = null;
+//        try {
+//            station = stationDao.read(1);
+//        } catch (DaoException e) {
+//            e.printStackTrace();
+//        }
+//        List<Timetable> timetablesD = station.getTimetablesDep();
+//        List<Timetable> timetablesA = station.getTimetablesArr();
+//        System.out.println("Timetable of station №1");
+//        System.out.println("Departure");
+//        for (Timetable t: timetablesD) {
+//            System.out.println("В: "+ t.getStationArrival().getStationName());
+//            List<RouteTimetables> rt = t.getRouteTimetables();
+//            for (RouteTimetables r: rt) {
+//                System.out.println("Отправление: "+ r.getDateDeparture() + " / Прибытие: " + r.getDateArrival());
+//            }
+//        }
+//        System.out.println();
+//        System.out.println("Arrival");
+//        for (Timetable t: timetablesA) {
+//            System.out.println("Из: "+ t.getStationDeparture().getStationName());
+//
+//        }
 
         System.out.println();
         System.out.println("---------------------------------------------");
         System.out.println();
 
-        TimetableDao timetableDao = new TimetableDaoImpl();
-        Timetable timetable  = null;
-        try {
-            timetable = timetableDao.read(1);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
-        List<RouteTimetables> routeTimetables = timetable.getRouteTimetables();
-        for (RouteTimetables r: routeTimetables) {
-            System.out.println("Выезд: " + r.getDateDeparture()+ " Приезд: "+ r.getDateArrival()+ " Маршрут: " +r.getRouteId().getRouteName());
-        }
+//        TimetableDao timetableDao = new TimetableDaoImpl();
+//        Timetable timetable  = null;
+//        try {
+//            timetable = timetableDao.read(1);
+//        } catch (DaoException e) {
+//            e.printStackTrace();
+//        }
+//        List<RouteTimetables> routeTimetables = timetable.getRouteTimetables();
+//        for (RouteTimetables r: routeTimetables) {
+//            System.out.println("Выезд: " + r.getDateDeparture()+ " Приезд: "+ r.getDateArrival()+ " Маршрут: " +r.getRouteId().getRouteName());
+//        }
+//
+//        System.out.println();
+//        System.out.println("---------------------------------------------");
+//        System.out.println();
+
+//        RouteDao routeDao = new RouteDaoImpl();
+//        Route route = null;
+//        try {
+//            route = routeDao.read(1);
+//        } catch (DaoException e) {
+//            e.printStackTrace();
+//        }
+//        List<RouteTimetables> routeTimetables1 = route.getRouteTimetablesList();
+//        for (RouteTimetables r: routeTimetables1) {
+//            System.out.println("Выезд: " + r.getDateDeparture()+ " Приезд: "+ r.getDateArrival()+ " Маршрут: " +r.getRouteId().getRouteName());
+//        }
+
+//        System.out.println();
+//        System.out.println("---------------------------------------------");
+//        System.out.println();
+//
+//        TrainDao trainDao = new TrainDaoImpl();
+//        Train train = null;
+//        try {
+//            train = trainDao.read(1);
+//        } catch (DaoException e) {
+//            e.printStackTrace();
+//        }
+//        List<Route> routes = train.getRoutes();
+//        for (Route ro: routes) {
+//            System.out.println(ro.getRouteName());
+//        }
 
         System.out.println();
         System.out.println("---------------------------------------------");
         System.out.println();
 
-        RouteDao routeDao = new RouteDaoImpl();
-        Route route = null;
-        try {
-            route = routeDao.read(1);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
-        List<RouteTimetables> routeTimetables1 = route.getRouteTimetablesList();
-        for (RouteTimetables r: routeTimetables1) {
-            System.out.println("Выезд: " + r.getDateDeparture()+ " Приезд: "+ r.getDateArrival()+ " Маршрут: " +r.getRouteId().getRouteName());
-        }
-
-        System.out.println();
-        System.out.println("---------------------------------------------");
-        System.out.println();
-
-        TrainDao trainDao = new TrainDaoImpl();
-        Train train = null;
-        try {
-            train = trainDao.read(1);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
-        List<Route> routes = train.getRoutes();
-        for (Route ro: routes) {
-            System.out.println(ro.getRouteName());
+        RouteTimetablesDao routeTimetablesDao = new RouteTimetablesDaoImpl();
+        List<RouteTimetables> routeTimetables2 = routeTimetablesDao.getAll();
+        for (RouteTimetables rot: routeTimetables2) {
+           System.out.println("Из: "+ rot.getLine().getStationDeparture().getStationName()+ " Время: "+ rot.getDateDeparture()+ "/////В: "+ rot.getLine().getStationArrival().getStationName()+ " Время: "+ rot.getDateArrival());
+            System.out.println(rot);
         }
     }
 }
