@@ -18,42 +18,42 @@ public class FactoryDao {
     private static TrainDao trainDao;
     private static TimetableDao timetableDao;
 
-    public static TimetableDao getTimetableDao() {
+    public static synchronized TimetableDao getTimetableDao() {
         if ( timetableDao == null) {
             timetableDao = new TimetableDaoImpl();
         }
         return timetableDao;
     }
 
-    public static UserDao getUserDao() {
+    public static synchronized UserDao getUserDao() {
         if ( userDao == null) {
             userDao = new UserDaoImpl();
         }
         return userDao;
     }
 
-    public static PassengerDao getPassengerDao() {
+    public static synchronized PassengerDao getPassengerDao() {
         if (passengerDao == null){
             passengerDao = new PassengerDaoImpl();
         }
         return passengerDao;
     }
 
-    public static RouteDao getRouteDao() {
+    public static synchronized RouteDao getRouteDao() {
         if (routeDao == null){
             routeDao = new RouteDaoImpl();
         }
         return routeDao;
     }
 
-    public static RouteTimetablesDao getRouteTimetablesDao() {
+    public static synchronized RouteTimetablesDao getRouteTimetablesDao() {
         if (routeTimetablesDao == null) {
             routeTimetablesDao = new RouteTimetablesDaoImpl();
         }
         return routeTimetablesDao;
     }
 
-    public static StationDao getStationDao() {
+    public static synchronized StationDao getStationDao() {
         if (stationDao == null)
         {
             stationDao = new StationDaoImpl();
@@ -61,14 +61,14 @@ public class FactoryDao {
         return stationDao;
     }
 
-    public static TicketDao getTicketDao() {
+    public static synchronized TicketDao getTicketDao() {
         if (ticketDao == null){
             ticketDao = new TicketDaoImpl();
         }
         return ticketDao;
     }
 
-    public static TrainDao getTrainDao() {
+    public static synchronized TrainDao getTrainDao() {
         if (trainDao == null){
             trainDao = new TrainDaoImpl();
         }

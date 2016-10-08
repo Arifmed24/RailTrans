@@ -39,7 +39,7 @@ public class StationTimetableServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        List<RouteTimetables> routeTimetables = routeTimatablesService.getTimetableStation(station,date);
+        List<RouteTimetables> routeTimetables = routeTimatablesService.getTimetableStationArr(station,date);
         request.setAttribute("tables",routeTimetables);
         request.getRequestDispatcher("routeTimetables.jsp").forward(request,response);
 
@@ -47,7 +47,7 @@ public class StationTimetableServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         StationService stationService = FactoryService.getStationService();
-        List<Station> stations = stationService.getAllStations();
+                List<Station> stations = stationService.getAllStations();
                 request.setAttribute("stations", stations);
                 request.getRequestDispatcher("stations.jsp").forward(request,response);
     }

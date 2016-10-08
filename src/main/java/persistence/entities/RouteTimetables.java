@@ -9,8 +9,22 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "Route_Timetables", schema = "mydb")
-@NamedQuery(name = "RouteTimetables.getAll",
-                        query = "SELECT r FROM RouteTimetables r")
+@NamedQueries(
+        {
+                @NamedQuery(name = "RouteTimetables.getAll",
+                        query = "SELECT r FROM RouteTimetables r"),
+                @NamedQuery(name = "RouteTimetables.getStationTimetableArr",
+                        query = "SELECT rt FROM RouteTimetables rt INNER JOIN rt.line l " +
+                                " WHERE l.stationArrival =:station " +
+                                " AND rt.dateArrival between :date1 AND:date2"),
+                @NamedQuery(name = "RouteTimetables.getStationTimetableDep",
+                        query = "SELECT rt FROM RouteTimetables rt INNER JOIN rt.line l " +
+                                " WHERE l.stationDeparture =:station " +
+                                " AND rt.dateDeparture between :date1 AND:date2"),
+                @NamedQuery(name = "RouteTimetables.getRoutes",
+                        query = "SELECT r FROM RouteTimetables r order by numberInRoute")
+        }
+)
 public class RouteTimetables {
 
     @Id
@@ -50,7 +64,7 @@ public class RouteTimetables {
                 ", dateDeparture=" + dateDeparture +
                 ", dateArrival=" + dateArrival +
                 '}';
-    }
+        }
 
     public int getFreeSeats() {
         return freeSeats;

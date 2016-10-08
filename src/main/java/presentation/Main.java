@@ -4,6 +4,8 @@ import persistence.DaoException;
 import persistence.dao.api.*;
 import persistence.dao.impl.*;
 import persistence.entities.*;
+import services.api.RouteTimatablesService;
+import services.impl.FactoryService;
 
 
 import java.text.ParseException;
@@ -11,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -122,7 +125,6 @@ public class Main {
         }*/
 
 
-
 //        route.setFinishDate();
 //        System.out.println(route.getFinishDate());
 
@@ -199,15 +201,51 @@ public class Main {
 //            System.out.println(ro.getRouteName());
 //        }
 
-        System.out.println();
-        System.out.println("---------------------------------------------");
-        System.out.println();
-
-        RouteTimetablesDao routeTimetablesDao = new RouteTimetablesDaoImpl();
-        List<RouteTimetables> routeTimetables2 = routeTimetablesDao.getAll();
-        for (RouteTimetables rot: routeTimetables2) {
-           System.out.println("Из: "+ rot.getLine().getStationDeparture().getStationName()+ " Время: "+ rot.getDateDeparture()+ "/////В: "+ rot.getLine().getStationArrival().getStationName()+ " Время: "+ rot.getDateArrival());
-            System.out.println(rot);
+//        System.out.println();
+//        System.out.println("---------------------------------------------");
+//        System.out.println();
+//
+//        RouteTimetablesDao routeTimetablesDao = new RouteTimetablesDaoImpl();
+//        List<RouteTimetables> routeTimetables2 = routeTimetablesDao.getAll();
+//        for (RouteTimetables rot: routeTimetables2) {
+//           System.out.println("Из: "+ rot.getLine().getStationDeparture().getStationName()+ " Время: "+ rot.getDateDeparture()+ "/////В: "+ rot.getLine().getStationArrival().getStationName()+ " Время: "+ rot.getDateArrival());
+//            System.out.println(rot);
+//        }
+//
+      /*  RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
+        Station station = new Station();
+        station.setIdStation(1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = null;
+        Date d2 = null;
+        try {
+            d = sdf.parse("2016-10-15 00:00:00");
+            d2 = sdf.parse("2016-10-15 23:50:55");
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+        List<RouteTimetables> routeTimetables = routeTimetablesDao.getStationTimetableArr(station,d,d2);
+        for (RouteTimetables r: routeTimetables) {
+            System.out.println(r);
+        }
+    }*/
+
+
+        /**
+         * тестим функцию getRoute
+         */
+//        RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
+//        List<RouteTimetables> routeTimetables = routeTimetablesDao.getRoutes();
+//        for (RouteTimetables rt : routeTimetables) {
+//            System.out.println(rt);
+//        }
+
+
+        RouteTimatablesService routeTimatablesService = FactoryService.getRouteTimatablesService();
+        Map<Integer,List<Integer>> routes = routeTimatablesService.getRoutes();
+        for(Map.Entry<Integer,List<Integer>> entry : routes.entrySet()){
+            System.out.println(entry.getKey()+" : "+ entry.getValue());
+        }
+        
     }
 }

@@ -27,4 +27,56 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
         }
         return result;
     }
+
+    @Override
+    public List<RouteTimetables> getStationTimetableArr(Station station, Date dateBegin, Date dateEnd) {
+        List<RouteTimetables> result = null;
+        try {
+            em.getTransaction().begin();
+            TypedQuery<RouteTimetables> query = null;
+            query = em.createNamedQuery("RouteTimetables.getStationTimetableArr",RouteTimetables.class);
+            query.setParameter("station", station);
+            query.setParameter("date1", dateBegin);
+            query.setParameter("date2", dateEnd);
+            result = query.getResultList();
+            em.getTransaction().commit();
+        }catch (Exception e){
+            em.getTransaction().rollback();
+        }
+        return result;
+    }
+
+    @Override
+    public List<RouteTimetables> getStationTimetableDep(Station station, Date dateBegin, Date dateEnd) {
+        List<RouteTimetables> result = null;
+        try {
+            em.getTransaction().begin();
+            TypedQuery<RouteTimetables> query = null;
+            query = em.createNamedQuery("RouteTimetables.getStationTimetableDep",RouteTimetables.class);
+            query.setParameter("station", station);
+            query.setParameter("date1", dateBegin);
+            query.setParameter("date2", dateEnd);
+            result = query.getResultList();
+            em.getTransaction().commit();
+        }catch (Exception e){
+            em.getTransaction().rollback();
+        }
+        return result;
+    }
+
+    @Override
+    public List<RouteTimetables> getRoutes() {
+        List<RouteTimetables> result = null;
+        try {
+            em.getTransaction().begin();
+            TypedQuery<RouteTimetables> query = null;
+            query = em.createNamedQuery("RouteTimetables.getRoutes", RouteTimetables.class);
+            result = query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e)
+        {
+            em.getTransaction().rollback();
+        }
+        return result;
+    }
 }
