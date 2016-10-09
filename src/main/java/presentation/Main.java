@@ -241,11 +241,40 @@ public class Main {
 //        }
 
 
+//        RouteTimatablesService routeTimatablesService = FactoryService.getRouteTimatablesService();
+//        Map<Integer,List<Integer>> routes = routeTimatablesService.getRoutes();
+//        for(Map.Entry<Integer,List<Integer>> entry : routes.entrySet()){
+//            System.out.println(entry.getKey()+" : "+ entry.getValue());
+//        }
+
         RouteTimatablesService routeTimatablesService = FactoryService.getRouteTimatablesService();
-        Map<Integer,List<Integer>> routes = routeTimatablesService.getRoutes();
-        for(Map.Entry<Integer,List<Integer>> entry : routes.entrySet()){
-            System.out.println(entry.getKey()+" : "+ entry.getValue());
+//        RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
+        Route route = new Route();
+        route.setIdRoute(2);
+        Station station1 = new Station();
+        Station station2 = new Station();
+        station1.setIdStation(3);
+        station2.setIdStation(4);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = null;
+        Date d2 = null;
+        try {
+            d = sdf.parse("2016-10-15 00:00:00");
+            d2 = sdf.parse("2016-10-24 13:30:55");
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        
+        List<List<RouteTimetables>> routeTimetables = routeTimatablesService.findWay(station1,station2,d,d2);
+        int i = 1;
+        for (List<RouteTimetables> r: routeTimetables) {
+            System.out.println("Вариант: "+ i);
+            for (RouteTimetables routes: r) {
+                System.out.println(routes);
+            }
+            i++;
+        }
+
+
+
     }
 }

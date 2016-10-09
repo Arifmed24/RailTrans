@@ -22,7 +22,11 @@ import java.util.Date;
                                 " WHERE l.stationDeparture =:station " +
                                 " AND rt.dateDeparture between :date1 AND:date2"),
                 @NamedQuery(name = "RouteTimetables.getRoutes",
-                        query = "SELECT r FROM RouteTimetables r order by numberInRoute")
+                        query = "SELECT r FROM RouteTimetables r order by numberInRoute"),
+                @NamedQuery(name = "RouteTimetables.getRouteTimetableByRouteAndNumberInRoute",
+                query = "SELECT r FROM RouteTimetables r WHERE routeId =:route AND numberInRoute = :number "
+                      +  "AND dateDeparture > :dateBegin "
+                     +   "AND dateArrival < :dateEnd order by dateDeparture")
         }
 )
 public class RouteTimetables {

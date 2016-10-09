@@ -1,9 +1,11 @@
 package persistence.dao.impl;
 
 import persistence.dao.api.RouteTimetablesDao;
+import persistence.entities.Route;
 import persistence.entities.RouteTimetables;
 import persistence.entities.Station;
 
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import java.util.Date;
 import java.util.List;
@@ -71,6 +73,26 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
             em.getTransaction().begin();
             TypedQuery<RouteTimetables> query = null;
             query = em.createNamedQuery("RouteTimetables.getRoutes", RouteTimetables.class);
+            result = query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e)
+        {
+            em.getTransaction().rollback();
+        }
+        return result;
+    }
+
+    @Override
+    public List<RouteTimetables> getRouteTimetableByRouteAndNumberInRoute(Route route, int number, Date dateBegin, Date dateEnd) {
+        List<RouteTimetables> result = null;
+        try {
+            em.getTransaction().begin();
+            TypedQuery<RouteTimetables> query = null;
+            query = em.createNamedQuery("RouteTimetables.getRouteTimetableByRouteAndNumberInRoute", RouteTimetables.class);
+            query.setParameter("route", route);
+            query.setParameter("number", number);
+            query.setParameter("dateBegin", dateBegin, TemporalType.TIMESTAMP);
+            query.setParameter("dateEnd", dateEnd, TemporalType.TIMESTAMP);
             result = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e)

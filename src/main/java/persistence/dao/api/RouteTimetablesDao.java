@@ -1,5 +1,6 @@
 package persistence.dao.api;
 
+import persistence.entities.Route;
 import persistence.entities.RouteTimetables;
 import persistence.entities.Station;
 
@@ -14,4 +15,5 @@ public interface RouteTimetablesDao extends GenericDao<RouteTimetables> {
     List<RouteTimetables> getStationTimetableArr(Station station, Date dateBegin, Date dateEnd);
     List<RouteTimetables> getStationTimetableDep(Station station, Date dateBegin, Date dateEnd);
     List<RouteTimetables> getRoutes();
+    List<RouteTimetables> getRouteTimetableByRouteAndNumberInRoute(Route route, int number, Date dateBegin, Date dateEnd);
 }
