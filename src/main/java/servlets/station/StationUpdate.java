@@ -32,6 +32,7 @@ public class StationUpdate extends HttpServlet {
         String name = request.getParameter("idStation");
         station.setStationName(name);
         stationService.updateStation(station);
+        request.setAttribute("title", "Station update");
         request.getRequestDispatcher("/stations").forward(request, response);
     }
 }

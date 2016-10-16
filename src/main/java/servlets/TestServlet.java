@@ -18,14 +18,6 @@ public class TestServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = null;
-        response.setContentType("text/html");
-        out = response.getWriter();
-        out.println("<html>");
-        out.println("<body>");
-        out.println("<head><title>DO you win</title></head>");
-        out.println(request.getAttribute("result"));
-        out.println("</body>");
-        out.println("</html>");
+        response.sendRedirect("body.jsp");
     }
 }

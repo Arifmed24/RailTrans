@@ -15,4 +15,5 @@ public interface RouteTimatablesService {
     List<RouteTimetables> getTimetableStationDep(Station station, Date date);
     Map<Integer,List<Integer>> getRoutes();
     List<List<RouteTimetables>> findWay(Station stationBegin, Station stationEnd, Date dateBegin, Date dateEnd);
+    RouteTimetables updateRouteTimetable(RouteTimetables routeTimetables);
 }

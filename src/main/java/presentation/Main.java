@@ -1,27 +1,31 @@
 package presentation;
 
+import org.apache.log4j.Logger;
 import persistence.DaoException;
 import persistence.dao.api.*;
 import persistence.dao.impl.*;
 import persistence.entities.*;
+import services.api.PassengerService;
 import services.api.RouteTimatablesService;
+import services.api.TicketService;
 import services.impl.FactoryService;
 
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by abalaev on 30.09.2016.
  */
 public class Main {
 
+    private static final Logger LOG = Logger.getLogger(Main.class);
+
     public static void main(String[] args) throws SQLException {
+
+        LOG.info("test testtesttesttesttesttesttesttest");
 
 //        PassengerDaoImpl passengerDao = new PassengerDaoImpl();
 //        Passenger passenger = new Passenger();
@@ -247,34 +251,86 @@ public class Main {
 //            System.out.println(entry.getKey()+" : "+ entry.getValue());
 //        }
 
-        RouteTimatablesService routeTimatablesService = FactoryService.getRouteTimatablesService();
-//        RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
-        Route route = new Route();
-        route.setIdRoute(2);
-        Station station1 = new Station();
-        Station station2 = new Station();
-        station1.setIdStation(3);
-        station2.setIdStation(4);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date d = null;
-        Date d2 = null;
+//        RouteTimatablesService routeTimatablesService = FactoryService.getRouteTimatablesService();
+////        RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
+//        Route route = new Route();
+//        route.setIdRoute(2);
+//        Station station1 = new Station();
+//        Station station2 = new Station();
+//        station1.setIdStation(3);
+//        station2.setIdStation(1);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date d = null;
+//        Date d2 = null;
+//        try {
+//            d = sdf.parse("2016-10-15 00:00:00");
+//            d2 = sdf.parse("2016-10-24 13:30:55");
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        List<List<RouteTimetables>> routeTimetables = routeTimatablesService.findWay(station1,station2,d,d2);
+//        int i = 1;
+//        for (List<RouteTimetables> r: routeTimetables) {
+//            System.out.println("Вариант: "+ i);
+//            for (RouteTimetables routes: r) {
+//                System.out.println(routes);
+//            }
+//            i++;
+//        }
+
+//        TicketService ticketService = FactoryService.getTicketService();
+//        List<Ticket> tickets = ticketService.getTicketsFromRtLists(routeTimetables);
+//
+//        for (Ticket ticket: tickets) {
+//            System.out.println(ticket);
+//        }
+
+
+//        String b = "24/11/1995";
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//        Date birth = null;
+//        try {
+//            birth = sdf.parse(b);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        PassengerDao passengerDao = FactoryDao.getPassengerDao();
+//        List<Passenger> passengers = passengerDao.findPassenger("Arif","wBalaev",birth);
+//        System.out.println(passengers);
+
+        PassengerService passengerService = FactoryService.getPassengerService();
+        RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
+        List<RouteTimetables> routeTimetables = new ArrayList<>();
+        RouteTimetables routeTimetables1 = null;
+        RouteTimetables routeTimetables2 = null;
+        RouteTimetables routeTimetables3 = null;
         try {
-            d = sdf.parse("2016-10-15 00:00:00");
-            d2 = sdf.parse("2016-10-24 13:30:55");
-        } catch (ParseException e) {
+            routeTimetables1= routeTimetablesDao.read(2);
+            routeTimetables2 = routeTimetablesDao.read(3);
+            routeTimetables3 = routeTimetablesDao.read(6);
+        } catch (DaoException e) {
             e.printStackTrace();
         }
-        List<List<RouteTimetables>> routeTimetables = routeTimatablesService.findWay(station1,station2,d,d2);
-        int i = 1;
-        for (List<RouteTimetables> r: routeTimetables) {
-            System.out.println("Вариант: "+ i);
-            for (RouteTimetables routes: r) {
-                System.out.println(routes);
-            }
-            i++;
+        routeTimetables.add(routeTimetables1);
+        routeTimetables.add(routeTimetables2);
+        routeTimetables.add(routeTimetables3);
+        Set<Passenger> passengers = passengerService.getPassengersOfRoute(routeTimetables);
+        for (Passenger p: passengers) {
+            System.out.println(p);
         }
 
-
+//        Date date = new Date();
+//        RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
+//        RouteTimetables routeTimetables = null;
+//        try {
+//            routeTimetables = routeTimetablesDao.read(1);
+//        } catch (DaoException e) {
+//            e.printStackTrace();
+//        }
+//        Date date1 = routeTimetables.getDateDeparture();
+//        System.out.println(date.getTime());
+//        System.out.println(date1.getTime());
+//        System.out.println(date1.getTime()-date);
 
     }
 }

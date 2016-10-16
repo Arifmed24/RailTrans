@@ -1,6 +1,6 @@
 package persistence.dao.impl;
 
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 import persistence.DaoException;
 import persistence.dao.api.UserDao;
 import persistence.entities.User;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 
-//    private static final Logger LOG = Logger.getLogger(UserDaoImpl.class);
+    private static final Logger LOG = Logger.getLogger(UserDaoImpl.class);
 
     @Override
     public User findByLogin(String login) throws DaoException {
@@ -24,7 +24,7 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
             query = em.createNamedQuery("User.findByLogin", User.class);
             query.setParameter("login", login);
         } catch (Exception e) {
-//            LOG.error("Unexpected DB exception", e);
+            LOG.error("Unexpected DB exception", e);
             throw new DaoException(e);
         }
         return (User) query.getSingleResult();
@@ -38,7 +38,7 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
             return query.getResultList();
         } catch (
                 Exception e) {
-//            LOG.error("Unexpected DB exception", e);
+            LOG.error("Unexpected DB exception", e);
             throw new DaoException(e);
         }
     }

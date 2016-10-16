@@ -2,7 +2,7 @@ package persistence.entities;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by abalaev on 05.10.2016.
@@ -26,7 +26,7 @@ import java.util.Date;
                 @NamedQuery(name = "RouteTimetables.getRouteTimetableByRouteAndNumberInRoute",
                 query = "SELECT r FROM RouteTimetables r WHERE routeId =:route AND numberInRoute = :number "
                       +  "AND dateDeparture > :dateBegin "
-                     +   "AND dateArrival < :dateEnd order by dateDeparture")
+                     +   "AND dateArrival < :dateEnd AND freeSeats > 0 order by dateDeparture")
         }
 )
 public class RouteTimetables {
@@ -58,6 +58,23 @@ public class RouteTimetables {
     @Column(name = "free_seats", nullable = false)
     private int freeSeats;
 
+    @ManyToMany(mappedBy = "routeTimetables")
+//    @ManyToMany
+//    @JoinTable(name = "booked_timetables", joinColumns = {
+//            @JoinColumn(name = "event_id", nullable = false) },
+//            inverseJoinColumns = { @JoinColumn(name = "ticket_id",
+//                    nullable = false) })
+    private Set<Ticket> tickets = new HashSet<>();
+
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
     @Override
     public String toString() {
         return "RouteTimetables{" +
@@ -67,8 +84,9 @@ public class RouteTimetables {
                 ", numberInRoute=" + numberInRoute +
                 ", dateDeparture=" + dateDeparture +
                 ", dateArrival=" + dateArrival +
+                ", freeSeats=" + freeSeats +
                 '}';
-        }
+    }
 
     public int getFreeSeats() {
         return freeSeats;

@@ -45,13 +45,17 @@ public class StationTimetable extends HttpServlet {
         request.setAttribute("date",date);
         request.setAttribute("tablesArr",routeTimetablesArr);
         request.setAttribute("tablesDep",routeTimetablesDep);
+        request.setAttribute("title", "Station timetable");
         request.getRequestDispatcher("pages/station/stationtimetable.jsp").forward(request,response);
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Station> stations = stationService.getAllStations();
+        request.setAttribute("nameStation",request.getParameter("nameStation"));
+        request.setAttribute("idStation",request.getParameter("idStation"));
         request.setAttribute("stations", stations);
+        request.setAttribute("title", "Station");
         request.getRequestDispatcher("pages/station/chooseDateStation.jsp").forward(request,response);
     }
 }

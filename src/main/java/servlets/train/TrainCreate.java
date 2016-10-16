@@ -28,7 +28,6 @@ public class TrainCreate extends HttpServlet {
             Train train = new Train();
             train.setSeats(seats);
             trainService.createTrain(train);
-            request.setAttribute("title", "Create train");
             request.getRequestDispatcher("/trains").forward(request, response);
         } else {
             request.setAttribute("error", "true");
@@ -37,6 +36,7 @@ public class TrainCreate extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("title","Create train");
         request.getRequestDispatcher("pages/train/createTrain.jsp").forward(request, response);
     }
 }

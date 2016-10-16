@@ -2,6 +2,7 @@ package servlets;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Random;
 
@@ -14,6 +15,15 @@ public class TestFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+
+        HttpServletRequest httpServletRequest = (HttpServletRequest) req;
+        String s = httpServletRequest.getRequestURL().toString();
+        if (s.contains("user")) {
+            if (s.contains("admin")) {
+                // проверить роль админ
+            }
+            // проверить роль прользователь
+        }
 
         Random random = new Random();
         int n = random.nextInt(3) + 1;

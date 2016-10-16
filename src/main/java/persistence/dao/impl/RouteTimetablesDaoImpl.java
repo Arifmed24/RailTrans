@@ -101,4 +101,6 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
         }
         return result;
     }
+
+
 }

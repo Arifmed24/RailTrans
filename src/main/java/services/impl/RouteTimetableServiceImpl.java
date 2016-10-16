@@ -1,13 +1,11 @@
 package services.impl;
 
-import org.apache.commons.lang.time.DateUtils;
 import persistence.DaoException;
 import persistence.dao.api.RouteDao;
 import persistence.dao.api.RouteTimetablesDao;
 import persistence.dao.impl.FactoryDao;
 import persistence.entities.RouteTimetables;
 import persistence.entities.Station;
-import persistence.entities.Timetable;
 import services.api.RouteTimatablesService;
 
 import java.text.ParseException;
@@ -18,6 +16,8 @@ import java.util.*;
  * Created by abalaev on 06.10.2016.
  */
 public class RouteTimetableServiceImpl implements RouteTimatablesService {
+
+    private static final int MILLIS_IN_MIN = 60000;
 
     RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
     RouteDao routeDao = FactoryDao.getRouteDao();
@@ -60,7 +60,7 @@ public class RouteTimetableServiceImpl implements RouteTimatablesService {
     }
 
     @Override
-    public Map<Integer,List<Integer>> getRoutes() {
+    public Map<Integer, List<Integer>> getRoutes() {
         //отсортированный список RT по номеру в маршруте (numberInRoute)
         //сначала идут первые
         //сделано для того, чтобы добавлялись станции по порядку
@@ -97,32 +97,42 @@ public class RouteTimetableServiceImpl implements RouteTimatablesService {
         int stationBeginId = stationBegin.getIdStation();
         int statonEndId = stationEnd.getIdStation();
 
+        //берем Map всех маршрутов
         for(Map.Entry<Integer,List<Integer>> entry : routes.entrySet()){
-//            System.out.println(entry.getKey()+" : "+ entry.getValue());
             int start = -1, finish =-1;
             int sj =-1 ,fj =-1;
+            //проходимся по маршруту
             for (int i=0; i<entry.getValue().size();i++)
             {
+                //если станция равна начальной, то записываем ее индекс
                 if (stationBeginId==entry.getValue().get(i))
                 {
                     start=entry.getValue().get(i);
                     sj = i;
                 }
+                //если станция равна конечной, то записываем ее индекс
                 if (statonEndId==entry.getValue().get(i)){
                     finish = entry.getValue().get(i);
                     fj = i;
                 }
             }
+            //если начальная и конечная станции есть в маршруте и конечная стоит после начальной
             if (start!=-1 && finish!=-1 && sj<fj)
             {
+                //идем по маршруту с начальной до конечной (берем отрезки)
                for (int i=sj+1;i<fj+1;i++) {
+                   //если отрезок первый по счету
                    if (i == sj + 1) {
+                       //создаем список
                        List<RouteTimetables> startlines = null;
                        try {
+                           //берем все встречающиеся перые номера отрезков в маршруте за этот период времени
+                           //в них должны быть свободные места (кол-во свободных мест > 0)
                            startlines = routeTimetablesDao.getRouteTimetableByRouteAndNumberInRoute(routeDao.read(entry.getKey()), i,dateBegin,dateEnd);
                        } catch (DaoException e) {
                            e.printStackTrace();
                        }
+                       //каждый первый отрезок помещаем в новый список (будущий вариант)
                        for (RouteTimetables rt : startlines) {
                            List<RouteTimetables> way = new ArrayList<>();
                            way.add(rt);
@@ -147,22 +157,19 @@ public class RouteTimetableServiceImpl implements RouteTimatablesService {
                        }
                    }
                }
+
                int count = fj-sj;
-                /**
-                 * НЕВЕРНО
-                 */
-//                for (int i=0; i<result.size();i++) {
-//                    List<RouteTimetables> r = result.get(i);
-//                    if (r.size()!=count)
-//                    {
-//                        result.remove(r);
-//                    }
-//                }
+                Date now = new Date();
+                //проходимся по маршрутам полученным
                 for (Iterator<List<RouteTimetables>> iterator = result.iterator();iterator.hasNext();){
                     List<RouteTimetables> variant = iterator.next();
+                    //если они не полные, то удаляем
                     if (variant.size()!=count)
                     {
-//                        result.remove(variant);
+                        iterator.remove();
+                    }
+                    //если первый отрезок маршрута начинается раньше, чем 10 минут от настоящего времени
+                    if ((int)((variant.get(0).getDateDeparture().getTime()/ MILLIS_IN_MIN) - now.getTime()/ MILLIS_IN_MIN)<10){
                         iterator.remove();
                     }
                 }
@@ -170,5 +177,17 @@ public class RouteTimetableServiceImpl implements RouteTimatablesService {
         }
         return result;
     }
+
+    @Override
+    public RouteTimetables updateRouteTimetable(RouteTimetables routeTimetables) {
+        RouteTimetables result = null;
+        try {
+            result = routeTimetablesDao.update(routeTimetables);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
+
 

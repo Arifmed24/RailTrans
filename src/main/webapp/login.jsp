@@ -13,13 +13,13 @@
   <body>
   <center>
   Hi, you are on the Login Page
-  <form method="POST" action="/login">
-  <table>
-  <tr><td>Login:</td><td><input type="text" name="login" /></td></tr>
-  <tr><td>Password:</td><td><input type="password" name="password" /></td></tr>
+      <form action="/login" method="POST" >
+        <table>
+          <tr><td>Login:</td><td><input type="text" name="login" /></td></tr>
+          <tr><td>Password:</td><td><input type="password" name="password" /></td></tr>
           <tr><td><input type="submit" value="Log in" /></td></tr>
- </tabte>
-   </form>
+       </table>
+      </form>
    </center>
    </body>
 </html>

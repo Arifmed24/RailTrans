@@ -1,8 +1,13 @@
 package persistence.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by abalaev on 28.09.2016.
@@ -41,6 +46,22 @@ public class Ticket {
 
     @Column(name="Price", columnDefinition="Decimal(19,4)")
     private java.math.BigDecimal price;
+
+//    @ManyToMany(mappedBy = "tickets")
+        @ManyToMany
+        @JoinTable(name = "booked_timetables", joinColumns = {
+        @JoinColumn(name = "ticket_id", nullable = false) },
+        inverseJoinColumns = { @JoinColumn(name = "event_id",
+                nullable = false) })
+    private Set<RouteTimetables> routeTimetables = new HashSet<>();
+
+    public Set<RouteTimetables> getRouteTimetables() {
+        return routeTimetables;
+    }
+
+    public void setRouteTimetables(Set<RouteTimetables> routeTimetables) {
+        this.routeTimetables = routeTimetables;
+    }
 
     @Override
     public String toString() {

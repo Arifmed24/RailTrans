@@ -12,14 +12,6 @@
   </head>
   <body>
 <body>
-     <%
-         session.removeAttribute("login");
-         session.removeAttribute("password");
-         session.invalidate();
-     %>
-<center>
-     <h1>You have successfully logged out</h1>
-     To login again <a href="login.jsp">click here</a>.
-</center>
+
   </body>
 </html>

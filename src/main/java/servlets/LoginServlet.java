@@ -2,9 +2,12 @@ package servlets;
 
 //import org.apache.log4j.LogManager;
 //import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import persistence.dao.impl.FactoryDao;
 import persistence.dao.impl.UserDaoImpl;
 import persistence.entities.User;
+import services.ServiceException;
 import services.api.UserService;
 import services.impl.FactoryService;
 import services.impl.UserServiceImpl;
@@ -25,7 +28,8 @@ import java.util.Date;
 @WebServlet(name="LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
 
-   // private static final Logger LOG = LogManager.getLogger(LoginServlet.class);
+    private static final Logger LOG = LogManager.getLogger(LoginServlet.class);
+    UserService userService = FactoryService.getUserService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -35,30 +39,27 @@ public class LoginServlet extends HttpServlet {
         if (login.equals("") || password.equals(""))
             request.getRequestDispatcher("login.jsp").forward(request, response);
 
-        UserService userService = FactoryService.getUserService();
 
+        User user = null;
         try {
-            User user = userService.login(login,password);
-
-
-            if (user != null) {
-//               Logging user login
-//                LOG.info("Success login " + fio + " " + new Date());
-                String fio = user.getFio();
+            user = userService.login(login,password);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        if (user != null) {
+                LOG.info("Success login " + user.getFio() + " " + new Date());
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                request.setAttribute("fio",fio);
-                request.getRequestDispatcher("result.jsp").forward(request,response);
+                response.sendRedirect("/main");
+            } else {
+                PrintWriter out=response.getWriter();
+                out.print("Sorry, username or password error!");
+                request.getRequestDispatcher("/login.jsp").forward(request,response);
+                out.close();
             }
-
-        } catch (Exception e){
-             request.setAttribute("info",e);
-//            request.getRequestDispatcher("result.jsp").forward(request,response);
-        }
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 }
