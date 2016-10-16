@@ -18,7 +18,7 @@
                              <tr>
                                 <td align="center"><c:out value="${tableDep.routeId.train.idTrain}"/> </td>
                                 <td align="center"><c:out value="${tableDep.routeId.routeName}" /></td>
-                                <td><c:out value="${tableDep.routeId.startStation.stationName}"/> </td>
+                                <td><c:out value="${tableDep.routeId.finishStation.stationName}"/> </td>
                                 <td><c:out value="${tableDep.dateDeparture}"/></td>
                              </tr>
                          </c:forEach>
@@ -37,7 +37,7 @@
                          <tr>
                             <td align="center"><c:out value="${tableArr.routeId.train.idTrain}"/></td>
                             <td align="center"><c:out value="${tableArr.routeId.routeName}" /></td>
-                            <td align="center"><c:out value="${tableArr.routeId.finishStation.stationName}"/> </td>
+                            <td align="center"><c:out value="${tableArr.routeId.startStation.stationName}"/> </td>
                             <td align="center"><c:out value="${tableArr.dateArrival}"/></td>
                          </tr>
                         </c:forEach>

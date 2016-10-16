@@ -11,7 +11,7 @@
                     <label>Number of seats in train</label>
                     <c:if test="${!(empty error)}">
                         <input type="text" name="seats" value="${train.seats}" >
-                        <font color="red"><b>Incorrect number of seats!</b></font>
+                        <font color="red"><b><c:out value="${error}"/></b></font>
                     </c:if>
                     <c:if test="${empty error}">
                         <input type="text" name="seats" value="${train.seats}">

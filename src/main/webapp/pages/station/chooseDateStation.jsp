@@ -18,11 +18,30 @@
                             </c:forEach>
                          </select>
                      </div>
-                     <div>
+                    <div>
                         <label>
                             Date:
                         </label>
-                        <input name="date" id="date" type="text" size="9">
+                        <div class="form-group">
+                            <div class="input-group date" id="datetimepicker1">
+                                <input data-format="MM-dd-yyyy HH:mm:ss" type="text"  name="date"/>
+                                <span class="input-group-addon">
+                                <span class="glyphicon-calendar glyphicon"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            var start="<?=$date?>";
+                            var date = new Date();
+                            var today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+                            $(function () {
+                                $('#datetimepicker1').datetimepicker({language: 'ru', useSeconds: 'true', format: 'DD/MM/YYYY',defaultDate:start, pickTime: false, minDate:today});
+                            });
+                        </script>
+                        <%--<label>--%>
+                            <%--Date:--%>
+                        <%--</label>--%>
+                        <%--<input name="date" id="date" type="text" size="9">--%>
                      </div>
                      <div class="form_submit btn-default">
                         <input type="submit" value="Get timetable " />

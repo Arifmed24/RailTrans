@@ -20,17 +20,20 @@ public class TrainCreate extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String seatsStr = request.getParameter("seats");
         if (ValidationUtils.checkNumber(seatsStr)) {
-
             int seats = Integer.parseInt(seatsStr);
             TrainService trainService = FactoryService.getTrainService();
-
-
-            Train train = new Train();
-            train.setSeats(seats);
-            trainService.createTrain(train);
-            request.getRequestDispatcher("/trains").forward(request, response);
+            if(ValidationUtils.checkNumberSeats(seats)) {
+                Train train = new Train();
+                train.setSeats(seats);
+                trainService.createTrain(train);
+                request.getRequestDispatcher("/trains").forward(request, response);
+            }
+            else {
+                request.setAttribute("error", "Number is too big. From 1 to 15 seats");
+                request.getRequestDispatcher("pages/train/createTrain.jsp").forward(request, response);
+            }
         } else {
-            request.setAttribute("error", "true");
+            request.setAttribute("error", "Incorrect text");
             request.getRequestDispatcher("pages/train/createTrain.jsp").forward(request, response);
         }
     }

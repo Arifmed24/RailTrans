@@ -36,27 +36,32 @@ public class LoginServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-        if (login.equals("") || password.equals(""))
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-
-
-        User user = null;
-        try {
-            user = userService.login(login,password);
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
-        if (user != null) {
-                LOG.info("Success login " + user.getFio() + " " + new Date());
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-                response.sendRedirect("/main");
+        if (ValidationUtils.checkLogin(login)) {
+            if (ValidationUtils.checkPassword(password)) {
+                User user = null;
+                try {
+                    user = userService.login(login, password);
+                } catch (ServiceException e) {
+                    e.printStackTrace();
+                }
+                if (user != null) {
+                    LOG.info("Success login " + user.getFio() + " " + new Date());
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+                    response.sendRedirect("/main");
+                } else {
+                    request.setAttribute("errorLog", "Not found");
+                    request.setAttribute("errorPas", "Not found");
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);
+                }
             } else {
-                PrintWriter out=response.getWriter();
-                out.print("Sorry, username or password error!");
-                request.getRequestDispatcher("/login.jsp").forward(request,response);
-                out.close();
+                request.setAttribute("errorLog", "Incorrect password");
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
             }
+        } else {
+            request.setAttribute("errorLog", "Incorrect login");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

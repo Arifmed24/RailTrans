@@ -8,6 +8,7 @@ import services.api.PassengerService;
 import services.api.RouteTimatablesService;
 import services.api.TicketService;
 import services.impl.FactoryService;
+import servlets.ValidationUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,65 +37,74 @@ public class CreateTicket extends HttpServlet {
         String first = request.getParameter("first");
         String last = request.getParameter("last");
         String b = request.getParameter("birth");
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date birth = null;
-        try {
-            birth = sdf.parse(b);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Passenger passenger = new Passenger();
-        passenger.setBirth(birth);
-        passenger.setFirstName(first);
-        passenger.setLastName(last);
-        Passenger ticketPassenger = new Passenger();
-        //если такой пассажик существует
-        if (passengerService.isExists(passenger)){
-            //читаем по имени и др
-            ticketPassenger = passengerService.getByNameAndBirth(passenger);
-        }else {
-            //создаем нового пассажира
-            ticketPassenger = passengerService.create(passenger);
-        }
 
-        Ticket t = (Ticket) request.getSession().getAttribute("ticket");
-        List<RouteTimetables> way  = (List<RouteTimetables>) request.getSession().getAttribute("way");
-        Set<RouteTimetables> ticketWay = new HashSet<RouteTimetables>(way);
+        if (ValidationUtils.checkName(first)) {
+            if (ValidationUtils.checkName(last)) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date birth = null;
+                try {
+                    birth = sdf.parse(b);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Passenger passenger = new Passenger();
+                passenger.setBirth(birth);
+                passenger.setFirstName(first);
+                passenger.setLastName(last);
+                Passenger ticketPassenger = new Passenger();
+                //если такой пассажик существует
+                if (passengerService.isExists(passenger)) {
+                    //читаем по имени и др
+                    ticketPassenger = passengerService.getByNameAndBirth(passenger);
+                } else {
+                    //создаем нового пассажира
+                    ticketPassenger = passengerService.create(passenger);
+                }
 
-        //проверка, что пассижир еще не зарегестрирован
-        Set<Passenger> passengers = passengerService.getPassengersOfRoute(way);
-        //если в списке зарегестрированных такой есть
-        if (passengers.contains(ticketPassenger))
-        {
+                Ticket t = (Ticket) request.getSession().getAttribute("ticket");
+                List<RouteTimetables> way = (List<RouteTimetables>) request.getSession().getAttribute("way");
+                Set<RouteTimetables> ticketWay = new HashSet<RouteTimetables>(way);
 
-        }
-        else {
-            //создание конечного билета
-            Ticket ticket = new Ticket();
-            ticket.setTicketPassenger(ticketPassenger);
-            ticket.setDepartureStation(t.getDepartureStation());
-            ticket.setDepartureDate(t.getDepartureDate());
-            ticket.setArrivalStation(t.getArrivalStation());
-            ticket.setArrivalDate(t.getArrivalDate());
-            ticket.setPrice(t.getPrice());
-            ticket.setTicketTrain(t.getTicketTrain());
-            ticket.setRouteTimetables(ticketWay);
-            ticket = ticketService.createTicket(ticket);
-            for (RouteTimetables rt: way) {
-                rt.getTickets().add(ticket);
-                rt.setFreeSeats(rt.getFreeSeats()-1);
-                routeTimatablesService.updateRouteTimetable(rt);
+                //проверка, что пассижир еще не зарегестрирован
+                Set<Passenger> passengers = passengerService.getPassengersOfRoute(way);
+                //если в списке зарегестрированных такой есть
+                if (passengers.contains(ticketPassenger)) {
+
+                } else {
+                    //создание конечного билета
+                    Ticket ticket = new Ticket();
+                    ticket.setTicketPassenger(ticketPassenger);
+                    ticket.setDepartureStation(t.getDepartureStation());
+                    ticket.setDepartureDate(t.getDepartureDate());
+                    ticket.setArrivalStation(t.getArrivalStation());
+                    ticket.setArrivalDate(t.getArrivalDate());
+                    ticket.setPrice(t.getPrice());
+                    ticket.setTicketTrain(t.getTicketTrain());
+                    ticket.setRouteTimetables(ticketWay);
+                    ticket = ticketService.createTicket(ticket);
+                    for (RouteTimetables rt : way) {
+                        rt.getTickets().add(ticket);
+                        rt.setFreeSeats(rt.getFreeSeats() - 1);
+                        routeTimatablesService.updateRouteTimetable(rt);
+                    }
+                    request.setAttribute("ticket", ticket);
+                    request.setAttribute("title", "Ticket");
+                    request.getRequestDispatcher("pages/tickets/viewTicket.jsp").forward(request, response);
+
+                }
+            } else {
+                List<RouteTimetables> way = (List<RouteTimetables>) request.getSession().getAttribute("way");
+                request.setAttribute("errorL","Wrong last name");
+                request.setAttribute("way",way);
+                request.setAttribute("title", "Passenger");
+                request.getRequestDispatcher("pages/passengers/newPassenger.jsp").forward(request,response);
             }
-
-//            ticket = ticketService.createTicket(ticket);
-
-
-            request.setAttribute("ticket", ticket);
-            request.setAttribute("title","Ticket");
-            request.getRequestDispatcher("pages/tickets/viewTicket.jsp").forward(request,response);
-
-//        request.setAttribute("ticket", ticket);
-//        request.getRequestDispatcher("pages/tickets/viewTicket.jsp").forward(request,response);
+        } else {
+            List<RouteTimetables> way = (List<RouteTimetables>) request.getSession().getAttribute("way");
+            request.setAttribute("errorF","Wrong first name");
+            request.setAttribute("way",way);
+            request.setAttribute("title", "Passenger");
+            request.getRequestDispatcher("pages/passengers/newPassenger.jsp").forward(request,response);
         }
     }
 

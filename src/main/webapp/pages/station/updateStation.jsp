@@ -8,8 +8,14 @@
 			<div class="rail_form">
                 <form action="/updatestation" method="POST">
                     <div>
-                    <label>Name of station</label>
-                    <input type="text" name="idStation" value="${station.stationName}">
+                        <label>Name of station</label>
+                        <c:if test="${!(empty error)}">
+                            <input type="text" name="idStation" value="${station.stationName}">
+                            <font color="red"><b><c:out value="${error}"/></b></font>
+                        </c:if>
+                        <c:if test="${empty error}">
+                            <input type="text" name="idStation" value="${station.stationName}">
+                        </c:if>
                     </div>
                     <div class="form_submit btn-default">
                     <input type="submit" value="Update">

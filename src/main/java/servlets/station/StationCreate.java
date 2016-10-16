@@ -3,6 +3,7 @@ package servlets.station;
 import persistence.entities.Station;
 import services.api.StationService;
 import services.impl.FactoryService;
+import servlets.ValidationUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,14 +17,18 @@ import java.io.IOException;
  */
 @WebServlet(name = "StationCreate",urlPatterns = "/newstation")
 public class StationCreate extends HttpServlet {
+    StationService stationService = FactoryService.getStationService();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
-        StationService stationService = FactoryService.getStationService();
-        Station station = new Station();
-        station.setStationName(name);
-        stationService.createStation(station);
-
-        request.getRequestDispatcher("/stations").forward(request,response);
+        if (ValidationUtils.checkStationName(name)) {
+            Station station = new Station();
+            station.setStationName(name);
+            stationService.createStation(station);
+            request.getRequestDispatcher("/stations").forward(request, response);
+        } else {
+            request.setAttribute("error", "Wrong name");
+            request.getRequestDispatcher("pages/station/createStation.jsp").forward(request, response);
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

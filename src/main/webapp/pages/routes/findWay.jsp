@@ -24,13 +24,45 @@
                      </select>
                  </div>
                  <div>
-                     <label>Date departure: </label>
-                     <input name="dateDep" id="date" type="text" size="9">
+
+                     <div class="form-group">
+                         <label>Date departure: </label>
+                         <div class="input-group date" id="datetimepicker1">
+                             <input data-format="MM-dd-yyyy HH:mm:ss" type="text"  name="dateDep"/>
+                             <span class="input-group-addon">
+                                <span class="glyphicon-calendar glyphicon"></span>
+                             </span>
+                         </div>
+                         <label>Date arrival: </label>
+                         <div class="input-group date" id="datetimepicker2">
+                             <input name="dateArr" id="date"  type="text" size="9">
+                             <span class="input-group-addon">
+                                    <span class="glyphicon-calendar glyphicon"></span>
+                             </span>
+                         </div>
+                     </div>
+                     <script type="text/javascript">
+                         var start="<?=$date?>";
+                         var date = new Date();
+                         var today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+                         $(function () {
+                             $('#datetimepicker1').datetimepicker({language: 'ru', useSeconds: 'true', format: 'DD/MM/YYYY',defaultDate:start, pickTime: false, minDate:today});
+                         });
+                     </script>
+                     <script type="text/javascript">
+                         var start="<?=$date?>";
+                         var date = new Date();
+                         var today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+                         $(function () {
+                             $('#datetimepicker2').datetimepicker({language: 'ru', useSeconds: 'true', format: 'DD/MM/YYYY',defaultDate:start, pickTime: false, minDate:today});
+                         });
+                     </script>
+                     <%--<input name="dateDep" id="date" type="text" size="9">--%>
                  </div>
-                 <div>
-                     <label>Date arrival: </label>
-                     <input name="dateArr" id="date"  type="text" size="9">
-                 </div>
+                 <%--<div>--%>
+
+                     <%--<input name="dateArr" id="date"  type="text" size="9">--%>
+                 <%--</div>--%>
                  <div class="double-button">
                      <button name = "search" type="submit" value="ways">Find way</button>
 

@@ -4,6 +4,10 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/moment-with-locales.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/bootstrap-datetimepicker.min.js"></script>
 	<title>${title}</title>
 </head>
 	<body>

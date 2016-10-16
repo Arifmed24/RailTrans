@@ -3,6 +3,7 @@ package servlets.station;
 import persistence.entities.Station;
 import services.api.StationService;
 import services.impl.FactoryService;
+import servlets.ValidationUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,9 +31,14 @@ public class StationUpdate extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("idStation");
-        station.setStationName(name);
-        stationService.updateStation(station);
-        request.setAttribute("title", "Station update");
-        request.getRequestDispatcher("/stations").forward(request, response);
+        if (ValidationUtils.checkStationName(name)) {
+            station.setStationName(name);
+            stationService.updateStation(station);
+            request.setAttribute("title", "Station update");
+            request.getRequestDispatcher("/stations").forward(request, response);
+        }else {
+            request.setAttribute("error", "Wrong name");
+            request.getRequestDispatcher("pages/station/updateStation.jsp").forward(request, response);
+        }
     }
 }
