@@ -1,7 +1,10 @@
 package servlets;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import persistence.dao.impl.FactoryDao;
 import persistence.dao.impl.UserDaoImpl;
+import persistence.entities.RoleEnum;
 import persistence.entities.User;
 import services.api.UserService;
 import services.impl.FactoryService;
@@ -14,49 +17,47 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 /**
  * Created by abalaev on 02.10.2016.
  */
-@WebServlet(name = "RegisterServlet")
+@WebServlet(name = "RegisterServlet", urlPatterns = "/registration")
 public class RegisterServlet extends HttpServlet {
+    private static final Logger LOG = LogManager.getLogger(RegisterServlet.class);
+    UserService userService = FactoryService.getUserService();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        String fio = request.getParameter("fio");
-        User user = new User(login,password,fio);
+        String fullName = request.getParameter("fullname");
 
-        try {
-            UserService registerService = FactoryService.getUserService();
-            boolean result = registerService.register(user);
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Registration Successful</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<center>");
-            if(result){
-                out.println("<h1>Thanks for Registering with us :</h1>");
-                out.println("To login with new UserId and Password<a href=login.jsp>Click here</a>");
-            }else{
-                out.println("<h1>Registration Failed</h1>");
-                out.println("To try again<a href=register.jsp>Click here</a>");
+        if (ValidationUtils.checkLogin(login)) {
+            if (ValidationUtils.checkLogin(password)){
+                if (ValidationUtils.checkName(fullName)) {
+                    User newUser = new User();
+                    newUser.setLogin(login);
+                    newUser.setPassword(password);
+                    newUser.setFio(fullName);
+                    newUser.setRole(RoleEnum.USER);
+                    userService.register(newUser);
+                    LOG.info("New user " + newUser.getLogin() + " " + new Date());
+                    request.getRequestDispatcher("/login").forward(request, response);
+                } else {
+                    request.setAttribute("errorName", "Incorrect name");
+                    request.getRequestDispatcher("/registration.jsp").forward(request, response);
+                }
+            } else {
+                request.setAttribute("errorPass", "Incorrect password");
+                request.getRequestDispatcher("/registration.jsp").forward(request, response);
             }
-            out.println("</center>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
-            out.close();
+        } else {
+            request.setAttribute("errorLog", "Incorrect login");
+            request.getRequestDispatcher("/registration.jsp").forward(request, response);
         }
-
-
-
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.getRequestDispatcher("/registration.jsp").forward(request, response);
     }
 }

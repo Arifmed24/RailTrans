@@ -27,12 +27,12 @@ public class StationCreate extends HttpServlet {
             request.getRequestDispatcher("/stations").forward(request, response);
         } else {
             request.setAttribute("error", "Wrong name");
-            request.getRequestDispatcher("pages/station/createStation.jsp").forward(request, response);
+            request.getRequestDispatcher("pages/admin/station/createStation.jsp").forward(request, response);
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("title","Create station");
-        request.getRequestDispatcher("pages/station/createStation.jsp").forward(request, response);
+        request.getRequestDispatcher("pages/admin/station/createStation.jsp").forward(request, response);
     }
 }

@@ -26,7 +26,7 @@ public class StationUpdate extends HttpServlet {
         station = stationService.read(idStation);
         request.setAttribute("station",station);
         request.setAttribute("title","Update Station");
-        request.getRequestDispatcher("pages/station/updateStation.jsp").forward(request,response);
+        request.getRequestDispatcher("pages/admin/station/updateStation.jsp").forward(request,response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,7 +38,7 @@ public class StationUpdate extends HttpServlet {
             request.getRequestDispatcher("/stations").forward(request, response);
         }else {
             request.setAttribute("error", "Wrong name");
-            request.getRequestDispatcher("pages/station/updateStation.jsp").forward(request, response);
+            request.getRequestDispatcher("pages/admin/station/updateStation.jsp").forward(request, response);
         }
     }
 }

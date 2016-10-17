@@ -22,6 +22,7 @@ public class RouteTimetableServiceImpl implements RouteTimatablesService {
     RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
     RouteDao routeDao = FactoryDao.getRouteDao();
 
+
     public List<RouteTimetables> getTimetableStationArr(Station station, Date date) {
         List<RouteTimetables> result = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -90,6 +91,14 @@ public class RouteTimetableServiceImpl implements RouteTimatablesService {
         return  routes;
     }
 
+    /**
+     *
+     * @param stationBegin
+     * @param stationEnd
+     * @param dateBegin
+     * @param dateEnd
+     * @return list of variant
+     */
     @Override
     public List<List<RouteTimetables>> findWay(Station stationBegin, Station stationEnd, Date dateBegin, Date dateEnd) {
         List<List<RouteTimetables>> result = new ArrayList<>();

@@ -11,6 +11,11 @@
 	<title>${title}</title>
 </head>
 	<body>
+		<c:choose>
+		<c:when test="${sessionScope.user == null}">
+		<c:redirect url="/notLoggedPage.jsp"></c:redirect>
+		</c:when>
+		</c:choose>
 		<div class="container">
 			<div class="row">
 				<span align="right">User: ${user.fio}</span>

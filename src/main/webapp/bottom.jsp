@@ -4,6 +4,8 @@
 				</div>
 			</div>
 		</div>
+			<%--</c:when>--%>
+		<%--</c:choose>--%>
 	</body>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-theme.min.css">

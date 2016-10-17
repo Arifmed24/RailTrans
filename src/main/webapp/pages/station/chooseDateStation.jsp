@@ -38,10 +38,6 @@
                                 $('#datetimepicker1').datetimepicker({language: 'ru', useSeconds: 'true', format: 'DD/MM/YYYY',defaultDate:start, pickTime: false, minDate:today});
                             });
                         </script>
-                        <%--<label>--%>
-                            <%--Date:--%>
-                        <%--</label>--%>
-                        <%--<input name="date" id="date" type="text" size="9">--%>
                      </div>
                      <div class="form_submit btn-default">
                         <input type="submit" value="Get timetable " />

@@ -4,6 +4,7 @@
 				<div class="body_header">
 					<h1> Stations </h1>
 				</div>
+                <c:if test="${sessionScope.user.role eq 'ADMIN'}">
 				<div class="rr_new_button">
 					<div class="btn-primary">
 						<div class="btn-primary">
@@ -11,6 +12,7 @@
                         </div>
 					</div>
 				</div>
+                    </c:if>
 				<div class="rr_table">
                     <table>
                           <tr>
@@ -24,10 +26,12 @@
                             <td><c:out value="${station.stationName}" /> </td>
                             <td>
                             	<div class="rr_button">
-                               <form action="/updatestation" method=GET>
-                                    <input type="hidden" name="idStation" value="${station.idStation}">
-                                   <input class="btn-success " type="submit" value="Update">
-                               </form>
+                                    <c:if test="${sessionScope.user.role eq 'ADMIN'}">
+                                    <form action="/updatestation" method=GET>
+                                        <input type="hidden" name="idStation" value="${station.idStation}">
+                                        <input class="btn-success " type="submit" value="Update">
+                                    </form>
+                                    </c:if>
                                 <form action="/stationtimetable" method=GET>
                                        <input type="hidden" name="idStation" value="${station.idStation}">
                                        <input type="hidden" name="nameStation" value="${station.stationName}">

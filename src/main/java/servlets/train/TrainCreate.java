@@ -30,16 +30,16 @@ public class TrainCreate extends HttpServlet {
             }
             else {
                 request.setAttribute("error", "Number is too big. From 1 to 15 seats");
-                request.getRequestDispatcher("pages/train/createTrain.jsp").forward(request, response);
+                request.getRequestDispatcher("pages/admin/train/createTrain.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("error", "Incorrect text");
-            request.getRequestDispatcher("pages/train/createTrain.jsp").forward(request, response);
+            request.getRequestDispatcher("pages/admin/train/createTrain.jsp").forward(request, response);
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("title","Create train");
-        request.getRequestDispatcher("pages/train/createTrain.jsp").forward(request, response);
+        request.getRequestDispatcher("pages/admin/train/createTrain.jsp").forward(request, response);
     }
 }

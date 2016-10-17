@@ -31,7 +31,7 @@ public class GetPassengers extends HttpServlet {
         request.setAttribute("title", "Passengers");
         Set<Passenger> passengers = passengerService.getPassengersOfRoute(way);
         request.setAttribute("passengers",passengers);
-        request.getRequestDispatcher("pages/passengers/autorizedPassangers.jsp").forward(request,response);
+        request.getRequestDispatcher("pages/admin/passengers/autorizedPassangers.jsp").forward(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

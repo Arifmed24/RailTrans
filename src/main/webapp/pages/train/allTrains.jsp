@@ -4,11 +4,13 @@
 				<div class="body_header">
 					<h1> Trains </h1>
 				</div>
-				<div class="rr_new_button">
-					<div class="btn-primary">
-                      <a href="/newtrain">New train</a>
-					</div>
-				</div>
+                <c:if test="${sessionScope.user.role eq 'ADMIN'}">
+                    <div class="rr_new_button">
+                        <div class="btn-primary">
+                          <a href="/newtrain">New train</a>
+                        </div>
+                    </div>
+                </c:if>
 				<div class="rr_table">
                 <table>
                   <tr>

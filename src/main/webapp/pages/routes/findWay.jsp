@@ -57,16 +57,12 @@
                              $('#datetimepicker2').datetimepicker({language: 'ru', useSeconds: 'true', format: 'DD/MM/YYYY',defaultDate:start, pickTime: false, minDate:today});
                          });
                      </script>
-                     <%--<input name="dateDep" id="date" type="text" size="9">--%>
                  </div>
-                 <%--<div>--%>
-
-                     <%--<input name="dateArr" id="date"  type="text" size="9">--%>
-                 <%--</div>--%>
                  <div class="double-button">
                      <button name = "search" type="submit" value="ways">Find way</button>
-
+                     <c:if test="${sessionScope.user.role eq 'ADMIN'}">
                      <button name = "search" type="submit" value="passengers">Find passengers</button>
+                     </c:if>
                     <%--<input type="submit" name="search" value="Find" />--%>
                  </div>
                   <%--<div class="form_submit btn-default">--%>

@@ -51,7 +51,7 @@ public class RouteTimetables {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateDeparture;
 
-    @Column(name = "date_arrival", nullable = false)
+    @Column(name = "date_arrival", nullable = false, columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateArrival;
 

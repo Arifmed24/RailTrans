@@ -61,7 +61,7 @@ public class FindWay extends HttpServlet {
         if (search.equals("ways"))
             request.getRequestDispatcher("pages/routes/ways.jsp").forward(request,response);
         else
-            request.getRequestDispatcher("pages/routes/passengersOfWays.jsp").forward(request,response);
+            request.getRequestDispatcher("pages/admin/routes/passengersOfWays.jsp").forward(request,response);
 
     }
 
