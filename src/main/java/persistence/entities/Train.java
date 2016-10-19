@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "Train", schema = "mydb")
 @NamedQuery(name = "Train.getAllTrains",
 query = "SELECT t FROM Train t")
-public class Train {
+public class Train extends Throwable {
     @Id
     @Column(name = "idTrain", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

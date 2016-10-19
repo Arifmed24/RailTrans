@@ -14,7 +14,7 @@ import java.util.List;
                 @NamedQuery(name = "Station.getAll", query = "SELECT s FROM Station s")
         }
 )
-public class Station {
+public class Station extends Throwable {
     @Id
     @Column(name = "idStation", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

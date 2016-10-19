@@ -13,7 +13,7 @@
 	<body>
 		<c:choose>
 		<c:when test="${sessionScope.user == null}">
-		<c:redirect url="/notLoggedPage.jsp"></c:redirect>
+		<c:redirect url="/notLoggedPage.jsp"/>
 		</c:when>
 		</c:choose>
 		<div class="container">

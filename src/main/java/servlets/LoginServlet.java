@@ -1,16 +1,11 @@
 package servlets;
 
-//import org.apache.log4j.LogManager;
-//import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import persistence.dao.impl.FactoryDao;
-import persistence.dao.impl.UserDaoImpl;
 import persistence.entities.User;
 import services.ServiceException;
 import services.api.UserService;
 import services.impl.FactoryService;
-import services.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 
 /**
@@ -29,7 +23,7 @@ import java.util.Date;
 public class LoginServlet extends HttpServlet {
 
     private static final Logger LOG = LogManager.getLogger(LoginServlet.class);
-    UserService userService = FactoryService.getUserService();
+    private UserService userService = FactoryService.getUserService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -40,26 +34,31 @@ public class LoginServlet extends HttpServlet {
             if (ValidationUtils.checkPassword(password)) {
                 User user = null;
                 try {
-                    user = userService.login(login, password);
+                    user = userService.findUserByLogin(login);
                 } catch (ServiceException e) {
                     e.printStackTrace();
+                    LOG.error("Error ",e);
                 }
                 if (user != null) {
-                    LOG.info("Success login " + user.getFio() + " " + new Date());
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", user);
-                    response.sendRedirect("/main");
+                    if (user.getPassword().equals(password)) {
+                        LOG.info("Success login " + user.getFio() + " " + new Date());
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user", user);
+                        response.sendRedirect("/main");
+                    } else {
+                        request.setAttribute("errorPas", "Wrong password");
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
+                    }
                 } else {
-                    request.setAttribute("errorLog", "Not found");
-                    request.setAttribute("errorPas", "Not found");
+                    request.setAttribute("errorLog", "Wrong login");
                     request.getRequestDispatcher("/login.jsp").forward(request, response);
                 }
             } else {
-                request.setAttribute("errorPas", "Incorrect password");
+                request.setAttribute("errorPas", "Password can'be like this");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }
         } else {
-            request.setAttribute("errorLog", "Incorrect login");
+            request.setAttribute("errorLog", "Login can'be like this");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
     }

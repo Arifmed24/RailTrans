@@ -1,0 +1,57 @@
+package servlets;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import persistence.entities.RoleEnum;
+import persistence.entities.User;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+
+/**
+ * Created by abalaev on 17.10.2016.
+ */
+@WebFilter(filterName = "AccessFilter", urlPatterns = "/pages/admin/*")
+public class AccessFilter implements Filter {
+
+    private static final Logger LOG = LogManager.getLogger(AccessFilter.class);
+
+    public void destroy() {
+    }
+
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) resp;
+        HttpSession session = request.getSession();
+        String url = request.getRequestURI();
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+            if (user != null) {
+                boolean admin = false;
+                if (user.getRole() == RoleEnum.ADMIN) {
+                    admin = true;
+                }
+                if (admin) {
+                    LOG.info("Admin access");
+                    chain.doFilter(req, resp);
+                } else {
+                    LOG.info("User access");
+                    response.sendRedirect("/main");
+                }
+            } else {
+                response.sendRedirect("/login");
+            }
+        } else {
+            response.sendRedirect("/login");
+        }
+    }
+
+    public void init(FilterConfig config) throws ServletException {
+
+    }
+
+}

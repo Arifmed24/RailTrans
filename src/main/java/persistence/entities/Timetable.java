@@ -17,7 +17,7 @@ import java.util.List;
 //                        query = "SELECT t FROM Timetable t WHERE t.stationArrival = :station AND t.dateArrival BETWEEN :datetime AND :datetime2")
 //        }
 //)
-public class Timetable {
+public class Timetable extends Throwable {
     @Id
     @Column(name = "idLine", nullable = false)
     @GeneratedValue (strategy = GenerationType.IDENTITY)

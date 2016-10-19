@@ -1,7 +1,6 @@
 package presentation;
 
 import org.apache.log4j.Logger;
-import persistence.DaoException;
 import persistence.dao.api.*;
 import persistence.dao.impl.*;
 import persistence.entities.*;
@@ -251,32 +250,31 @@ public class Main {
 //            System.out.println(entry.getKey()+" : "+ entry.getValue());
 //        }
 
-        RouteTimatablesService routeTimatablesService = FactoryService.getRouteTimatablesService();
-//        RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
-        Route route = new Route();
-        route.setIdRoute(2);
-        Station station1 = new Station();
-        Station station2 = new Station();
-        station1.setIdStation(3);
-        station2.setIdStation(1);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date d = null;
-        Date d2 = null;
-        try {
-            d = sdf.parse("2016-10-15");
-            d2 = sdf.parse("2016-11-24");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        List<List<RouteTimetables>> routeTimetables = routeTimatablesService.findWay(station1,station2,d,d2);
-        int i = 1;
-        for (List<RouteTimetables> r: routeTimetables) {
-            System.out.println("Вариант: "+ i);
-            for (RouteTimetables routes: r) {
-                System.out.println(routes);
-            }
-            i++;
-        }
+//        RouteTimatablesService routeTimatablesService = FactoryService.getRouteTimatablesService();
+//        Route route = new Route();
+//        route.setIdRoute(2);
+//        Station station1 = new Station();
+//        Station station2 = new Station();
+//        station1.setIdStation(3);
+//        station2.setIdStation(1);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date d = null;
+//        Date d2 = null;
+//        try {
+//            d = sdf.parse("2016-10-15");
+//            d2 = sdf.parse("2016-11-24");
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        List<List<RouteTimetables>> routeTimetables = routeTimatablesService.findWay(station1,station2,d,d2);
+//        int i = 1;
+//        for (List<RouteTimetables> r: routeTimetables) {
+//            System.out.println("Вариант: "+ i);
+//            for (RouteTimetables routes: r) {
+//                System.out.println(routes);
+//            }
+//            i++;
+//        }
 
 //        TicketService ticketService = FactoryService.getTicketService();
 //        List<Ticket> tickets = ticketService.getTicketsFromRtLists(routeTimetables);
@@ -331,6 +329,21 @@ public class Main {
 //        System.out.println(date.getTime());
 //        System.out.println(date1.getTime());
 //        System.out.println(date1.getTime()-date);
+
+//        UserDao userDao = FactoryDao.getUserDao();
+//        User user = new User();
+//        user.setLogin("gector");
+//        user.setPassword("qwe");
+//        user.setFio("Genadyi Tortov");
+//        user.setRole(RoleEnum.USER);
+//        try {
+//            userDao.create(user);
+//        } catch (DaoException e) {
+//
+//
+//        }
+
+        System.out.println("Hello");
 
     }
 }

@@ -1,5 +1,6 @@
 package persistence.dao.impl;
 
+import org.apache.log4j.Logger;
 import persistence.dao.api.RouteTimetablesDao;
 import persistence.entities.Route;
 import persistence.entities.RouteTimetables;
@@ -14,6 +15,10 @@ import java.util.List;
  * Created by abalaev on 05.10.2016.
  */
 public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> implements RouteTimetablesDao {
+
+    private static final Logger LOG = Logger.getLogger(RouteTimetablesDaoImpl.class);
+
+
     @Override
     public List<RouteTimetables> getAll() {
         List<RouteTimetables> result = null;
@@ -22,10 +27,12 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
             TypedQuery<RouteTimetables> query = null;
             query = em.createNamedQuery("RouteTimetables.getAll", RouteTimetables.class);
             result = query.getResultList();
+            LOG.info("get all route timetables");
             em.getTransaction().commit();
         } catch (Exception e)
         {
             em.getTransaction().rollback();
+            LOG.error("Error in getting all routetimetables ", e);
         }
         return result;
     }
@@ -44,6 +51,7 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
             em.getTransaction().commit();
         }catch (Exception e){
             em.getTransaction().rollback();
+            LOG.error("Error in getting station timetabl", e);
         }
         return result;
     }

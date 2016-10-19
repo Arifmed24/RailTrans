@@ -12,7 +12,8 @@ public final class ValidationUtils {
     private static final String STATION_NAME  = "^[a-zA-Zа-я]+[- ]*[a-zA-Zа-я0-9]+$";
     private static final String LOGIN_PASSWORD = "^[a-zA-Z0-9]*$";
     private static final String DATE_CHECK = "(^(((0[1-9]|1[0-9]|2[0-8])[\\/](0[1-9]|1[012]))|((29|30|31)[\\/](0[13578]|1[02]))|((29|30)[\\/](0[4,6,9]|11)))[\\/](19|[2-9][0-9])\\d\\d$)|(^29[\\/]02[\\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)";
-    private static final String NAME = "^[a-zA-Z]+ [a-zA-Z]+$";
+    private static final String FULL_NAME = "^[a-zA-Z]+ [a-zA-Z]+$";
+    private static final String NAME = "^[a-zA-Z]+$";
 
 
     public static boolean checkNumber(String str) {
@@ -43,4 +44,7 @@ public final class ValidationUtils {
         return name != null && !name.isEmpty() && name.matches(NAME);
     }
 
+    public static boolean checkFullName(String name){
+        return name != null && !name.isEmpty() && name.matches(FULL_NAME);
+    }
 }

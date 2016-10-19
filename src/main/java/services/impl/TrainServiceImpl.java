@@ -1,6 +1,6 @@
 package services.impl;
 
-import persistence.DaoException;
+import org.apache.log4j.Logger;
 import persistence.dao.api.TrainDao;
 import persistence.dao.impl.FactoryDao;
 import persistence.entities.Train;
@@ -11,15 +11,13 @@ import services.api.TrainService;
  */
 public class TrainServiceImpl implements TrainService {
 
+    private static final Logger LOG = Logger.getLogger(TrainServiceImpl.class);
     private TrainDao trainDao = FactoryDao.getTrainDao();
     @Override
     public Train createTrain(Train train) {
         Train result = null;
-        try {
             result = trainDao.create(train);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
+            LOG.info("train created {}",result);
         return result;
     }
 }

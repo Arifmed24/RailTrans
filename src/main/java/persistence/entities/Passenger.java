@@ -10,19 +10,9 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "passenger", schema = "mydb")
-//@NamedQueries(
-//        {
                 @NamedQuery(name = "Passenger.getPassengers",
                         query = "SELECT p FROM Passenger p WHERE p.firstName =:first and p.lastName =:last and p.birth =:b")
-//                @NamedQuery(name = "Passenger.getRoutePassengers",
-//                query = "select distinct p from Passenger p" +
-//                        " inner join Ticket t on p.idPassenger=t.ticketPassenger.idPassenger " +
-//                        " inner join BookedTimetables bt on bt.tickedId.idTicket=t.idTicket " +
-//                        " inner join RouteTimetables rt on bt.eventId.idEvent=rt.idEvent " +
-//                        " and rt.idEvent IN (:events)")
-//        }
-//)
-public class Passenger {
+public class Passenger extends Throwable {
     @Id
     @Column(name = "idPassenger", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

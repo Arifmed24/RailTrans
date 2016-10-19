@@ -29,7 +29,7 @@ import java.util.*;
                      +   "AND dateArrival < :dateEnd AND freeSeats > 0 order by dateDeparture")
         }
 )
-public class RouteTimetables {
+public class RouteTimetables extends Throwable {
 
     @Id
     @Column(name = "id_event", nullable = false)

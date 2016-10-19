@@ -1,6 +1,5 @@
 package persistence.dao.api;
 
-import persistence.DaoException;
 import persistence.entities.User;
 
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
  * Created by abalaev on 30.09.2016.
  */
 public interface UserDao extends GenericDao<User> {
-    User findByLogin(String login) throws DaoException;
-    List<User> findAll() throws DaoException;
+    User findByLogin(String login);
+    List<User> findAll();
     User userLogin(String login, String password);
 }

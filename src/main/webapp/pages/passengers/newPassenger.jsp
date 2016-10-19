@@ -40,7 +40,7 @@
               <script type="text/javascript">
                   var start="<?=$date?>";
                   var date = new Date();
-                  var today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+                  var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
                   $(function () {
                       $('#datetimepicker1').datetimepicker({language: 'ru', useSeconds: 'true', format: 'DD/MM/YYYY',defaultDate:start, pickTime: false, maxDate:today});
                   });

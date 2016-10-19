@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "Route", schema = "mydb")
-public class Route {
+public class Route extends Throwable {
     @Id
     @Column(name = "idRoute",nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

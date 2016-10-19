@@ -1,13 +1,11 @@
 package services.impl;
 
-import persistence.DaoException;
+import org.apache.log4j.Logger;
 import persistence.dao.api.StationDao;
 import persistence.dao.impl.FactoryDao;
 import persistence.entities.Station;
-import persistence.entities.Timetable;
 import services.api.StationService;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,6 +13,7 @@ import java.util.List;
  */
 public class StationServiceImpl implements StationService {
 
+    private static final Logger LOG = Logger.getLogger(StationServiceImpl.class);
     private StationDao stationDao = FactoryDao.getStationDao();
 
     @Override
@@ -25,33 +24,23 @@ public class StationServiceImpl implements StationService {
     @Override
     public Station read(int id) {
        Station result = null;
-        try {
-            result =  stationDao.read(id);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
+        result =  stationDao.read(id);
         return result;
     }
 
     @Override
     public Station createStation(Station station) {
         Station result = null;
-        try {
             result = stationDao.create(station);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
+            LOG.info("station created {}", result);
         return result;
     }
 
     @Override
     public Station updateStation(Station station) {
        Station result = null;
-        try {
             result = stationDao.update(station);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
+            LOG.info("station updated {}", result);
         return result;
     }
 }

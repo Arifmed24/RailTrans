@@ -1,6 +1,6 @@
 package services.impl;
 
-import persistence.DaoException;
+import org.apache.log4j.Logger;
 import persistence.dao.api.PassengerDao;
 import persistence.dao.impl.FactoryDao;
 import persistence.entities.Passenger;
@@ -8,7 +8,6 @@ import persistence.entities.RouteTimetables;
 import persistence.entities.Ticket;
 import services.api.PassengerService;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,35 +16,35 @@ import java.util.Set;
  * Created by abalaev on 07.10.2016.
  */
 public class PassengerServiceImpl implements PassengerService {
-    PassengerDao passengerDao = FactoryDao.getPassengerDao();
-
+    private PassengerDao passengerDao = FactoryDao.getPassengerDao();
+    private static final Logger LOG = Logger.getLogger(PassengerServiceImpl.class);
     @Override
     public boolean isExists(Passenger passenger) {
-
         int size = passengerDao.findPassenger(passenger.getFirstName(),passenger.getLastName(),passenger.getBirth()) .size();
         if (size>0){
+            LOG.info("passenger exists");
             return true;
         }
-        else
-        return false;
+        else {
+            LOG.info("passenger doesn't exists");
+            return false;
+        }
     }
 
     @Override
     public Passenger create(Passenger passenger) {
         Passenger result = null;
-        try {
             result = passengerDao.create(passenger);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
+            LOG.info("created passenger {}",result);
         return result;
     }
 
     @Override
     public Passenger getByNameAndBirth(Passenger passenger) {
-        List<Passenger> result = null;
-        result = passengerDao.findPassenger(passenger.getFirstName(),passenger.getLastName(),passenger.getBirth());
-        return result.get(0);
+        Passenger result;
+        result = passengerDao.findPassenger(passenger.getFirstName(),passenger.getLastName(),passenger.getBirth()).get(0);
+        LOG.info("passenger {} is found",result);
+        return result;
     }
 
     @Override
@@ -58,6 +57,7 @@ public class PassengerServiceImpl implements PassengerService {
                 }
             }
         }
+        LOG.info("finding passengers of route");
         return result;
     }
 }

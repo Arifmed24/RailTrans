@@ -1,14 +1,10 @@
 package persistence.dao.impl;
 
-import persistence.DaoException;
+import org.apache.log4j.Logger;
 import persistence.dao.api.PassengerDao;
 import persistence.entities.Passenger;
-import persistence.entities.RouteTimetables;
-
-import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +12,8 @@ import java.util.List;
  * Created by abalaev on 30.09.2016.
  */
 public class PassengerDaoImpl extends GenericDaoImpl<Passenger> implements PassengerDao {
+
+    private static final Logger LOG = Logger.getLogger(PassengerDaoImpl.class);
 
     @Override
     public List<Passenger> findPassenger(String firstName, String lastName, Date birth) {
@@ -31,29 +29,9 @@ public class PassengerDaoImpl extends GenericDaoImpl<Passenger> implements Passe
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
+            LOG.error("Error in finding Passenger by full name and birth");
         }
         return passengers;
     }
-
-//    @Override
-//    public List<Passenger> getRoutePassengers(List<RouteTimetables> timetables) {
-//        List<Passenger> result = null;
-//        List<Integer> ids = new ArrayList<>();
-//        for (RouteTimetables rt: timetables) {
-//            ids.add(rt.getIdEvent());
-//        }
-//
-//        try{
-//            em.getTransaction().begin();
-//            TypedQuery<Passenger> query = null;
-//            query = em.createNamedQuery("Passenger.getRoutePassengers",Passenger.class);
-//            query.setParameter("events",ids);
-//            result = query.getResultList();
-//            em.getTransaction().commit();
-//        } catch (Exception e) {
-//            em.getTransaction().rollback();
-//        }
-//        return result;
-//    }
 }
 

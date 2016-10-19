@@ -1,6 +1,6 @@
 package services.impl;
 
-import persistence.DaoException;
+import org.apache.log4j.Logger;
 import persistence.dao.api.TicketDao;
 import persistence.dao.impl.FactoryDao;
 import persistence.entities.RouteTimetables;
@@ -16,25 +16,30 @@ import java.util.List;
  * Created by abalaev on 07.10.2016.
  */
 public class TicketServiceImpl implements TicketService {
-    TicketDao ticketDao = FactoryDao.getTicketDao();
+
+    private static final Logger LOG = Logger.getLogger(TicketServiceImpl.class);
+    private TicketDao ticketDao = FactoryDao.getTicketDao();
 
     @Override
     public List<Ticket> getTicketsFromRtLists(List<List<RouteTimetables>> ways) {
+        LOG.info("finding tickets of ways");
         List<Ticket> tickets = new ArrayList<>();
-        for (List<RouteTimetables> vatiant: ways) {
+        LOG.info("going through ways");
+        for (List<RouteTimetables> variant: ways) {
             Ticket newTicket = new Ticket();
-            newTicket.setTicketTrain(vatiant.get(0).getRouteId().getTrain());
-            newTicket.setDepartureDate(vatiant.get(0).getDateDeparture());
-            newTicket.setDepartureStation(vatiant.get(0).getLine().getStationDeparture());
-            newTicket.setArrivalDate(vatiant.get(vatiant.size()-1).getDateArrival());
-            newTicket.setArrivalStation(vatiant.get(vatiant.size()-1).getLine().getStationArrival());
+            newTicket.setTicketTrain(variant.get(0).getRouteId().getTrain());
+            newTicket.setDepartureDate(variant.get(0).getDateDeparture());
+            newTicket.setDepartureStation(variant.get(0).getLine().getStationDeparture());
+            newTicket.setArrivalDate(variant.get(variant.size()-1).getDateArrival());
+            newTicket.setArrivalStation(variant.get(variant.size()-1).getLine().getStationArrival());
             double price = 0;
-            for (int i=0;i<vatiant.size();i++){
-                price += vatiant.get(i).getLine().getDistance()*4;
+            for (RouteTimetables aVariant : variant) {
+                price += aVariant.getLine().getDistance() * 4;
             }
             BigDecimal b = new BigDecimal(price, MathContext.DECIMAL64);
             newTicket.setPrice(b);
             tickets.add(newTicket);
+            LOG.info("ticket was added");
         }
         return tickets;
     }
@@ -42,22 +47,16 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket createTicket(Ticket ticket) {
         Ticket result = null;
-        try {
             result = ticketDao.create(ticket);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
+            LOG.info("ticket created {}", result);
         return result;
     }
 
     @Override
     public Ticket updateTicket(Ticket ticket) {
         Ticket result = null;
-        try {
             result = ticketDao.update(ticket);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
+            LOG.info("ticket updated {}", result);
         return result;
     }
 }

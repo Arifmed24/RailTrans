@@ -11,5 +11,4 @@ import java.util.List;
  */
 public interface PassengerDao extends GenericDao<Passenger> {
     List<Passenger> findPassenger(String firstName, String lastName, Date birth);
-//    List<Passenger> getRoutePassengers(List<RouteTimetables> timetables);
 }

@@ -14,7 +14,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "Ticket", schema = "mydb")
-public class Ticket {
+public class Ticket extends Throwable {
     @Id
     @Column(name = "idTicket",nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

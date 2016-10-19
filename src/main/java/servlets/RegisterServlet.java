@@ -30,30 +30,34 @@ public class RegisterServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String fullName = request.getParameter("fullname");
-
         if (ValidationUtils.checkLogin(login)) {
             if (ValidationUtils.checkLogin(password)){
-                if (ValidationUtils.checkName(fullName)) {
+                if (ValidationUtils.checkFullName(fullName)) {
                     User newUser = new User();
                     newUser.setLogin(login);
                     newUser.setPassword(password);
                     newUser.setFio(fullName);
                     newUser.setRole(RoleEnum.USER);
-                    userService.register(newUser);
-                    LOG.info("New user " + newUser.getLogin() + " " + new Date());
-                    request.getRequestDispatcher("/login").forward(request, response);
+                    if (userService.register(newUser)) {
+                        LOG.info("New user " + newUser.getLogin() + " " + new Date());
+                        request.getRequestDispatcher("/login").forward(request, response);
+                    } else {
+                        request.setAttribute("errorLog", "This user is registered yet");
+                        request.getRequestDispatcher("/registration.jsp").forward(request, response);
+                    }
                 } else {
-                    request.setAttribute("errorName", "Incorrect name");
+                    request.setAttribute("errorName", "Login can'be like this");
                     request.getRequestDispatcher("/registration.jsp").forward(request, response);
                 }
             } else {
-                request.setAttribute("errorPass", "Incorrect password");
+                request.setAttribute("errorPass", "Password can'be like this");
                 request.getRequestDispatcher("/registration.jsp").forward(request, response);
             }
         } else {
-            request.setAttribute("errorLog", "Incorrect login");
+            request.setAttribute("errorLog", "Please write first name and last name");
             request.getRequestDispatcher("/registration.jsp").forward(request, response);
         }
+
 
     }
 
