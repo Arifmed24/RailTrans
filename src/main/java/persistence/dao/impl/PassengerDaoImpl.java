@@ -20,7 +20,7 @@ public class PassengerDaoImpl extends GenericDaoImpl<Passenger> implements Passe
         List<Passenger> passengers = null;
         try {
             em.getTransaction().begin();
-            TypedQuery<Passenger> query = null;
+            TypedQuery<Passenger> query;
             query = em.createNamedQuery("Passenger.getPassengers", Passenger.class);
             query.setParameter("first", firstName);
             query.setParameter("last", lastName);

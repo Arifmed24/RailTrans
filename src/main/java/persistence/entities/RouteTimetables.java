@@ -1,7 +1,6 @@
 package persistence.entities;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**

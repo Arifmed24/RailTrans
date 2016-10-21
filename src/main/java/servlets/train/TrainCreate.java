@@ -19,7 +19,7 @@ import java.io.IOException;
 public class TrainCreate extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String seatsStr = request.getParameter("seats");
-        if (ValidationUtils.checkNumber(seatsStr)) {
+        if (ValidationUtils.checkNumber(seatsStr) && seatsStr.length()<10) {
             int seats = Integer.parseInt(seatsStr);
             TrainService trainService = FactoryService.getTrainService();
             if(ValidationUtils.checkNumberSeats(seats)) {

@@ -2,10 +2,6 @@ package persistence.entities;
 
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
 /**
  * Created by abalaev on 30.09.2016.

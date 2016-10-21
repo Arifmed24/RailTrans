@@ -27,7 +27,6 @@ public class AccessFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession();
-        String url = request.getRequestURI();
         if (session != null) {
             User user = (User) session.getAttribute("user");
             if (user != null) {

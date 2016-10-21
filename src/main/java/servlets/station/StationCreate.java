@@ -20,7 +20,7 @@ public class StationCreate extends HttpServlet {
     StationService stationService = FactoryService.getStationService();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
-        if (ValidationUtils.checkStationName(name)) {
+        if (ValidationUtils.checkStationName(name) && name.length()<50) {
             Station station = new Station();
             station.setStationName(name);
             stationService.createStation(station);

@@ -31,7 +31,7 @@ public class StationUpdate extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("idStation");
-        if (ValidationUtils.checkStationName(name)) {
+        if (ValidationUtils.checkStationName(name) && name.length()<50) {
             station.setStationName(name);
             stationService.updateStation(station);
             request.setAttribute("title", "Station update");

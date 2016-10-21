@@ -1,7 +1,7 @@
 package persistence.dao.api;
 
 import persistence.entities.Station;
-import java.sql.SQLException;
+
 import java.util.List;
 
 /**

@@ -1,7 +1,5 @@
 package services.api;
 
-import java.util.List;
-
 /**
  * Created by abalaev on 30.09.2016.
  */

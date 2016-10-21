@@ -1,8 +1,6 @@
 package persistence.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Calendar;
 import java.util.Date;
 
 /**

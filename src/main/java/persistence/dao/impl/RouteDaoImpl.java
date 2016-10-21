@@ -2,10 +2,6 @@ package persistence.dao.impl;
 
 import persistence.dao.api.RouteDao;
 import persistence.entities.Route;
-import persistence.entities.Timetable;
-
-import javax.persistence.TypedQuery;
-import java.util.List;
 
 
 /**

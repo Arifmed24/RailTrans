@@ -1,7 +1,6 @@
 package persistence.dao.api;
 
 import persistence.entities.Passenger;
-import persistence.entities.RouteTimetables;
 
 import java.util.Date;
 import java.util.List;

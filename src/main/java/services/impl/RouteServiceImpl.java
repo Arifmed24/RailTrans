@@ -16,11 +16,12 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Route createRoute(Route route) {
-        Route result = null;
+        Route result;
             result = routeDao.create(route);
             LOG.info("route created {}", result);
         return result;
     }
+
 
 
 }

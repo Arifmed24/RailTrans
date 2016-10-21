@@ -1,11 +1,6 @@
 package persistence.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by abalaev on 28.09.2016.

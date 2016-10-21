@@ -33,7 +33,7 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Override
     public Passenger create(Passenger passenger) {
-        Passenger result = null;
+        Passenger result;
             result = passengerDao.create(passenger);
             LOG.info("created passenger {}",result);
         return result;

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
+	<link rel="icon" href="/img/train.png">
 	<meta charset="UTF-8">
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/moment-with-locales.min.js"></script>

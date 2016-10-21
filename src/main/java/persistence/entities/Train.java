@@ -1,7 +1,6 @@
 package persistence.entities;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by abalaev on 28.09.2016.

@@ -1,10 +1,8 @@
 package persistence.dao.impl;
 
 import persistence.dao.api.TrainDao;
-import persistence.entities.RouteTimetables;
 import persistence.entities.Train;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 

@@ -1,18 +1,8 @@
 package presentation;
 
 import org.apache.log4j.Logger;
-import persistence.dao.api.*;
-import persistence.dao.impl.*;
-import persistence.entities.*;
-import services.api.PassengerService;
-import services.api.RouteTimatablesService;
-import services.api.TicketService;
-import services.impl.FactoryService;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 import java.sql.SQLException;
 
 /**

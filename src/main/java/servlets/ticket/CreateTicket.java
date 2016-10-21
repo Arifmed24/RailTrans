@@ -1,6 +1,5 @@
 package servlets.ticket;
 
-import persistence.dao.impl.FactoryDao;
 import persistence.entities.Passenger;
 import persistence.entities.RouteTimetables;
 import persistence.entities.Ticket;
@@ -51,7 +50,7 @@ public class CreateTicket extends HttpServlet {
                 passenger.setBirth(birth);
                 passenger.setFirstName(first);
                 passenger.setLastName(last);
-                Passenger ticketPassenger = new Passenger();
+                Passenger ticketPassenger;
                 //если такой пассажик существует
                 if (passengerService.isExists(passenger)) {
                     //читаем по имени и др
@@ -63,7 +62,7 @@ public class CreateTicket extends HttpServlet {
 
                 Ticket t = (Ticket) request.getSession().getAttribute("ticket");
                 List<RouteTimetables> way = (List<RouteTimetables>) request.getSession().getAttribute("way");
-                Set<RouteTimetables> ticketWay = new HashSet<RouteTimetables>(way);
+                Set<RouteTimetables> ticketWay = new HashSet<>(way);
 
                 //проверка, что пассижир еще не зарегестрирован
                 Set<Passenger> passengers = passengerService.getPassengersOfRoute(way);

@@ -6,6 +6,7 @@ import persistence.dao.impl.FactoryDao;
 import persistence.entities.Station;
 import services.api.StationService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,5 +43,14 @@ public class StationServiceImpl implements StationService {
             result = stationDao.update(station);
             LOG.info("station updated {}", result);
         return result;
+    }
+
+    @Override
+    public List<Station> createStationList(Station... stations) {
+        List<Station> stationList = new ArrayList<>();
+        for (Station s : stations) {
+            stationList.add(s);
+        }
+        return stationList;
     }
 }

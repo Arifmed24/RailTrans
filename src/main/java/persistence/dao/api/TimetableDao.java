@@ -1,10 +1,6 @@
 package persistence.dao.api;
 
-import persistence.entities.Station;
 import persistence.entities.Timetable;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by abalaev on 30.09.2016.

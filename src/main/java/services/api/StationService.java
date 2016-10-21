@@ -1,9 +1,7 @@
 package services.api;
 
 import persistence.entities.Station;
-import persistence.entities.Timetable;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,4 +12,5 @@ public interface StationService {
     Station read(int id);
     Station createStation(Station station);
     Station updateStation(Station station);
+    List<Station> createStationList(Station...stations);
 }

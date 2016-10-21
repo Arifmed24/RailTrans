@@ -1,14 +1,10 @@
 package servlets;
 
-import persistence.dao.impl.RouteTimetablesDaoImpl;
-import persistence.dao.impl.StationDaoImpl;
 import persistence.entities.RouteTimetables;
 import persistence.entities.Station;
 import services.api.RouteTimatablesService;
 import services.api.StationService;
 import services.impl.FactoryService;
-import services.impl.RouteTimetableServiceImpl;
-import services.impl.StationServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

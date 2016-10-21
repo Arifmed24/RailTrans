@@ -32,7 +32,7 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
                 Exception e) {
             LOG.error("Unexpected DB exception", e);
         }
-        return query.getResultList();
+        return query != null ? query.getResultList() : null;
     }
 
         @Override

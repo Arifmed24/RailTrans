@@ -1,8 +1,6 @@
 package persistence.dao.impl;
 
 import persistence.dao.api.*;
-import persistence.entities.Ticket;
-import persistence.entities.Train;
 
 /**
  * Created by abalaev on 07.10.2016.

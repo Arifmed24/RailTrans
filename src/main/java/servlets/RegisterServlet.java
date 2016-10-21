@@ -2,13 +2,10 @@ package servlets;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import persistence.dao.impl.FactoryDao;
-import persistence.dao.impl.UserDaoImpl;
 import persistence.entities.RoleEnum;
 import persistence.entities.User;
 import services.api.UserService;
 import services.impl.FactoryService;
-import services.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 
 /**
@@ -46,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
                         request.getRequestDispatcher("/registration.jsp").forward(request, response);
                     }
                 } else {
-                    request.setAttribute("errorName", "Login can'be like this");
+                    request.setAttribute("errorName", "Please write first name and last name");
                     request.getRequestDispatcher("/registration.jsp").forward(request, response);
                 }
             } else {
@@ -54,7 +50,7 @@ public class RegisterServlet extends HttpServlet {
                 request.getRequestDispatcher("/registration.jsp").forward(request, response);
             }
         } else {
-            request.setAttribute("errorLog", "Please write first name and last name");
+            request.setAttribute("errorLog", "Login can'be like this");
             request.getRequestDispatcher("/registration.jsp").forward(request, response);
         }
 
