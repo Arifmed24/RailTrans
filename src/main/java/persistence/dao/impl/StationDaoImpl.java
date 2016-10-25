@@ -4,29 +4,19 @@ import persistence.dao.api.StationDao;
 import persistence.entities.Station;
 
 import java.util.List;
-//import org.apache.log4j.Logger;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-/**
- * Created by abalaev on 28.09.2016.
- */
 public class StationDaoImpl extends GenericDaoImpl<Station> implements StationDao {
-
-    @Override
-    public Station findStationByName(String stationName) {
-        Query query = em.createNamedQuery("Station.findStationByName",Station.class);
-        query.setParameter("stationName",stationName);
-        return (Station) query.getSingleResult();
-    }
-
-    @Override
+    /**
+     * gel list of all stations
+     * @return     list of stations
+     */
     public List<Station> getAll() {
         List<Station> result = null;
         try {
             em.getTransaction().begin();
-            TypedQuery<Station> query = null;
+            TypedQuery<Station> query;
             query = em.createNamedQuery("Station.getAll",Station.class);
             result = query.getResultList();
             em.getTransaction().commit();

@@ -11,20 +11,20 @@ import javax.persistence.TypedQuery;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by abalaev on 05.10.2016.
- */
+
 public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> implements RouteTimetablesDao {
 
     private static final Logger LOG = Logger.getLogger(RouteTimetablesDaoImpl.class);
 
-
-    @Override
+    /**
+     *  get list of all RouteTimetables
+     * @return list of routeTimetables
+     */
     public List<RouteTimetables> getAll() {
         List<RouteTimetables> result = null;
         try {
             em.getTransaction().begin();
-            TypedQuery<RouteTimetables> query = null;
+            TypedQuery<RouteTimetables> query;
             query = em.createNamedQuery("RouteTimetables.getAll", RouteTimetables.class);
             result = query.getResultList();
             LOG.info("get all route timetables");
@@ -32,17 +32,23 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
         } catch (Exception e)
         {
             em.getTransaction().rollback();
-            LOG.error("Error in getting all routetimetables ", e);
+            LOG.error("Error in getting all routeTimetables ", e);
         }
         return result;
     }
 
-    @Override
+    /**
+     * get arrival timetable of station in interval
+     * @param station       station
+     * @param dateBegin     begin if interval
+     * @param dateEnd       end of interval
+     * @return              arrival timetable
+     */
     public List<RouteTimetables> getStationTimetableArr(Station station, Date dateBegin, Date dateEnd) {
         List<RouteTimetables> result = null;
         try {
             em.getTransaction().begin();
-            TypedQuery<RouteTimetables> query = null;
+            TypedQuery<RouteTimetables> query;
             query = em.createNamedQuery("RouteTimetables.getStationTimetableArr",RouteTimetables.class);
             query.setParameter("station", station);
             query.setParameter("date1", dateBegin);
@@ -51,17 +57,23 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
             em.getTransaction().commit();
         }catch (Exception e){
             em.getTransaction().rollback();
-            LOG.error("Error in getting station timetabl", e);
+            LOG.error("Error in getting station timetable", e);
         }
         return result;
     }
 
-    @Override
+    /**
+     * get departure timetable of station in interval
+     * @param station       station
+     * @param dateBegin     begin if interval
+     * @param dateEnd       end of interval
+     * @return              departure timetable
+     */
     public List<RouteTimetables> getStationTimetableDep(Station station, Date dateBegin, Date dateEnd) {
         List<RouteTimetables> result = null;
         try {
             em.getTransaction().begin();
-            TypedQuery<RouteTimetables> query = null;
+            TypedQuery<RouteTimetables> query;
             query = em.createNamedQuery("RouteTimetables.getStationTimetableDep",RouteTimetables.class);
             query.setParameter("station", station);
             query.setParameter("date1", dateBegin);
@@ -74,12 +86,15 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
         return result;
     }
 
-    @Override
+    /**
+     * get all routes
+     * @return      list of routes
+     */
     public List<RouteTimetables> getRoutes() {
         List<RouteTimetables> result = null;
         try {
             em.getTransaction().begin();
-            TypedQuery<RouteTimetables> query = null;
+            TypedQuery<RouteTimetables> query;
             query = em.createNamedQuery("RouteTimetables.getRoutes", RouteTimetables.class);
             result = query.getResultList();
             em.getTransaction().commit();
@@ -90,12 +105,19 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
         return result;
     }
 
-    @Override
+    /**
+     * get routeTimetable by route and number in route in interval
+     * @param route         route
+     * @param number        number in route
+     * @param dateBegin     begin of interval
+     * @param dateEnd       end of interval
+     * @return              list of routes
+     */
     public List<RouteTimetables> getRouteTimetableByRouteAndNumberInRoute(Route route, int number, Date dateBegin, Date dateEnd) {
         List<RouteTimetables> result = null;
         try {
             em.getTransaction().begin();
-            TypedQuery<RouteTimetables> query = null;
+            TypedQuery<RouteTimetables> query;
             query = em.createNamedQuery("RouteTimetables.getRouteTimetableByRouteAndNumberInRoute", RouteTimetables.class);
             query.setParameter("route", route);
             query.setParameter("number", number);
@@ -110,5 +132,26 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
         return result;
     }
 
-
+    /**
+     * get list of routeTimetables by route
+     * @param route     route
+     * @return          route timetables (grouped by route and number in route)
+     */
+    public List<RouteTimetables> getListRtByRoute(Route route) {
+        LOG.info("start getting list of route timetables by route ");
+        List<RouteTimetables> result = null;
+        try {
+            em.getTransaction().begin();
+            TypedQuery<RouteTimetables> query;
+            query = em.createNamedQuery("RouteTimetables.getListRtByRoute",RouteTimetables.class);
+            query.setParameter("route", route);
+            result = query.getResultList();
+            em.getTransaction().commit();
+            LOG.info("finished getting list of route timetables by route");
+        } catch (Exception e){
+            LOG.error("error in getting list of route timetables by route", e);
+            em.getTransaction().rollback();
+        }
+        return result;
+    }
 }

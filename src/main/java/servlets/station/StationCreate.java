@@ -12,9 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by abalaev on 07.10.2016.
- */
 @WebServlet(name = "StationCreate",urlPatterns = "/newstation")
 public class StationCreate extends HttpServlet {
     StationService stationService = FactoryService.getStationService();

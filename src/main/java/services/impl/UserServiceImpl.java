@@ -1,6 +1,5 @@
 package services.impl;
 
-//import org.apache.log4j.Logger;
 import org.apache.log4j.Logger;
 import persistence.dao.api.UserDao;
 import persistence.dao.impl.FactoryDao;
@@ -10,20 +9,14 @@ import services.api.UserService;
 
 import javax.persistence.NoResultException;
 
-/**
- * Created by abalaev on 01.10.2016.
- */
-
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOG = Logger.getLogger(UserServiceImpl.class);
     private UserDao userDao = FactoryDao.getUserDao();
 
-    @Override
     public User findUserByLogin(String login) throws ServiceException {
         User user = null;
-        try
-            {
+        try {
               user = userDao.findByLogin(login);
             } catch (NoResultException nre){
             }
@@ -34,7 +27,6 @@ public class UserServiceImpl implements UserService {
             return user;
     }
 
-    @Override
     public User login(String login, String password) throws ServiceException {
         LOG.info("user login");
         User result = null;

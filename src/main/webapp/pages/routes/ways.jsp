@@ -5,6 +5,7 @@
                 <h1> Ways </h1>
             </div>
                 <div class="rr_table">
+                <font color="red"><b><c:out value="${error}"/></b></font>
                 <table>
                  <tr>
                     <th> Variants </th>

@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
-      <link rel="icon" href="/img/train.png">
+      <link rel="icon" href="/img/t">
     <title>Login</title>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
@@ -26,7 +26,6 @@
             <form action="/login" method="POST" >
                 <h3 class="center-align white-text">PLEASE LOG IN</h3>
                 <p class="teal-text lighten-2"><b>Login</b></p>
-
                 <c:choose>
                 <c:when test="${!empty errorLog}">
                     <input type="text" name="login">

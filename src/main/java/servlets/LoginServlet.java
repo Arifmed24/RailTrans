@@ -29,7 +29,6 @@ public class LoginServlet extends HttpServlet {
 
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-
         if (ValidationUtils.checkLogin(login)) {
             if (ValidationUtils.checkPassword(password)) {
                 User user = null;
@@ -44,7 +43,7 @@ public class LoginServlet extends HttpServlet {
                         LOG.info("Success login " + user.getFio() + " " + new Date());
                         HttpSession session = request.getSession();
                         session.setAttribute("user", user);
-                        response.sendRedirect("/main");
+                        response.sendRedirect("/findway");
                     } else {
                         request.setAttribute("errorPas", "Wrong password");
                         request.getRequestDispatcher("/login.jsp").forward(request, response);
@@ -54,7 +53,7 @@ public class LoginServlet extends HttpServlet {
                     request.getRequestDispatcher("/login.jsp").forward(request, response);
                 }
             } else {
-                request.setAttribute("errorPas", "Password can'be like this");
+                request.setAttribute("errorPas", "Password can't be like this");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }
         } else {

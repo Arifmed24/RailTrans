@@ -3,9 +3,6 @@ package persistence.entities;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by abalaev on 28.09.2016.
- */
 @Entity
 @Table(name = "passenger", schema = "mydb")
                 @NamedQuery(name = "Passenger.getPassengers",
@@ -58,6 +55,16 @@ public class Passenger extends Throwable {
         this.lastName = lastName;
     }
 
+    public boolean equals(Object other){
+        if (!(other instanceof Passenger)) {
+            return false;
+        }
+        Passenger that = (Passenger) other;
+        if (this.getFirstName().equals(that.getFirstName())&&this.getLastName().equals(that.getLastName())&&that.getBirth().equals(this.getBirth()))
+            return true;
+        else
+            return false;
+    }
 
     public String toString() {
         return "Passenger{" +

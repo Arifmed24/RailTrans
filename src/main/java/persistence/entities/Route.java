@@ -2,14 +2,15 @@ package persistence.entities;
 
 import javax.persistence.*;
 
-/**
- * Created by abalaev on 28.09.2016.
- */
+
 @Entity
 @Table(name = "Route", schema = "mydb")
+@NamedQuery(
+        name = "Route.getAll",query = "SELECT r FROM Route r"
+)
 public class Route extends Throwable {
     @Id
-    @Column(name = "idRoute",nullable = false)
+    @Column(name = "idRoute")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idRoute;
 
@@ -28,32 +29,6 @@ public class Route extends Throwable {
     @JoinColumn(name = "train", nullable = false)
     private Train train;
 
-//    @OneToMany(mappedBy = "routeId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<RouteTimetables> routeTimetablesList;
-
-
-    /*
-    private Date finishDate;
-
-    public Date getFinishDate() {
-        return finishDate;
-    }
-
-    public void setFinishDate()
-    {
-        int maxNumber = 0;
-        Timetable lastTimetable = null;
-        for (Timetable timetable: timetables){
-            if (timetable.getNumberInRoute()>maxNumber) {
-                maxNumber = timetable.getNumberInRoute();
-                lastTimetable = timetable;
-            }
-        }
-        Date date = lastTimetable.getDateArrival();
-        this.finishDate = date;
-    }
-*/
-
     @Override
     public String toString() {
         return "Route{" +
@@ -62,17 +37,11 @@ public class Route extends Throwable {
                 ", startStation=" + startStation +
                 ", finishStation=" + finishStation +
                 ", train=" + train +
-//                ", routeTimetablesList=" + routeTimetablesList +
                 '}';
     }
 
-//    public List<RouteTimetables> getRouteTimetablesList() {
-//        return routeTimetablesList;
-//    }
-//
-//    public void setRouteTimetablesList(List<RouteTimetables> routeTimetablesList) {
-//        this.routeTimetablesList = routeTimetablesList;
-//    }
+
+
 
     public int getIdRoute() {
         return idRoute;

@@ -6,9 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by abalaev on 28.09.2016.
- */
 @Entity
 @Table(name = "Ticket", schema = "mydb")
 public class Ticket extends Throwable {
@@ -44,7 +41,10 @@ public class Ticket extends Throwable {
     @Column(name="Price", columnDefinition="Decimal(19,4)")
     private java.math.BigDecimal price;
 
-//    @ManyToMany(mappedBy = "tickets")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user")
+    private User user;
+
         @ManyToMany
         @JoinTable(name = "booked_timetables", joinColumns = {
         @JoinColumn(name = "ticket_id", nullable = false) },
@@ -136,5 +136,13 @@ public class Ticket extends Throwable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

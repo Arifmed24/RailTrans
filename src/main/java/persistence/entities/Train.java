@@ -2,9 +2,6 @@ package persistence.entities;
 
 import javax.persistence.*;
 
-/**
- * Created by abalaev on 28.09.2016.
- */
 @Entity
 @Table(name = "Train", schema = "mydb")
 @NamedQuery(name = "Train.getAllTrains",
@@ -17,17 +14,6 @@ public class Train extends Throwable {
 
     @Column(name = "seats",  nullable = false)
     private int seats;
-
-//    @OneToMany(mappedBy = "train",fetch = FetchType.LAZY)
-//    private List<Route> routes;
-
-//    public List<Route> getRoutes() {
-//        return routes;
-//    }
-//
-//    public void setRoutes(List<Route> routes) {
-//        this.routes = routes;
-//    }
 
     public int getIdTrain() {
         return idTrain;
@@ -50,7 +36,6 @@ public class Train extends Throwable {
         return "Train{" +
                 "idTrain=" + idTrain +
                 ", seats=" + seats +
-//                ", routes=" + routes +
                 '}';
     }
 }

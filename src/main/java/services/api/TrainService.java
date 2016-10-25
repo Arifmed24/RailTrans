@@ -2,9 +2,10 @@ package services.api;
 
 import persistence.entities.Train;
 
-/**
- * Created by abalaev on 30.09.2016.
- */
+import java.util.List;
+
 public interface TrainService {
     Train createTrain(Train train);
+    List<Train> getAllTrains();
+    Train read(int id);
 }

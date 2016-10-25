@@ -11,7 +11,7 @@ import java.io.IOException;
  * Created by abalaev on 02.10.2016.
  */
 @WebServlet(name="ResultServlet", urlPatterns = "/result")
-public class ResultServlet extends HttpServlet {
+    public class ResultServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("result.jsp").forward(request,response);
     }

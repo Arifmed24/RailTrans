@@ -24,21 +24,38 @@
                      </select>
                  </div>
                  <div>
-
                      <div class="form-group">
                          <label>Date departure: </label>
                          <div class="input-group date" id="datetimepicker1">
-                             <input data-format="MM-dd-yyyy HH:mm:ss" type="text"  name="dateDep"/>
-                             <span class="input-group-addon">
-                                <span class="glyphicon-calendar glyphicon"></span>
-                             </span>
+                             <c:if test="${empty errorD}">
+                                 <input data-format="MM-dd-yyyy HH:mm:ss" type="text"  name="dateDep"/>
+                                 <span class="input-group-addon">
+                                     <span class="glyphicon-calendar glyphicon"></span>
+                                 </span>
+                             </c:if>
+                             <c:if test="${!empty errorD}">
+                                 <input data-format="MM-dd-yyyy HH:mm:ss" type="text"  name="dateDep"/>
+                                 <span class="input-group-addon">
+                                    <span class="glyphicon-calendar glyphicon"></span>
+                                 </span>
+                                 <font color="red"><b><c:out value="${errorD}"/></b></font>
+                             </c:if>
                          </div>
                          <label>Date arrival: </label>
                          <div class="input-group date" id="datetimepicker2">
-                             <input name="dateArr" id="date"  type="text" size="9">
+                            <c:if test="${empty errorA}">
+                             <input name="dateArr" id="date"  type="text">
                              <span class="input-group-addon">
                                     <span class="glyphicon-calendar glyphicon"></span>
                              </span>
+                            </c:if>
+                             <c:if test="${!empty errorA}">
+                                 <input name="dateArr" id="date"  type="text" >
+                                 <span class="input-group-addon">
+                                    <span class="glyphicon-calendar glyphicon"></span>
+                                 </span>
+                                 <font color="red"><b><c:out value="${errorA}"/></b></font>
+                             </c:if>
                          </div>
                      </div>
                      <script type="text/javascript">
@@ -63,12 +80,7 @@
                      <c:if test="${sessionScope.user.role eq 'ADMIN'}">
                      <button name = "search" type="submit" value="passengers">Find passengers</button>
                      </c:if>
-                    <%--<input type="submit" name="search" value="Find" />--%>
                  </div>
-                  <%--<div class="form_submit btn-default">--%>
-                      <%--<input type="submit" name="pas" value="Passengers of route" />--%>
-                      <%--<button name = "search" type="submit" value="passengers">Find passengers</button>--%>
-                  <%--</div>--%>
               </form>
             </div>
     </div>

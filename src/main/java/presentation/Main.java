@@ -1,9 +1,19 @@
 package presentation;
 
 import org.apache.log4j.Logger;
+import persistence.dao.api.RouteDao;
+import persistence.dao.api.RouteTimetablesDao;
+import persistence.dao.api.StationDao;
+import persistence.dao.api.TimetableDao;
+import persistence.dao.impl.FactoryDao;
+import persistence.entities.*;
 
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by abalaev on 30.09.2016.
@@ -14,7 +24,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
 
-        LOG.info("test testtesttesttesttesttesttesttest");
+//        LOG.info("test testtesttesttesttesttesttesttest");
 
 //        PassengerDaoImpl passengerDao = new PassengerDaoImpl();
 //        Passenger passenger = new Passenger();
@@ -333,7 +343,38 @@ public class Main {
 //
 //        }
 
-        System.out.println("Hello");
+//        System.out.println("Hello");
+//        RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
+//        RouteDao routeDao = FactoryDao.getRouteDao();
+//        Route route = routeDao.read(1);
+//        List<RouteTimetables> result = routeTimetablesDao.getListRtByRoute(route);
+//        for (RouteTimetables r : result) {
+//            System.out.println(r.getLine().getStationDeparture().getStationName());
+//        }
 
+//        StationDao stationDao = FactoryDao.getStationDao();
+//        TimetableDao timetableDao = FactoryDao.getTimetableDao();
+//        Station stationDep = stationDao.read(6);
+//        Station stationArr = stationDao.read(1);
+//        Timetable timetable = timetableDao.readByStations(stationDep,stationArr);
+//        System.out.println(timetable);
+
+        Passenger passenger1 = new Passenger();
+        passenger1.setFirstName("Ivan");
+        passenger1.setLastName("Ivanov");
+        String b = "24/11/1995";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date birth = null;
+        try {
+            birth = sdf.parse(b);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        passenger1.setBirth(birth);
+        Passenger passenger2 = new Passenger();
+        passenger2.setFirstName("Ivan");
+        passenger2.setLastName("Ivanov");
+        passenger2.setBirth(birth);
+        System.out.println(passenger1.equals(passenger2));
     }
 }

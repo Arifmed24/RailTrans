@@ -41,7 +41,7 @@
                 </table>
                 <div class="rr_new_button">
                     <div class="btn-primary">
-
+                        <a href="/userTickets">My tickets</a>
                     </div>
                 </div>
             </div>

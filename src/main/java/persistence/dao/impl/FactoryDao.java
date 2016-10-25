@@ -2,9 +2,6 @@ package persistence.dao.impl;
 
 import persistence.dao.api.*;
 
-/**
- * Created by abalaev on 07.10.2016.
- */
 public class FactoryDao {
 
     private static UserDao userDao;

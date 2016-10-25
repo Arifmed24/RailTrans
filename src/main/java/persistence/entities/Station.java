@@ -2,9 +2,6 @@ package persistence.entities;
 
 import javax.persistence.*;
 
-/**
- * Created by abalaev onb 28.09.2016.
- */
 @Entity
 @Table(name = "Station", schema = "mydb")
 @NamedQueries(

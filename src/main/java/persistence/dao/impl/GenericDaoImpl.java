@@ -5,9 +5,7 @@ import persistence.dao.api.GenericDao;
 import javax.persistence.*;
 import java.lang.reflect.ParameterizedType;
 
-/**
- * Created by abalaev on 28.09.2016.
- */
+
 abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
     private static final Logger LOG = Logger.getLogger(GenericDaoImpl.class);
@@ -31,6 +29,7 @@ abstract class GenericDaoImpl<T> implements GenericDao<T> {
         try {
             em.getTransaction().begin();
             em.persist(entity);
+            em.flush();
             em.getTransaction().commit();
         } catch (Exception e){
             em.getTransaction().rollback();
@@ -45,6 +44,7 @@ abstract class GenericDaoImpl<T> implements GenericDao<T> {
         try {
             em.getTransaction().begin();
             result = em.merge(entity);
+            em.flush();
             em.getTransaction().commit();
         } catch (Exception e){
             em.getTransaction().rollback();

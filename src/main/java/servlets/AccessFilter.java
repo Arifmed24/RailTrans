@@ -39,7 +39,7 @@ public class AccessFilter implements Filter {
                     chain.doFilter(req, resp);
                 } else {
                     LOG.info("User access");
-                    response.sendRedirect("/main");
+                    response.sendRedirect("/findway");
                 }
             } else {
                 response.sendRedirect("/login");

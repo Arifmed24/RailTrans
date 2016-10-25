@@ -2,9 +2,6 @@ package services.impl;
 
 import services.api.*;
 
-/**
- * Created by abalaev on 07.10.2016.
- */
 public class FactoryService {
 
     private static UserService userService;

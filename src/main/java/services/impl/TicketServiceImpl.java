@@ -12,15 +12,16 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by abalaev on 07.10.2016.
- */
 public class TicketServiceImpl implements TicketService {
 
     private static final Logger LOG = Logger.getLogger(TicketServiceImpl.class);
     private TicketDao ticketDao = FactoryDao.getTicketDao();
 
-    @Override
+    /**
+     * get tickets of ways
+     * @param ways  ways
+     * @return      tickets
+     */
     public List<Ticket> getTicketsFromRtLists(List<List<RouteTimetables>> ways) {
         LOG.info("finding tickets of ways");
         List<Ticket> tickets = new ArrayList<>();
@@ -44,19 +45,11 @@ public class TicketServiceImpl implements TicketService {
         return tickets;
     }
 
-    @Override
     public Ticket createTicket(Ticket ticket) {
-        Ticket result = null;
+        Ticket result;
             result = ticketDao.create(ticket);
             LOG.info("ticket created {}", result);
         return result;
     }
 
-    @Override
-    public Ticket updateTicket(Ticket ticket) {
-        Ticket result = null;
-            result = ticketDao.update(ticket);
-            LOG.info("ticket updated {}", result);
-        return result;
-    }
 }

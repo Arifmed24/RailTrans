@@ -2,10 +2,9 @@ package persistence.entities;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * Created by abalaev on 30.09.2016.
- */
 @Entity
 @Table(name = "User", schema = "mydb")
 @NamedQueries(
@@ -37,6 +36,19 @@ import javax.persistence.*;
 
     @Column(name = "fio")
     private String fio;
+
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void addTicket(Ticket ticket) {
+        ticket.setUser(this);
+        tickets.add(ticket);
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    Set<Ticket> tickets = new HashSet<>();
 
     @Override
     public String toString() {

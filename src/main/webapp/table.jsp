@@ -1,4 +1,4 @@
-    <%@include file="header.jsp"%>
+    <%@include file="/header.jsp"%>
 		<div class="main_body">
 			<section>
 				<div class="body_header">
@@ -53,4 +53,4 @@
 				</div>
 			</section>
 		</div>
-     <%@include file="bottom.jsp"%>
+     <%@include file="/bottom.jsp"%>

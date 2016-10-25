@@ -12,13 +12,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by abalaev on 07.10.2016.
- */
 public class PassengerServiceImpl implements PassengerService {
+
     private PassengerDao passengerDao = FactoryDao.getPassengerDao();
     private static final Logger LOG = Logger.getLogger(PassengerServiceImpl.class);
-    @Override
+
+    /**
+     * check existing of passenger in database
+     * @param passenger     passenger
+     * @return              true/false
+     */
     public boolean isExists(Passenger passenger) {
         int size = passengerDao.findPassenger(passenger.getFirstName(),passenger.getLastName(),passenger.getBirth()) .size();
         if (size>0){
@@ -31,7 +34,11 @@ public class PassengerServiceImpl implements PassengerService {
         }
     }
 
-    @Override
+    /**
+     * create passenger
+     * @param passenger     passenger entity
+     * @return              created passenger
+     */
     public Passenger create(Passenger passenger) {
         Passenger result;
             result = passengerDao.create(passenger);
@@ -39,7 +46,11 @@ public class PassengerServiceImpl implements PassengerService {
         return result;
     }
 
-    @Override
+    /**
+     * get passenger by name and birth
+     * @param passenger     passenger (name and birth)
+     * @return              passenger
+     */
     public Passenger getByNameAndBirth(Passenger passenger) {
         Passenger result;
         result = passengerDao.findPassenger(passenger.getFirstName(),passenger.getLastName(),passenger.getBirth()).get(0);
@@ -47,7 +58,11 @@ public class PassengerServiceImpl implements PassengerService {
         return result;
     }
 
-    @Override
+    /**
+     * get passengers of route
+     * @param timetables        list of routeTimetables (of route)
+     * @return                  passengers of route
+     */
     public Set<Passenger> getPassengersOfRoute(List<RouteTimetables> timetables) {
         Set<Passenger> result = new HashSet<>();
         for (RouteTimetables rt: timetables) {

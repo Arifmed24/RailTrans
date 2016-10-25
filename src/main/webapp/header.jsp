@@ -11,38 +11,39 @@
 	<script src="js/bootstrap-datetimepicker.min.js"></script>
 	<title>${title}</title>
 </head>
-	<body>
-		<c:choose>
-		<c:when test="${sessionScope.user == null}">
-		<c:redirect url="/notLoggedPage.jsp"/>
-		</c:when>
-		</c:choose>
-		<div class="container">
-			<div class="row">
-				<span align="right">User: ${user.fio}</span>
-				<div class="wrapper">
-					<header class="main_header">
-						<div>
-							RailTrans
-						</div>
-					</header>
-					<nav class="main_menu">
-						<a href="/main">
-							<div> Main </div>
-						</a>
-						<a href="/stations">
-							<div> Stations </div>
-						</a>
-						<a href="/findway">
-							<div> Tickets </div>
-						</a>
-						<a href="/trains">
-							<div> Trains </div>
-						</a>
-						<a href="/logout">
-							<div> Log out </div>
-						</a>
-						<a >
-							<div class="train_head">  </div>
-						</a>
-					</nav>
+<body>
+<c:choose>
+<c:when test="${sessionScope.user == null}">
+	<c:redirect url="/notLoggedPage.jsp"/>
+</c:when>
+</c:choose>
+<div class="container">
+	<div class="row">
+		<span align="right">User: ${user.fio}</span>
+		<a href="/userTickets">My tickets</a>
+		<div class="wrapper">
+			<header class="main_header">
+				<div>
+					RailTrans
+				</div>
+			</header>
+			<nav class="main_menu">
+				<a href="/routes">
+					<div> Routes </div>
+				</a>
+				<a href="/stations">
+					<div> Stations </div>
+				</a>
+				<a href="/findway">
+					<div> Tickets </div>
+				</a>
+				<a href="/trains">
+					<div> Trains </div>
+				</a>
+				<a href="/logout">
+					<div> Log out </div>
+				</a>
+				<a >
+					<div class="train_head">  </div>
+				</a>
+			</nav>

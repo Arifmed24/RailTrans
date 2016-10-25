@@ -13,9 +13,7 @@ public class UserServiceImplTest {
     @Test
     public void findUserByLogin() throws Exception {
         UserServiceImpl userService = new UserServiceImpl();
-        User u =
-
-                 userService.findUserByLogin("admin");
+        User u = userService.findUserByLogin("admin");
         assertEquals("Arif Balaev", u.getFio());
     }
 

@@ -1,5 +1,6 @@
 package services.impl;
 
+import org.apache.log4j.Logger;
 import persistence.dao.api.TimetableDao;
 import persistence.dao.impl.FactoryDao;
 import persistence.entities.Route;
@@ -10,25 +11,19 @@ import services.api.TimetableService;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by abalaev on 07.10.2016.
- */
 public class TimetableServiceImpl implements TimetableService {
     TimetableDao timetableDao = FactoryDao.getTimetableDao();
+    private static final Logger LOG = Logger.getLogger(TimetableServiceImpl.class);
 
-    @Override
-    public List<Timetable> createTimetablesOfRoute(Route route, Timetable... timetables) {
-       List<Timetable> timetableList = new ArrayList<>();
-
-        return null;
-    }
-
-    @Override
-    public List<Timetable> createTimetableList(List<Station> stations) {
-        List<Timetable> timetables = new ArrayList<>();
-        for (int i = 0; i < stations.size(); i++) {
-
+    public Timetable readByStations(Station stationBegin, Station stationEnd) throws Exception {
+        LOG.info("start reading timetable by stations");
+        Timetable result = timetableDao.readByStations(stationBegin, stationEnd);
+        if (result != null) {
+            LOG.info("finish reading timetable by stations");
+            return result;
+        } else{
+            LOG.warn("timetable doesn't exist");
+            throw new Exception("Way between " + stationBegin.getStationName()+ " and " + stationEnd.getStationName() + " doesn't exists");
         }
-        return null;
     }
 }

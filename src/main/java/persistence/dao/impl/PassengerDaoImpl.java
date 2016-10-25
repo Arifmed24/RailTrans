@@ -8,14 +8,17 @@ import javax.persistence.TypedQuery;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by abalaev on 30.09.2016.
- */
 public class PassengerDaoImpl extends GenericDaoImpl<Passenger> implements PassengerDao {
 
     private static final Logger LOG = Logger.getLogger(PassengerDaoImpl.class);
 
-    @Override
+    /**
+     * find passenger by name and birth
+     * @param firstName first name
+     * @param lastName  last name
+     * @param birth     birth day
+     * @return          passenger
+     */
     public List<Passenger> findPassenger(String firstName, String lastName, Date birth) {
         List<Passenger> passengers = null;
         try {

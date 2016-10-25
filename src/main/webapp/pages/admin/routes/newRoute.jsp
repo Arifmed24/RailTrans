@@ -1,16 +1,45 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: abalaev
-  Date: 21.10.2016
-  Time: 7:42
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>New Route</title>
-</head>
-<body>
-
-</body>
-</html>
+<%@include file="/header.jsp"%>
+<div class="main_body">
+    <section>
+        <div class="body_header">
+            <h1>New route</h1>
+        </div>
+    </section>
+    <div class="rail_form">
+        <form action="/newroute" method="post">
+            <div>
+                <label>Route name</label>
+                <input type="text" name="routeName"/>
+            </div>
+            <div>
+                <label>Train</label>
+                <select name="train">
+                    <c:forEach items="${trains}" var="train">
+                        <option value="${train.idTrain}">${train.idTrain}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div>
+                <label>Start station</label>
+                <select name="startStation">
+                    <c:forEach items="${stations}" var="station">
+                        <option value="${station.idStation}">${station.stationName}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div>
+                <label>Finish station</label>
+                <select name="finishStation">
+                    <c:forEach items="${stations}" var="station">
+                        <option value="${station.idStation}">${station.stationName}</option>
+                    </c:forEach>
+                </select>
+                <font color="red"><b><c:out value="${error}"/></b></font>
+            </div>
+            <div class="double-button">
+                <button name = "createRoute" type="submit">Create route</button>
+            </div>
+        </form>
+    </div>
+</div>
+<%@include file="/bottom.jsp"%>

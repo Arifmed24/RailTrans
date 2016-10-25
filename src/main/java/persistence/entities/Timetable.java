@@ -2,19 +2,10 @@ package persistence.entities;
 
 import javax.persistence.*;
 
-/**
- * Created by abalaev on 28.09.2016.
- */
 @Entity
 @Table(name = "Timetable", schema = "mydb")
-//@NamedQueries(
-//        {
-//                @NamedQuery(name = "Timetable.getStationTimetableDep",
-//                        query = "SELECT t FROM Timetable t WHERE t.stationDeparture = :station AND t.dateDeparture BETWEEN :datetime AND :datetime2"),
-//                @NamedQuery(name = "Timetable.getStationTimetableArr",
-//                        query = "SELECT t FROM Timetable t WHERE t.stationArrival = :station AND t.dateArrival BETWEEN :datetime AND :datetime2")
-//        }
-//)
+@NamedQuery(name = "Timetable.readByStations",
+query = "SELECT t FROM Timetable t WHERE stationDeparture = :begin AND stationArrival = :end")
 public class Timetable extends Throwable {
     @Id
     @Column(name = "idLine", nullable = false)
@@ -31,17 +22,6 @@ public class Timetable extends Throwable {
 
     @Column(name = "distance", nullable = false)
     private double distance;
-
-//    @OneToMany(mappedBy = "line",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<RouteTimetables> routeTimetables;
-
-//    public List<RouteTimetables> getRouteTimetables() {
-//        return routeTimetables;
-//    }
-//
-//    public void setRouteTimetables(List<RouteTimetables> routeTimetables) {
-//        this.routeTimetables = routeTimetables;
-//    }
 
     public int getIdLine() {
         return idLine;

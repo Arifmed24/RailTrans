@@ -46,7 +46,7 @@ public class RegisterServlet extends HttpServlet {
                     request.getRequestDispatcher("/registration.jsp").forward(request, response);
                 }
             } else {
-                request.setAttribute("errorPass", "Password can'be like this");
+                request.setAttribute("errorPass", "Password can't be like this");
                 request.getRequestDispatcher("/registration.jsp").forward(request, response);
             }
         } else {

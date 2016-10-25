@@ -3,6 +3,7 @@ package servlets.ticket;
 import persistence.entities.Passenger;
 import persistence.entities.RouteTimetables;
 import persistence.entities.Ticket;
+import persistence.entities.User;
 import services.api.PassengerService;
 import services.api.RouteTimatablesService;
 import services.api.TicketService;
@@ -51,12 +52,9 @@ public class CreateTicket extends HttpServlet {
                 passenger.setFirstName(first);
                 passenger.setLastName(last);
                 Passenger ticketPassenger;
-                //если такой пассажик существует
                 if (passengerService.isExists(passenger)) {
-                    //читаем по имени и др
                     ticketPassenger = passengerService.getByNameAndBirth(passenger);
                 } else {
-                    //создаем нового пассажира
                     ticketPassenger = passengerService.create(passenger);
                 }
 
@@ -66,30 +64,39 @@ public class CreateTicket extends HttpServlet {
 
                 //проверка, что пассижир еще не зарегестрирован
                 Set<Passenger> passengers = passengerService.getPassengersOfRoute(way);
+                boolean hasPassenger = false;
                 //если в списке зарегестрированных такой есть
-                if (passengers.contains(ticketPassenger)) {
-
-                } else {
-                    //создание конечного билета
-                    Ticket ticket = new Ticket();
-                    ticket.setTicketPassenger(ticketPassenger);
-                    ticket.setDepartureStation(t.getDepartureStation());
-                    ticket.setDepartureDate(t.getDepartureDate());
-                    ticket.setArrivalStation(t.getArrivalStation());
-                    ticket.setArrivalDate(t.getArrivalDate());
-                    ticket.setPrice(t.getPrice());
-                    ticket.setTicketTrain(t.getTicketTrain());
-                    ticket.setRouteTimetables(ticketWay);
-                    ticket = ticketService.createTicket(ticket);
-                    for (RouteTimetables rt : way) {
-                        rt.getTickets().add(ticket);
-                        rt.setFreeSeats(rt.getFreeSeats() - 1);
-                        routeTimatablesService.updateRouteTimetable(rt);
+                for (Passenger routePassenger : passengers) {
+                    if (ticketPassenger.equals(routePassenger)) {
+                        hasPassenger = true;
                     }
-                    request.setAttribute("ticket", ticket);
-                    request.setAttribute("title", "Ticket");
-                    request.getRequestDispatcher("pages/tickets/viewTicket.jsp").forward(request, response);
-
+                }
+                if (hasPassenger == false){
+                        //создание конечного билета
+                        Ticket ticket = new Ticket();
+                        ticket.setTicketPassenger(ticketPassenger);
+                        ticket.setDepartureStation(t.getDepartureStation());
+                        ticket.setDepartureDate(t.getDepartureDate());
+                        ticket.setArrivalStation(t.getArrivalStation());
+                        ticket.setArrivalDate(t.getArrivalDate());
+                        ticket.setPrice(t.getPrice());
+                        ticket.setTicketTrain(t.getTicketTrain());
+                        ticket.setRouteTimetables(ticketWay);
+                        ((User) request.getSession().getAttribute("user")).addTicket(ticket);
+                        ticket = ticketService.createTicket(ticket);
+                        for (RouteTimetables rt : way) {
+                            rt.getTickets().add(ticket);
+                            rt.setFreeSeats(rt.getFreeSeats() - 1);
+                            routeTimatablesService.updateRouteTimetable(rt);
+                        }
+                        request.setAttribute("ticket", ticket);
+                        request.setAttribute("title", "Ticket");
+                        request.getRequestDispatcher("pages/tickets/viewTicket.jsp").forward(request, response);
+                    } else {
+                    request.setAttribute("error","This passenger is registered yet");
+                    request.setAttribute("way",way);
+                    request.setAttribute("title", "Passenger");
+                    request.getRequestDispatcher("pages/passengers/newPassenger.jsp").forward(request,response);
                 }
             } else {
                 List<RouteTimetables> way = (List<RouteTimetables>) request.getSession().getAttribute("way");

@@ -12,15 +12,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by abalaev on 11.10.2016.
- */
-@WebServlet(name = "AllRoutes",urlPatterns = "/routes")
+@WebServlet(name = "AllRoutes",urlPatterns = "/allroutes")
 public class AllRoutes extends HttpServlet {
         RouteTimatablesService routeTimatablesService = FactoryService.getRouteTimatablesService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

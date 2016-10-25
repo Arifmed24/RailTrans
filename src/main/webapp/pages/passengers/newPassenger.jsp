@@ -6,6 +6,7 @@
       </div>
     </section>
     <div class="rail_form">
+    <font color="red"><b><c:out value="${error}"/></b></font>
     <form action="/createticket" method="post">
           <div>
                 <label>Fisrt name:</label>

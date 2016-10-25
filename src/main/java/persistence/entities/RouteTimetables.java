@@ -3,9 +3,6 @@ package persistence.entities;
 import javax.persistence.*;
 import java.util.*;
 
-/**
- * Created by abalaev on 05.10.2016.
- */
 @Entity
 @Table(name = "Route_Timetables", schema = "mydb")
 @NamedQueries(
@@ -25,7 +22,9 @@ import java.util.*;
                 @NamedQuery(name = "RouteTimetables.getRouteTimetableByRouteAndNumberInRoute",
                 query = "SELECT r FROM RouteTimetables r WHERE routeId =:route AND numberInRoute = :number "
                       +  "AND dateDeparture > :dateBegin "
-                     +   "AND dateArrival < :dateEnd AND freeSeats > 0 order by dateDeparture")
+                     +   "AND dateArrival < :dateEnd AND freeSeats > 0 order by dateDeparture"),
+                @NamedQuery(name = "RouteTimetables.getListRtByRoute" ,
+                query = "SELECT r FROM RouteTimetables r WHERE routeId =:route GROUP BY routeId, numberInRoute")
         }
 )
 public class RouteTimetables extends Throwable {
@@ -58,11 +57,6 @@ public class RouteTimetables extends Throwable {
     private int freeSeats;
 
     @ManyToMany(mappedBy = "routeTimetables")
-//    @ManyToMany
-//    @JoinTable(name = "booked_timetables", joinColumns = {
-//            @JoinColumn(name = "event_id", nullable = false) },
-//            inverseJoinColumns = { @JoinColumn(name = "ticket_id",
-//                    nullable = false) })
     private Set<Ticket> tickets = new HashSet<>();
 
 

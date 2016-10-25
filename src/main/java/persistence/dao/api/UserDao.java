@@ -9,6 +9,5 @@ import java.util.List;
  */
 public interface UserDao extends GenericDao<User> {
     User findByLogin(String login);
-    List<User> findAll();
     User userLogin(String login, String password);
 }

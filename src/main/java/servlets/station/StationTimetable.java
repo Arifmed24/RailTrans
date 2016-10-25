@@ -18,9 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by abalaev on 08.10.2016.
- */
 @WebServlet(name = "StationTimetable",urlPatterns = "/stationtimetable")
 public class StationTimetable extends HttpServlet {
 

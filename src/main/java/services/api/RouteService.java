@@ -3,9 +3,10 @@ package services.api;
 
 import persistence.entities.Route;
 
-/**
- * Created by abalaev on 30.09.2016.
- */
+import java.util.List;
+
 public interface RouteService {
     Route createRoute(Route route);
+    List<Route> getAllRoutes();
+    Route readRoute(int id);
 }

@@ -14,9 +14,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by abalaev on 14.10.2016.
- */
 @WebServlet(name = "GetPassengers", urlPatterns = "/getpassengers")
 public class GetPassengers extends HttpServlet {
 
@@ -25,9 +22,9 @@ public class GetPassengers extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String indexS = request.getParameter("index");
         int i = Integer.parseInt(indexS);
-        List<List<RouteTimetables>> ways  =(List<List<RouteTimetables>>) request.getSession().getAttribute("ways");
+        List<List<RouteTimetables>> ways  = (List<List<RouteTimetables>>) request.getSession().getAttribute("ways");
+        request.getSession().removeAttribute("ways");
         List<RouteTimetables> way  = ways.get(i);
-//        request.getSession().removeAttribute("ways");
         request.setAttribute("title", "Passengers");
         Set<Passenger> passengers = passengerService.getPassengersOfRoute(way);
         request.setAttribute("passengers",passengers);

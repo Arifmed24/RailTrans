@@ -5,6 +5,7 @@
             <h1> Ways </h1>
         </div>
         <div class="rr_table">
+            <font color="red"><b><c:out value="${error}"/></b></font>
             <table>
                 <tr>
                     <th> Variants </th>
@@ -23,8 +24,6 @@
                             <c:out value="Arrival:${ticket.arrivalStation.stationName}"/>
                             <c:out value=" // :${ticket.arrivalDate}"/>
                             <br>
-                            <%--<c:out value="Price:${ticket.price} RUB"/>--%>
-                            <%--<br>--%>
                         </td>
                         <td>
                             <div class="rr_button">

@@ -24,7 +24,7 @@
         </div>
     </section>
     <div class="rail_form">
-        <form action="/main" method="GET">
+        <form action="/findway" method="GET">
             <div class="form_submit btn-default">
                 <input type="submit" value="Go back">
             </div>
