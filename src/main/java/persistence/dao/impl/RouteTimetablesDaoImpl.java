@@ -106,7 +106,7 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
     }
 
     /**
-     * get routeTimetable by route and number in route in interval
+     * get routeTimetable by route and number in route in interval where seats > 0
      * @param route         route
      * @param number        number in route
      * @param dateBegin     begin of interval
@@ -119,6 +119,33 @@ public class RouteTimetablesDaoImpl extends GenericDaoImpl<RouteTimetables> impl
             em.getTransaction().begin();
             TypedQuery<RouteTimetables> query;
             query = em.createNamedQuery("RouteTimetables.getRouteTimetableByRouteAndNumberInRoute", RouteTimetables.class);
+            query.setParameter("route", route);
+            query.setParameter("number", number);
+            query.setParameter("dateBegin", dateBegin, TemporalType.TIMESTAMP);
+            query.setParameter("dateEnd", dateEnd, TemporalType.TIMESTAMP);
+            result = query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e)
+        {
+            em.getTransaction().rollback();
+        }
+        return result;
+    }
+
+    /**
+     * get routeTimetable by route and number in route in interval
+     * @param route         route
+     * @param number        number in route
+     * @param dateBegin     begin of interval
+     * @param dateEnd       end of interval
+     * @return              list of routes
+     */
+    public List<RouteTimetables> getRoutesWithPassengers(Route route, int number, Date dateBegin, Date dateEnd) {
+        List<RouteTimetables> result = null;
+        try {
+            em.getTransaction().begin();
+            TypedQuery<RouteTimetables> query;
+            query = em.createNamedQuery("RouteTimetables.getRoutesWithPassengers", RouteTimetables.class);
             query.setParameter("route", route);
             query.setParameter("number", number);
             query.setParameter("dateBegin", dateBegin, TemporalType.TIMESTAMP);

@@ -17,4 +17,6 @@ public interface RouteTimetablesDao extends GenericDao<RouteTimetables> {
     List<RouteTimetables> getRoutes();
     List<RouteTimetables> getRouteTimetableByRouteAndNumberInRoute(Route route, int number, Date dateBegin, Date dateEnd);
     List<RouteTimetables> getListRtByRoute (Route route);
+    List<RouteTimetables> getRoutesWithPassengers(Route route, int number, Date dateBegin, Date dateEnd);
+
 }

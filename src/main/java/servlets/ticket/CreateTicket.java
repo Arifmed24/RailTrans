@@ -37,7 +37,7 @@ public class CreateTicket extends HttpServlet {
         String first = request.getParameter("first");
         String last = request.getParameter("last");
         String b = request.getParameter("birth");
-
+        //validation
         if (ValidationUtils.checkName(first)) {
             if (ValidationUtils.checkName(last)) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -52,6 +52,7 @@ public class CreateTicket extends HttpServlet {
                 passenger.setFirstName(first);
                 passenger.setLastName(last);
                 Passenger ticketPassenger;
+                //check passenger. if not exists - creates new one
                 if (passengerService.isExists(passenger)) {
                     ticketPassenger = passengerService.getByNameAndBirth(passenger);
                 } else {
@@ -62,17 +63,18 @@ public class CreateTicket extends HttpServlet {
                 List<RouteTimetables> way = (List<RouteTimetables>) request.getSession().getAttribute("way");
                 Set<RouteTimetables> ticketWay = new HashSet<>(way);
 
-                //проверка, что пассижир еще не зарегестрирован
+                //check registration of this passenger in variant
                 Set<Passenger> passengers = passengerService.getPassengersOfRoute(way);
+                //flag
                 boolean hasPassenger = false;
-                //если в списке зарегестрированных такой есть
-                for (Passenger routePassenger : passengers) {
+                //if this passenger exists in variant
+               for (Passenger routePassenger : passengers) {
                     if (ticketPassenger.equals(routePassenger)) {
                         hasPassenger = true;
                     }
                 }
                 if (hasPassenger == false){
-                        //создание конечного билета
+                        //final ticket
                         Ticket ticket = new Ticket();
                         ticket.setTicketPassenger(ticketPassenger);
                         ticket.setDepartureStation(t.getDepartureStation());
@@ -84,17 +86,21 @@ public class CreateTicket extends HttpServlet {
                         ticket.setRouteTimetables(ticketWay);
                         ((User) request.getSession().getAttribute("user")).addTicket(ticket);
                         ticket = ticketService.createTicket(ticket);
+
                         for (RouteTimetables rt : way) {
                             rt.getTickets().add(ticket);
                             rt.setFreeSeats(rt.getFreeSeats() - 1);
                             routeTimatablesService.updateRouteTimetable(rt);
                         }
+                        request.getSession().removeAttribute("way");
+                        request.getSession().removeAttribute("ticket");
                         request.setAttribute("ticket", ticket);
                         request.setAttribute("title", "Ticket");
                         request.getRequestDispatcher("pages/tickets/viewTicket.jsp").forward(request, response);
                     } else {
                     request.setAttribute("error","This passenger is registered yet");
                     request.setAttribute("way",way);
+                    request.setAttribute("ticket",t);
                     request.setAttribute("title", "Passenger");
                     request.getRequestDispatcher("pages/passengers/newPassenger.jsp").forward(request,response);
                 }
@@ -118,9 +124,13 @@ public class CreateTicket extends HttpServlet {
         String indexS = request.getParameter("index");
         int i = Integer.parseInt(indexS);
         List<List<RouteTimetables>> ways  =(List<List<RouteTimetables>>) request.getSession().getAttribute("ways");
+        List<Ticket> tickets = (List<Ticket>) request.getSession().getAttribute("tickets");
         List<RouteTimetables> way  = ways.get(i);
+        Ticket ticket = tickets.get(i);
         request.getSession().removeAttribute("ways");
+        request.getSession().removeAttribute("tickets");
         request.getSession().setAttribute("way", way);
+        request.getSession().setAttribute("ticket", ticket);
         request.setAttribute("title", "Passenger");
         request.getRequestDispatcher("pages/passengers/newPassenger.jsp").forward(request,response);
     }

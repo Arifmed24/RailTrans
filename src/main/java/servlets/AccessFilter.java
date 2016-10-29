@@ -12,10 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * Created by abalaev on 17.10.2016.
- */
-@WebFilter(filterName = "AccessFilter", urlPatterns = "/pages/admin/*")
+@WebFilter(filterName = "AccessFilter",urlPatterns = "/pages/admin/*")
 public class AccessFilter implements Filter {
 
     private static final Logger LOG = LogManager.getLogger(AccessFilter.class);
@@ -23,18 +20,16 @@ public class AccessFilter implements Filter {
     public void destroy() {
     }
 
+
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession();
+
         if (session != null) {
             User user = (User) session.getAttribute("user");
             if (user != null) {
-                boolean admin = false;
                 if (user.getRole() == RoleEnum.ADMIN) {
-                    admin = true;
-                }
-                if (admin) {
                     LOG.info("Admin access");
                     chain.doFilter(req, resp);
                 } else {

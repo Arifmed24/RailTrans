@@ -52,19 +52,25 @@ public class FindWay extends HttpServlet {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-                List<List<RouteTimetables>> ways = routeTimatablesService.findWay(stationDep, stationArr, dateDep, dateArr);
-                List<Ticket> tickets = ticketService.getTicketsFromRtLists(ways);
-                request.getSession().setAttribute("ways", ways);
-                request.setAttribute("tickets", tickets);
-                request.setAttribute("title", "Ways");
-                request.getSession().removeAttribute("stations");
-                if (ways.size()==0)
-                    request.setAttribute("error","No variants for your request");
                 if (search.equals("ways")) {
+                    List<List<RouteTimetables>> ways = routeTimatablesService.findWay(stationDep, stationArr, dateDep, dateArr);
+                    List<Ticket> tickets = ticketService.getTicketsFromRtLists(ways);
+                    request.getSession().setAttribute("ways", ways);
+                    request.getSession().setAttribute("tickets", tickets);
+                    request.setAttribute("title", "Ways");
+                    request.getSession().removeAttribute("stations");
+                    if (ways.size()==0)
+                        request.setAttribute("error","No variants for your request");
                     request.getRequestDispatcher("pages/routes/ways.jsp").forward(request, response);
-                }
-                else {
+                } else {
+                    List<List<RouteTimetables>> ways = routeTimatablesService.findWay2(stationDep, stationArr, dateDep, dateArr);
+                    List<Ticket> tickets = ticketService.getTicketsFromRtLists(ways);
+                    request.getSession().setAttribute("ways", ways);
+                    request.getSession().setAttribute("tickets", tickets);
+                    request.setAttribute("title", "Ways");
+                    request.getSession().removeAttribute("stations");
+                    if (ways.size()==0)
+                        request.setAttribute("error","No variants for your request");
                     request.getRequestDispatcher("pages/admin/routes/passengersOfWays.jsp").forward(request, response);
                 }
             } else {

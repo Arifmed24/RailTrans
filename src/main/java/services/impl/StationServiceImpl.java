@@ -74,4 +74,8 @@ public class StationServiceImpl implements StationService {
         LOG.info("finish checking stations in route");
         return result;
     }
+
+    public void setStationDao(StationDao stationDao) {
+        this.stationDao = stationDao;
+    }
 }

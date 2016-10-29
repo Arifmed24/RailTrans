@@ -19,4 +19,5 @@ public interface RouteTimatablesService {
     List<RouteTimetables> addDateInGraphic (List<Date> dates, Route route) throws Exception;
     List<RouteTimetables> createGraphic (List<RouteTimetables> routeTimetables);
     List<Date> checkDatesInRoute (List<String> dates) throws Exception;
+    List<List<RouteTimetables>> findWay2(Station stationBegin, Station stationEnd, Date dateBegin, Date dateEnd);
 }

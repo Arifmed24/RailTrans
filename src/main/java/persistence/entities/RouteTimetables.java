@@ -24,7 +24,11 @@ import java.util.*;
                       +  "AND dateDeparture > :dateBegin "
                      +   "AND dateArrival < :dateEnd AND freeSeats > 0 order by dateDeparture"),
                 @NamedQuery(name = "RouteTimetables.getListRtByRoute" ,
-                query = "SELECT r FROM RouteTimetables r WHERE routeId =:route GROUP BY routeId, numberInRoute")
+                query = "SELECT r FROM RouteTimetables r WHERE routeId =:route GROUP BY routeId, numberInRoute"),
+                @NamedQuery(name = "RouteTimetables.getRoutesWithPassengers",
+                query = "SELECT r FROM RouteTimetables r WHERE routeId =:route AND numberInRoute = :number "
+                        +  "AND dateDeparture > :dateBegin "
+                        +   "AND dateArrival < :dateEnd order by dateDeparture")
         }
 )
 public class RouteTimetables extends Throwable {

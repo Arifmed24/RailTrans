@@ -21,7 +21,9 @@
                 <th> Train </th>
                 <th> Start station </th>
                 <th> Finish station </th>
+                <c:if test="${sessionScope.user.role eq 'ADMIN'}">
                 <th> Add new graphic </th>
+                </c:if>
             </tr>
             <c:forEach var="route" items="${routes}">
                 <tr>
@@ -30,6 +32,7 @@
                     <td><c:out value="${route.train.idTrain}" /> </td>
                     <td><c:out value="${route.startStation.stationName}" /> </td>
                     <td><c:out value="${route.finishStation.stationName}" /> </td>
+                    <c:if test="${sessionScope.user.role eq 'ADMIN'}">
                     <td>
                         <div class="rr_button">
                             <form action="/newgraphic" method="get">
@@ -38,6 +41,7 @@
                             </form>
                         </div>
                     </td>
+                    </c:if>
                 </tr>
             </c:forEach>
         </table>

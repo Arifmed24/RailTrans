@@ -19,6 +19,10 @@ public class RouteTimetableServiceImpl implements RouteTimatablesService {
     //millisecond in minute
     private static final int MILLIS_IN_MIN = 60000;
 
+    public void setRouteTimetablesDao(RouteTimetablesDao routeTimetablesDao) {
+        this.routeTimetablesDao = routeTimetablesDao;
+    }
+
     private RouteTimetablesDao routeTimetablesDao = FactoryDao.getRouteTimetablesDao();
     private RouteDao routeDao = FactoryDao.getRouteDao();
 
@@ -177,6 +181,7 @@ public class RouteTimetableServiceImpl implements RouteTimatablesService {
                                     if (line.getNumberInRoute() - list.get(list.size() - 1).getNumberInRoute() == 1) {
                                         //if date arrival of this segment before date arrival of last segment in variant
                                         if (line.getDateDeparture().after(list.get(list.size() - 1).getDateDeparture())) {
+                                            if (list.get(list.size()-1).getLine().getStationArrival()!=line.getLine().getStationArrival())
                                             //add in variant
                                             list.add(line);
                                         }
@@ -192,14 +197,33 @@ public class RouteTimetableServiceImpl implements RouteTimatablesService {
                     int count = fj - sj;
                     //present time
                     Date now = new Date();
-                    //go through variants
-                    for (Iterator<List<RouteTimetables>> iterator = result.iterator(); iterator.hasNext(); ) {
-                        List<RouteTimetables> variant = iterator.next();
-                        //if variant not completed
-                        if (variant.size() != count) {
+//                    for (Iterator<List<RouteTimetables>> iterator = result.iterator(); iterator.hasNext(); ) {
+//                        List<RouteTimetables> variant = iterator.next();
+//                        //if variant not completed
+//                        if (variant.size() != count) {
+//                            LOG.info("variant was incorrect and deleted");
+//                            //remove this variant
+//                            iterator.remove();
+//                        } else {
+//                            LOG.info("variant is correct");
+//                        }
+//                        //if first segment in variant is earlier than 10 minutes than real time
+//                        if ((int) ((variant.get(0).getDateDeparture().getTime() / MILLIS_IN_MIN) - now.getTime() / MILLIS_IN_MIN) < 10) {
+//                            LOG.info("variant started earlier than 10 minutes before first row started");
+//                            //remove this variant
+//                            iterator.remove();
+//                        } else {
+//                            LOG.info("start time of variant is correct");
+//                        }
+//                    }
+                    //go through new variants
+                    for (int i=result.size();i>size;i--)
+                    {
+                        List<RouteTimetables> variant = result.get(i-1);
+                        if (variant.size()!=count){
                             LOG.info("variant was incorrect and deleted");
                             //remove this variant
-                            iterator.remove();
+                            result.remove(i-1);
                         } else {
                             LOG.info("variant is correct");
                         }
@@ -207,7 +231,7 @@ public class RouteTimetableServiceImpl implements RouteTimatablesService {
                         if ((int) ((variant.get(0).getDateDeparture().getTime() / MILLIS_IN_MIN) - now.getTime() / MILLIS_IN_MIN) < 10) {
                             LOG.info("variant started earlier than 10 minutes before first row started");
                             //remove this variant
-                            iterator.remove();
+                            result.remove(i-1);
                         } else {
                             LOG.info("start time of variant is correct");
                         }
@@ -332,6 +356,97 @@ public class RouteTimetableServiceImpl implements RouteTimatablesService {
         }
         LOG.info("finish checking dates of route");
         return routeDates;
+    }
+
+    public List<List<RouteTimetables>> findWay2(Station stationBegin, Station stationEnd, Date dateBegin, Date dateEnd) {
+        List<List<RouteTimetables>> result = new ArrayList<>();
+        Map<Integer, List<Integer>> routes = this.getRoutes();
+        int stationBeginId = stationBegin.getIdStation();
+        int stationEndId = stationEnd.getIdStation();
+        //first segments in variants
+        List<RouteTimetables> startLines = null;
+        int size = result.size();
+        LOG.info("finding variants of ways");
+        //take a map of all routes
+        for (Map.Entry<Integer, List<Integer>> entry : routes.entrySet()) {
+            //flags
+            int start = -1, finish = -1;
+            //indexes of stations in route
+            int sj = -1, fj = -1;
+            //go through each of route
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                //if station in route equals stationBegin, record index of station to sj
+                if (stationBeginId == entry.getValue().get(i)) {
+                    start = entry.getValue().get(i);
+                    sj = i;
+                }
+                //if station in route equals stationEnd, record index of station to fj
+                if (stationEndId == entry.getValue().get(i)) {
+                    finish = entry.getValue().get(i);
+                    fj = i;
+                }
+            }
+            //if route have this stations and start station stays earlier than finish station
+            if (start != -1 && finish != -1 && sj < fj) {
+                //take all segments (timetables) in route between start and finish stations
+                for (int i = sj + 1; i < fj + 1; i++) {
+                    //if this first segment
+                    if (i == sj + 1) {
+                        //take all first segments in all graphics of this route
+                        startLines = routeTimetablesDao.getRoutesWithPassengers(routeDao.read(entry.getKey()), i, dateBegin, dateEnd);
+                        //each of segments put in new array list (future result)
+                        for (RouteTimetables rt : startLines) {
+                            List<RouteTimetables> way = new ArrayList<>();
+                            way.add(rt);
+                            LOG.info("variant created");
+                            result.add(way);
+                        }
+                        //if this not first segment
+                    } else {
+                        if (startLines.size() != 0) {
+                            List<RouteTimetables> nextLines;
+                            //take all segments with this index in all graphics of this route
+                            nextLines = routeTimetablesDao.getRoutesWithPassengers(routeDao.read(entry.getKey()), i, dateBegin, dateEnd);
+                            //go through all segments (this segment is determined number in route - routeTimetable
+                            for (RouteTimetables line : nextLines) {
+                                //go through variants
+                                for (List<RouteTimetables> list : result) {
+                                    //if variant doesn't have this segment
+                                    if (line.getNumberInRoute() - list.get(list.size() - 1).getNumberInRoute() == 1) {
+                                        //if date arrival of this segment before date arrival of last segment in variant
+                                        if (line.getDateDeparture().after(list.get(list.size() - 1).getDateDeparture())) {
+                                            if (list.get(list.size()-1).getLine().getStationArrival()!=line.getLine().getStationArrival())
+                                            //add in variant
+                                            list.add(line);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                //if result size has changed
+                if (result.size()!=size){
+                    //check variants
+                    int count = fj - sj;
+                    //go through variants
+                    for (int i=result.size();i>size;i--)
+                    {
+                        List<RouteTimetables> variant = result.get(i-1);
+                        if (variant.size()!=count){
+                            LOG.info("variant was incorrect and deleted");
+                            //remove this variant
+                            result.remove(i-1);
+                        } else {
+                            LOG.info("variant is correct");
+                        }
+                    }
+                }
+                size = result.size();
+            }
+        }
+        LOG.info("finished finding");
+        return result;
     }
 }
 
